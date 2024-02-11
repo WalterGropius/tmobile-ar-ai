@@ -26,8 +26,8 @@ const App = () => {
   const canvasRef = useRef(null);
   const webcam = new Webcam();
   // configs
-  const modelName = "yolov7";
-  const threshold = 0.80;
+  const modelName = "modem";
+  const threshold = 0.60;
   /**
    * Function to detect every frame loaded from webcam in video tag.
    * @param {tf.GraphModel} model loaded YOLOv7 tensorflow.js model
