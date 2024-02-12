@@ -6,6 +6,7 @@ import { Webcam } from "./utils/webcam";
 import { renderBoxes } from "./utils/renderBox";
 import { non_max_suppression } from "./utils/nonMaxSuppression";
 import "./style/App.css";
+import labels from "./utils/labels";
 
 /**
  * Function to detect image.
@@ -22,16 +23,23 @@ function shortenedCol(arrayofarray, indexlist) {
 
 const App = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
+  const [debugMode, setDebugMode] = useState(true);
+  const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
-  // configs
   const modelName = "modem";
   const threshold = 0.60;
-  /**
-   * Function to detect every frame loaded from webcam in video tag.
-   * @param {tf.GraphModel} model loaded YOLOv7 tensorflow.js model
-   */
+
+  const processDetections = (detections) => {
+    // Extract labels and their confidence scores
+    const labelsAndScores = detections.map(det => {
+      const label = labels[det[5]]; // Assuming 'labels' is accessible here
+      const score = (det[4] * 100).toFixed(2);
+      return `${label}: ${score}%`;
+    });
+    setDetectedObjects(labelsAndScores);
+  };
 
   const detectFrame = async (model) => {
     const model_dim = [640, 640];
@@ -42,33 +50,34 @@ const App = () => {
                   .div(255.0)
                   .transpose([2, 0, 1])
                   .expandDims(0);
-      return img
+      return img;
     });
 
-    await model.executeAsync(input).then((res) => {
-
-      res = res.arraySync()[0];
-
+    await model.execute(input).then((res) => {
+      // Assuming model.execute returns the output directly without needing to be awaited
+      res = res.arraySync(); // Adjust based on how your model outputs the data
+    
       var detections = non_max_suppression(res);
-      const boxes =  shortenedCol(detections, [0,1,2,3]);
+      const boxes = shortenedCol(detections, [0,1,2,3]);
       const scores = shortenedCol(detections, [4]);
       const class_detect = shortenedCol(detections, [5]);
-
-      renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
+      
+      processDetections(detections);
+      
+      if (debugMode) {
+        renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
+      }
       tf.dispose(res);
     });
 
-    requestAnimationFrame(() => detectFrame(model)); // get another frame
+    setTimeout(() => requestAnimationFrame(() => detectFrame(model)), 100); // Adjust delay as needed
     tf.engine().endScope();
   };
 
   useEffect(() => {
     tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
-      onProgress: (fractions) => {
-        setLoading({ loading: true, progress: fractions });
-      },
+      onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
     }).then(async (yolov7) => {
-      // Warmup the model before using real data.
       const dummyInput = tf.ones(yolov7.inputs[0].shape);
       await yolov7.executeAsync(dummyInput).then((warmupResult) => {
         tf.dispose(warmupResult);
@@ -79,22 +88,26 @@ const App = () => {
       });
     });
   }, []);
-  console.warn = () => {};
+
+  const toggleDebugMode = () => setDebugMode(!debugMode);
 
   return (
     <div className="App">
-      <h2>Object Detection Using YOLOv7 & Tensorflow.js</h2>
+      <header className="App-header">
+        <h2>Modem Port and Indicator State detector</h2>
+        <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>Debug</button>
+      </header>
       {loading.loading ? (
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
       ) : (
-        <p> </p>
+        <div className="content">
+          <video autoPlay playsInline muted ref={videoRef} id="frame" />
+          <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
+        </div>
       )}
-
-      <div className="content">
-        <video autoPlay playsInline muted ref={videoRef} id="frame"
-        />
-        <canvas width={640} height={640} ref={canvasRef} />
-      </div>
+      <footer className="App-footer">
+        {detectedObjects.join(", ")}
+      </footer>
     </div>
   );
 };
