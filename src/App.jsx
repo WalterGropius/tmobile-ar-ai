@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
-import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
+import "@tensorflow/tfjs-backend-webgl";
 import Loader from "./components/loader";
 import { Webcam } from "./utils/webcam";
 import { renderBoxes } from "./utils/renderBox";
@@ -21,9 +21,10 @@ function shortenedCol(arrayofarray, indexlist) {
   });
 }
 
+
 const App = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
-  const [debugMode, setDebugMode] = useState(true);
+  const [debugMode, setDebugMode] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -53,24 +54,22 @@ const App = () => {
       return img;
     });
 
-    await model.execute(input).then((res) => {
-      // Assuming model.execute returns the output directly without needing to be awaited
-      res = res.arraySync(); // Adjust based on how your model outputs the data
-    
+    await model.executeAsync(input).then((res) => {
+      res = res.arraySync()[0];
       var detections = non_max_suppression(res);
       const boxes = shortenedCol(detections, [0,1,2,3]);
       const scores = shortenedCol(detections, [4]);
       const class_detect = shortenedCol(detections, [5]);
+
+      processDetections(detections); // Always process detections for footer
       
-      processDetections(detections);
-      
-      if (debugMode) {
+      if (debugMode) { // Only render boxes if debug mode is enabled
         renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
       }
       tf.dispose(res);
     });
 
-    setTimeout(() => requestAnimationFrame(() => detectFrame(model)), 100); // Adjust delay as needed
+    requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
   };
 
@@ -95,7 +94,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h2>Modem Port and Indicator State detector</h2>
-        <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>Debug</button>
+        <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>D</button>
       </header>
       {loading.loading ? (
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
