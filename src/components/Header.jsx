@@ -1,20 +1,33 @@
-// Header.js
-import React from 'react';
-import useAppState from './AppState';
-
+import React, { useEffect, useState } from 'react';
+import "../style/App.css";
 const Header = () => {
-  const { currentPage } = useAppState();
-  let title;
-  switch (currentPage) {
-    case 'select-connection-type':
-      title = 'Select Connection Type';
-      break;
-    case 'info':
-      title = 'Connection Info';
-      break;
-    default:
-      title = 'Welcome';
-  }
+  const [pageTitle, setPageTitle] = useState('Introduction');
 
-  return <header><h1>{title}</h1></header>;
+  useEffect(() => {
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.replace('#', ''));
+    const page = params.get('page');
+
+    switch (page) {
+      case '1':
+        setPageTitle('AR Manuál pro modem Zyxel');
+        break;
+      case '2':
+        setPageTitle('Vyberte typ připojení');
+        break;
+      case '3':
+        setPageTitle('Info o připojení');
+        break;
+      default:
+        setPageTitle('AR Manuál');
+    }
+  }, [window.location.hash]);
+
+  return (
+    <header>
+      <h1>{pageTitle}</h1>
+    </header>
+  );
 };
+
+export default Header;

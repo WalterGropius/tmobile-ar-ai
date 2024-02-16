@@ -1,33 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import {Header} from './components/Header'; // Make sure to create these components
-import {Footer} from './components/Footer';
-import HomePage from './components/HomePage';
-import SelectConnectionType from './components/SelectConnectionType';
-import InfoPage from './components/InfoPage';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import ConnectionTypePage from './pages/ConnectionTypePage';
+import ConnectionInfoPage from './pages/ConnectionInfoPage';
+import "./style/App.css";
 
-const parseHash = (hash) => {
-  return hash.replace(/^#/, '') || 'home';
-};
+// Import the custom hook
+import useHash from './hooks/useHash';
 
-function App() {
-  const [currentPage, setCurrentPage] = useState(parseHash(window.location.hash));
+const App = () => {
+  const hash = useHash(); // Use the custom hook
+  const [currentPage, setCurrentPage] = useState(1);
+  const [connectionType, setConnectionType] = useState('');
 
   useEffect(() => {
-    const onHashChange = () => {
-      setCurrentPage(parseHash(window.location.hash));
-    };
+    const params = new URLSearchParams(hash.replace('#', ''));
 
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
+    const page = params.get('page');
+    const connection = params.get('connection');
+
+    if (page) setCurrentPage(Number(page));
+    if (connection) setConnectionType(connection);
+  }, [hash]); // Depend on the hash value from our custom hook
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'select-connection-type':
-        return <SelectConnectionType />;
-      case 'connection-info':
-        return <InfoPage />;
-      case 'home':
+      case 1:
+        return <HomePage />;
+      case 2:
+        return <ConnectionTypePage />;
+      case 3:
+        return <ConnectionInfoPage connectionType={connectionType} />;
       default:
         return <HomePage />;
     }
@@ -35,11 +39,11 @@ function App() {
 
   return (
     <div>
-      <Header currentPage={currentPage} />
-      <main>{renderPage()}</main>
+      <Header />
+      {renderPage()}
       <Footer />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,7 +1,10 @@
-// Footer.js
-import React from 'react';
-
+import "../style/App.css";
 const Footer = () => {
-  return <footer>Footer content here</footer>;
+  return (
+    <footer>
+      <p>© 2024 T-Mobile. All rights reserved.</p>
+    </footer>
+  );
 };
+
 export default Footer;

@@ -3,6 +3,8 @@ body, html {
   padding: 0;
   overflow: hidden;
   height: 100%;
+  align-content: center;
+  justify-content: center;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -13,28 +15,33 @@ body, html {
   flex-direction: column;
 }
 
-.App-header, .App-footer {
-  position: fixed;
+.App-header, .App-footer ,footer,header{
+  align-items: center;
+  display: flex;
+  justify-items: center;
   height: 10vh;
   left: 0;
   right: 0;
   z-index: 10;
-  background-color: #ff00ea8c;
+  background-color: #ea0a8e;
   color: white;
   padding: 1rem;
 }
 
-.App-header {
+.App-header ,header{
   top: 0;
 }
 
-.App-footer {
+.App-footer,footer {
   bottom: 0;
+  position: absolute;
 }
 
 .content {
   flex-grow: 1;
   position: relative;
+  align-content: center;
+  justify-content: center;
 }
 
 video {
