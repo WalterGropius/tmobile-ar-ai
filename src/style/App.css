@@ -44,6 +44,14 @@ body, html {
   justify-content: center;
 }
 
+.buttons{
+  justify-items: center;
+  align-items: center;
+  display: flex;
+flex-direction: column;
+
+}
+
 video {
   position: absolute;
   top: 50%;
@@ -69,5 +77,10 @@ canvas {
 }
 
 button {
+  margin: 2rem;
   cursor: pointer;
+  width: 30vw;
+  border-radius: 12px;
+  background-color: #ea0a8e;
+  color: white;
 }
