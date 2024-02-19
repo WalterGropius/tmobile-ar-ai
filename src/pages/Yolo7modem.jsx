@@ -20,7 +20,9 @@ function shortenedCol(arrayofarray, indexlist) {
       });
   });
 }
-
+const navigate = (page, type) => {
+  window.location.hash = `#page=${page}&connection=${type}`;
+};
 
 const Yolo7modem = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
@@ -31,6 +33,7 @@ const Yolo7modem = () => {
   const webcam = new Webcam();
   const modelName = "modem";
   const threshold = 0.60;
+  const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
   const processDetections = (detections) => {
     // Extract labels and their confidence scores
@@ -103,7 +106,7 @@ const Yolo7modem = () => {
         <div className="content">
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-         
+          <button onClick={() => navigate(4, connectionType || 'DSL')}>Go to Page 4</button>
         </div>
       )}
     </div>

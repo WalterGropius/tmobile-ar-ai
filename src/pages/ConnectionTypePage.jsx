@@ -1,14 +1,18 @@
 const ConnectionTypePage = () => {
-  const selectConnectionType = (type) => {
-    window.location.hash = `#page=3&connection=${type}`;
+  const navigate = (page, type) => {
+    window.location.hash = `#page=${page}&connection=${type}`;
   };
+
+  // Retrieve the connection type from the URL hash
+  const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
   return (
     <div className="buttons">
-      <button onClick={() => selectConnectionType('DSL')}>DSL</button>
-      <button onClick={() => selectConnectionType('Optic')}>Optika</button>
-      <button onClick={() => selectConnectionType('WAN')}>WAN</button>
-     
+      <button onClick={() => navigate(3, 'DSL')}>DSL</button>
+      <button onClick={() => navigate(3, 'Optic')}>Optika</button>
+      <button onClick={() => navigate(3, 'WAN')}>WAN</button>
+      
+      <button onClick={() => navigate(4, connectionType || 'DSL')}>Go to Page 4</button>
     </div>
   );
 };
