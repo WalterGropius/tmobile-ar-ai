@@ -5,7 +5,8 @@ const HomePage = () => {
 
   return (
     <div>
-      <p>Vítejte v AR návodu zapojení modemu....</p>
+      <p>Zyxel VMG3625-T50B</p>
+      <img src="/zyxel.png"></img>
       <button onClick={navigateToConnectionType}>Start</button>
     </div>
   );
