@@ -6,7 +6,7 @@ const InfoPage = () => {
   const { connectionType } = useAppState();
 
   return (
-    <div>
+    <div className="page">
       <p>Information for {connectionType} connection</p>
       <button onClick={() => {/* Navigate to next relevant page */}}>Next</button>
     </div>

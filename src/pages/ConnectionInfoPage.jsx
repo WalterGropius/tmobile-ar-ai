@@ -11,7 +11,7 @@ const ConnectionInfoPage = () => {
   }, [window.location.hash]);
 
   return (
-    <div>
+    <div className="page">
       <p>Vybrali jste připojení {connectionType.toUpperCase()}.</p>
     </div>
   );

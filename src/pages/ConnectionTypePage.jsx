@@ -8,6 +8,7 @@ const ConnectionTypePage = () => {
       <button onClick={() => selectConnectionType('DSL')}>DSL</button>
       <button onClick={() => selectConnectionType('Optic')}>Optika</button>
       <button onClick={() => selectConnectionType('WAN')}>WAN</button>
+     
     </div>
   );
 };

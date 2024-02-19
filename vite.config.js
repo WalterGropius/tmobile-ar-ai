@@ -11,7 +11,7 @@ export default defineConfig({
       manifest: {
         // Your manifest settings here
         name: 'T-Mobile AR návod',
-        short_name: 'ReactPWA',
+        short_name: 'modemAR',
         theme_color: '#ffffff',
         icons: [
           {

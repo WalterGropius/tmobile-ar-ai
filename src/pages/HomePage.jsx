@@ -4,10 +4,10 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <p>Zyxel VMG3625-T50B</p>
+    <div className="page">
+      <p>Zyxel VMG3625-T50B</p><button onClick={navigateToConnectionType}>Start</button>
       <img src="/zyxel.png"></img>
-      <button onClick={navigateToConnectionType}>Start</button>
+      
     </div>
   );
 };

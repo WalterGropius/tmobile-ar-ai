@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl";
-import Loader from "./components/loader";
-import { Webcam } from "./utils/webcam";
-import { renderBoxes } from "./utils/renderBox";
-import { non_max_suppression } from "./utils/nonMaxSuppression";
-import "./style/App.css";
-import labels from "./utils/labels";
+import Loader from "../components/loader";
+import { Webcam } from "../utils/webcam";
+import { renderBoxes } from "../utils/renderBox";
+import { non_max_suppression } from "../utils/nonMaxSuppression";
+
+import labels from "../utils/labels.json";
 
 /**
  * Function to detect image.
@@ -94,8 +94,8 @@ const Yolo7modem = () => {
   return (
     <div className="App">
      
-        
-        <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>D</button>
+         <p >{detectedObjects.join(", ")}</p>
+        {/* <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>D</button> */}
       
       {loading.loading ? (
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
@@ -103,6 +103,7 @@ const Yolo7modem = () => {
         <div className="content">
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
+         
         </div>
       )}
     </div>
