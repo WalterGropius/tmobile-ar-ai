@@ -14,9 +14,10 @@ const ARViewer = ({ started }) => {
       });
       const { renderer, scene, camera } = mindarThree;
       const anchor = mindarThree.addAnchor(0);
-      const geometry = new THREE.PlaneGeometry(1, 0.55);
+      const geometry = new THREE.PlaneGeometry(0.1, 0.1);
       const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
       const plane = new THREE.Mesh(geometry, material);
+      plane.position.set(0.3, -0.3, 0);
       anchor.group.add(plane);
 
       mindarThreeRef.current = mindarThree; // Store the instance for later use
