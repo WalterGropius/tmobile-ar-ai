@@ -2,7 +2,8 @@
 # Real-time Modem info in the browser with YOLOv7 and TF.JS
 
 
-This repository is an implementation of Yolov7 using Tensorflow.js. The code runs directly on the browser and the detector was trained on the modem dataset to recognizes up to [17 different classes]
+This is an online interactive modem installation guide using MindAr and a custom implementation of Yolov7 using Tensorflow.js.
+The code runs directly on the browser and the detector was trained on the modem dataset to recognizes up to [17 different classes]
 
 
 ## References

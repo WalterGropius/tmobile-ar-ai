@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'Tele Neo';
+    src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+   
+    color: #ea0a8e;
+   
+    font-family: 'Tele Neo', sans-serif; }
+
+    h1, h3, p{
+        padding: 1rem ;
+        margin: 0;
+        background-color: white ;
+
+
+
+    }
+button{
+width: 6rem;
+background-color: #ea0a8e; /* Green */
+  border: none;
+  font-family: 'Tele Neo', sans-serif; 
+  font-size: large;
+  color: white;
+
+}
+.buttons{
+    justify-content: center; 
+    align-items: center;
+    display: flex; 
+flex-direction: column;
+}
+
+
+    img{
+
+
+        width: 100vw;
+    }
+.header{
+background-color: white ;
+}
+
+
+    .footer {
+     
+        bottom:0;
+
+        button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40%;
+
+        }
+    }
+
+    video{
+       
+justify-content: center;
+align-items: center;
+    }
+
+    .container {
+    color: #ea0a8e;
+      }

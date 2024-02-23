@@ -4,10 +4,16 @@ const HomePage = () => {
   };
 
   return (
+    
     <div className="page">
-      <p>Zyxel VMG3625-T50B</p><button onClick={navigateToConnectionType}>Start</button>
+      <div className="header">
+        <h1>Návod na instalaci v rozšířené realitě</h1>
+      </div>
+      <h2>Zyxel</h2><h3>VMG3625-T50B</h3>
       <img src="/zyxel.png"></img>
-      
+      <div className="footer">
+      <button onClick={navigateToConnectionType}>Start</button>
+      </div>
     </div>
   );
 };

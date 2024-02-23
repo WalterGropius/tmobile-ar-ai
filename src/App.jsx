@@ -15,11 +15,9 @@ const App = () => {
   const hash = useHash(); // Use the custom hook
   const [currentPage, setCurrentPage] = useState(1);
   const [connectionType, setConnectionType] = useState('');
-  const [arStarted, setArStarted] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(hash.replace('#', ''));
-
     const page = parseInt(params.get('page'), 10);
     const connection = params.get('connection');
 
@@ -27,33 +25,31 @@ const App = () => {
       setConnectionType(connection);
     }
 
-    // Only update the currentPage and AR started state if the page number actually changes
-    if (page !== currentPage) {
-      setCurrentPage(page);
-      setArStarted(page === 4); // Start ARViewer only on page 4
-    }
-  }, [hash, currentPage]);
+    setCurrentPage(page);
+  }, [hash]);
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 1:
-        return <HomePage />;
-      case 2:
-        return <ConnectionTypePage />;
-      case 3:
-        return <Yolo7modem />;
-      default:
-        return <HomePage />;
-    }
-  };
-
-  return (
-    <div>
-      <Header />
-      {arStarted ? <ARViewer started={arStarted}/> : renderPage()}
-      <Footer />
-    </div>
-  );
+const renderPage = () => {
+  switch (currentPage) {
+    case 1:
+      return <HomePage />;
+    case 2:
+      return <ConnectionTypePage />;
+    case 3:
+      return <ConnectionInfoPage />;
+    case 4:
+      // Use a unique key to force re-mount
+      return <ARViewer page={currentPage}/>;
+    case 5:
+      // Use a unique key to force re-mount
+      return <Yolo7modem/>;
+    default:
+      return <HomePage />;
+  }
 };
+
+
+  return <div>{renderPage()}</div>;
+};
+
 
 export default App;

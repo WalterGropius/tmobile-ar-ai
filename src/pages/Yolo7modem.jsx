@@ -20,14 +20,12 @@ function shortenedCol(arrayofarray, indexlist) {
       });
   });
 }
-const navigate = (page, type) => {
-  window.location.hash = `#page=${page}&connection=${type}`;
-};
 
 const Yolo7modem = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [debugMode, setDebugMode] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
+  const [modemStatus, setModemStatus] = useState(""); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
@@ -36,14 +34,22 @@ const Yolo7modem = () => {
   const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
   const processDetections = (detections) => {
-    // Extract labels and their confidence scores
     const labelsAndScores = detections.map(det => {
       const label = labels[det[5]]; // Assuming 'labels' is accessible here
       const score = (det[4] * 100).toFixed(2);
-      return `${label}: ${score}%`;
+      return `${label}`;
     });
     setDetectedObjects(labelsAndScores);
-    console.log(detectedObjects.join(", "));
+    checkForLightoff(labelsAndScores); // Check for "lightoff" labels and update modem status
+  };
+
+  const checkForLightoff = (labelsAndScores) => {
+    const lightoffCount = labelsAndScores.filter(label => label === "lightoff").length;
+    if (lightoffCount >= 6) {
+      setModemStatus("Turn modem on");
+    } else {
+      setModemStatus(""); // Clear modem status if conditions are not met
+    }
   };
 
   const detectFrame = async (model) => {
@@ -96,17 +102,18 @@ const Yolo7modem = () => {
 
   return (
     <div className="App">
-     
-         <p >{detectedObjects.join(", ")}</p>
-        {/* <button onClick={toggleDebugMode} className={debugMode ? "debug-on" : ""}>D</button> */}
-      
       {loading.loading ? (
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
       ) : (
         <div className="content">
+          <div className="header">
+        <h1>AI kontrola zapojení</h1>
+      </div>
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-          <button onClick={() => navigate(4, connectionType || 'DSL')}>Go to Page 4</button>
+          
+          <h2>{modemStatus}</h2>
+          
         </div>
       )}
     </div>
