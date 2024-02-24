@@ -34,26 +34,30 @@ const Yolo7modem = () => {
   const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
   const processDetections = (detections) => {
-    const labelsAndScores = detections.map(det => {
+    const posLabel = detections.map(det => {
       const label = labels[det[5]];
       const score = (det[4] * 100).toFixed(2);
+      const pos=parseInt((det[0]));
       return `${label}`;
+     /*  ${pos}_ */
     });
-    setDetectedObjects(labelsAndScores);
-    updateModemStatus(labelsAndScores);
+    posLabel.sort();
+    setDetectedObjects(posLabel);
+   
+    updateModemStatus(posLabel);
   };
 
-  const updateModemStatus = (labelsAndScores) => {
-    const lightoffCount = labelsAndScores.filter(label => label === "lightoff").length;
+  const updateModemStatus = (posLabel) => {
+    const lightoffCount = posLabel.filter(label => label.includes("lightoff")).length;
     if (lightoffCount >= 6) {
       setModemStatus("Zapněte modem");
     } else {
       // New logic for determining modem status based on connectionType
-      const portdslExists = labelsAndScores.includes("portdsl");
-      const cabdslDoesntExist = !labelsAndScores.includes("cabdsl");
-      const portwanExists = labelsAndScores.includes("portwan");
-      const cabwanDoesntExist = !labelsAndScores.includes("cabwan");
-      const portpowExists = !labelsAndScores.includes("portpow");
+      const portdslExists = posLabel.includes("portdsl");
+      const cabdslDoesntExist = !posLabel.includes("cabdsl");
+      const portwanExists = posLabel.includes("portwan");
+      const cabwanDoesntExist = !posLabel.includes("cabwan");
+      const portpowExists = !posLabel.includes("portpow");
 
       if (connectionType === "DSL" && (portwanExists && cabwanDoesntExist)) {
         setModemStatus("Správné zapojení DSL");
@@ -127,11 +131,10 @@ const Yolo7modem = () => {
           </div>
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-           <p>debug:
-          {connectionType}
-          <br></br>
-          { detectedObjects.map((label) =><li>{label}</li>)}
-          </p>
+           <p>debug:</p>
+          <p>connectionType:{connectionType}</p>
+          <p>detections:{ detectedObjects.map((label) =><li>{label}</li>)}</p>
+          
           
         </div>
       )}
