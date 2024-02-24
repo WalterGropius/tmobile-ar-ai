@@ -45,6 +45,11 @@ const ARViewer = () => {
     return () => {
       if (renderer) renderer.setAnimationLoop(null);
       if (mindarThree) mindarThree.stop();
+      // Lookup all MindAR overlays and remove them. They are not removed by the mindarThree.stop() method.
+      const elements = document.querySelectorAll(".mindar-ui-overlay");
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].remove();
+      }
       setInitialized(false); // Reset initialization flag.
       console.log("ARViewer cleanup: stopped rendering and MindAR.");
     };
