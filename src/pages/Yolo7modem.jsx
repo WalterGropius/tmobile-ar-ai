@@ -35,20 +35,33 @@ const Yolo7modem = () => {
 
   const processDetections = (detections) => {
     const labelsAndScores = detections.map(det => {
-      const label = labels[det[5]]; // Assuming 'labels' is accessible here
+      const label = labels[det[5]];
       const score = (det[4] * 100).toFixed(2);
       return `${label}`;
     });
     setDetectedObjects(labelsAndScores);
-    checkForLightoff(labelsAndScores); // Check for "lightoff" labels and update modem status
+    updateModemStatus(labelsAndScores);
   };
 
-  const checkForLightoff = (labelsAndScores) => {
+  const updateModemStatus = (labelsAndScores) => {
     const lightoffCount = labelsAndScores.filter(label => label === "lightoff").length;
     if (lightoffCount >= 6) {
-      setModemStatus("Turn modem on");
+      setModemStatus("Zapněte modem");
     } else {
-      setModemStatus(""); // Clear modem status if conditions are not met
+      // New logic for determining modem status based on connectionType
+      const portdslExists = labelsAndScores.includes("portdsl");
+      const cabdslDoesntExist = !labelsAndScores.includes("cabdsl");
+      const portwanExists = labelsAndScores.includes("portwan");
+      const cabwanDoesntExist = !labelsAndScores.includes("cabwan");
+      const portpowExists = !labelsAndScores.includes("portpow");
+
+      if (connectionType === "DSL" && (portwanExists && cabwanDoesntExist)) {
+        setModemStatus("Správné zapojení DSL");
+      } else if (connectionType !== "DSL" && (portdslExists && cabdslDoesntExist/* &&!portwanExists&&!portpowExists */)) {
+        setModemStatus("Správné zapojení "+connectionType);
+      } else {
+        setModemStatus("Nesprávné zapojení, zkuste znovu");
+      }
     }
   };
 
@@ -100,6 +113,7 @@ const Yolo7modem = () => {
 
   const toggleDebugMode = () => setDebugMode(!debugMode);
 
+  
   return (
     <div className="App">
       {loading.loading ? (
@@ -107,12 +121,17 @@ const Yolo7modem = () => {
       ) : (
         <div className="content">
           <div className="header">
-        <h1>AI kontrola zapojení</h1>
-      </div>
+            <h1>AI kontrola zapojení</h1>
+            <h2>{modemStatus}</h2>
+         
+          </div>
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-          
-          <h2>{modemStatus}</h2>
+           <p>debug:
+          {connectionType}
+          <br></br>
+          { detectedObjects.map((label) =><li>{label}</li>)}
+          </p>
           
         </div>
       )}
@@ -121,5 +140,3 @@ const Yolo7modem = () => {
 };
 
 export default Yolo7modem;
-
-

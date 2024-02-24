@@ -54,12 +54,12 @@ const Yolo7modem = () => {
       const portwanExists = labelsAndScores.includes("portwan");
       const cabwanDoesntExist = !labelsAndScores.includes("cabwan");
 
-      if (connectionType === "DSL" && (portdslExists || cabdslDoesntExist)) {
-        setModemStatus("Correct");
-      } else if (connectionType !== "DSL" && (portwanExists || cabwanDoesntExist)) {
-        setModemStatus("Correct");
+      if (connectionType === "DSL" && (portwanExists && cabwanDoesntExist)) {
+        setModemStatus("Správné zapojení DSL");
+      } else if (connectionType !== "DSL" && (portdslExists && cabdslDoesntExist)) {
+        setModemStatus("Správné zapojení {connectionType}");
       } else {
-        setModemStatus("Point at the modem");
+        setModemStatus("Zamiřte na modem");
       }
     }
   };
