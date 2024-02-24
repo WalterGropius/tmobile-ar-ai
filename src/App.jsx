@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import ConnectionTypePage from './pages/ConnectionTypePage';
 import ConnectionInfoPage from './pages/ConnectionInfoPage';
@@ -37,10 +35,8 @@ const renderPage = () => {
     case 3:
       return <ConnectionInfoPage />;
     case 4:
-      // Use a unique key to force re-mount
-      return <ARViewer page={currentPage}/>;
+      return <ARViewer connectionType={connectionType}/>;
     case 5:
-      // Use a unique key to force re-mount
       return <Yolo7modem/>;
     default:
       return <HomePage />;
