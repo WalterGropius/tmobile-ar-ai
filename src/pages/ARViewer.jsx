@@ -10,10 +10,9 @@ const ARViewer = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
-      return; // Ensures the container exists.
+      return; 
     }
 
-    // Initialize MindARThree with the given container and target source.
     const mindarThree = new MindARThree({
       container,
       imageTargetSrc: "/targets2.mind"
@@ -22,48 +21,39 @@ const ARViewer = () => {
     const { renderer, scene, camera } = mindarThree;
     const anchor = mindarThree.addAnchor(0);
 
-    // Create a simple plane geometry to use as an AR object.
     const geometry = new THREE.PlaneGeometry(0.1, 0.1);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
     const plane = new THREE.Mesh(geometry, material);
+
     if (connectionType === 'DSL') {
       plane.position.set(0.4, -0.3, 0);
-    }else if(connectionType === 'POW') {
+    } else if (connectionType === 'POW') {
       plane.position.set(-0.38, -0.3, 0);
-    }
-     else {
+    } else {
       plane.position.set(0.3, -0.3, 0);
     }
+
     anchor.group.add(plane);
 
-    // Start the AR experience.
     mindarThree.start().then(() => {
       renderer.setAnimationLoop(() => {
         renderer.render(scene, camera);
       });
-      setInitialized(true); // Mark the component as initialized.
+      setInitialized(true); 
     });
 
-    // Cleanup function for when the component unmounts or dependencies change.
     return () => {
       if (renderer) renderer.setAnimationLoop(null);
       if (mindarThree) mindarThree.stop();
       setInitialized(false); // Reset initialization flag.
       console.log("ARViewer cleanup: stopped rendering and MindAR.");
-
-      // Lookup all MindAR overlays and remove them. They are not removed by the mindarThree.stop() method.
-      const elements = document.querySelectorAll(".mindar-ui-overlay");
-      for (let i = 0; i < elements.length; i++) {
-        elements[i].remove();
-      }
     };
-  }, []); // Dependency array, re-run this effect if 'page' changes.
+  }, []); 
 
   return (
     <div>
       <h1>AR detekce</h1>
       <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
-    
     </div>
   );
 };
