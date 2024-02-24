@@ -2,18 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import * as THREE from 'three';
 
-const ARViewer = ({ page }) => {
+const ARViewer = () => {
   const containerRef = useRef(null);
   const [initialized, setInitialized] = useState(false);
   const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
-
   useEffect(() => {
-    // This function will only trigger if 'page' is exactly 4 and the component has not been initialized.
-    if (page !== 4 || initialized) {
-      return; // Only initialize if the correct page is active and not already initialized.
-    }
-
     const container = containerRef.current;
     if (!container) {
       return; // Ensures the container exists.
@@ -56,8 +50,14 @@ const ARViewer = ({ page }) => {
       if (mindarThree) mindarThree.stop();
       setInitialized(false); // Reset initialization flag.
       console.log("ARViewer cleanup: stopped rendering and MindAR.");
+
+      // Lookup all MindAR overlays and remove them. They are not removed by the mindarThree.stop() method.
+      const elements = document.querySelectorAll(".mindar-ui-overlay");
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].remove();
+      }
     };
-  }, [page]); // Dependency array, re-run this effect if 'page' changes.
+  }, []); // Dependency array, re-run this effect if 'page' changes.
 
   return (
     <div>
