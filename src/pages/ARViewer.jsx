@@ -117,17 +117,17 @@ return (
     {currentStep < 3 && (
       <footer>
       <button onClick={handleNextClick}>Next</button>
-      <div class="info lists">  <ul class="list-1"> <li>1. ON/OFF:  zapnutí/vypnutí modemu</li>
+      <div className="info lists">  <ul className="list-1"> <li>1. ON/OFF:  zapnutí/vypnutí modemu</li>
           <li>2.RESET:  obnovení továrního nastavení</li>
           <li>3.POWER: napájecí zdroj</li> 
           <li>4.USB: USB port (např. externí disk)</li>
         </ul>
-        <ul class="list-2">  <li>5.LAN1 – LAN4:  připojení koncového zařízení (např. k počítači, set-top boxu, televizi)</li>
+        <ul className="list-2">  <li>5.LAN1 – LAN4:  připojení koncového zařízení (např. k počítači, set-top boxu, televizi)</li>
           <li>6.WAN:  připojení k internetové zásuvce</li>
           <li>7.DSL:  připojení k telefonní zásuvce</li></ul><ul>
           <li>8.WIFI ON/OFF:  zapnutí/vypnutí Wi-Fi</li>
           <li>9.WPS:  spárování zařízení</li>
-          <li>10.Údaje k modemu (administrace nebo Wi-Fi)</li>
+          <li>10.Údaje k modemu</li>
           <li>11.Otvory  zavěšení modemu</li>
         </ul>
       </div>
