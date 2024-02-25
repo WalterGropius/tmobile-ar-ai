@@ -53,7 +53,7 @@ const ARViewer = ({ connectionType }) => {
     const imageMaterial = new THREE.MeshBasicMaterial({ 
       map: imageTexture,
       transparent: true, // Enable transparency
-      alphaTest: 0.5 // Set an alpha threshold
+      alphaTest: 0.2 // Set an alpha threshold
     });
     const imagePlane = new THREE.Mesh(imageGeometry, imageMaterial);
     imagePlaneRef.current = imagePlane;
@@ -95,14 +95,14 @@ const ARViewer = ({ connectionType }) => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
       setH2Text(['Step 1: Locate the target image', 
-                  'Zapojte zdrojový kabel',  
-                  'Zapojte kabel '+connectionType][currentStep + 1]); // Update h2Text
+                  'Zapojte zdrojový kabel do označené zdířky',  
+                  'Zapojte kabel '+connectionType+' do označené zdířky'][currentStep + 1]); // Update h2Text
     }
 
     if (currentStep === 1) { 
       initPortPlane(portPlaneRef.current, currentStep + 1); 
     } else if (currentStep === 2) {
-      window.location.href = "/kontrola"; // Replace as needed
+      window.location.href = "/#page=5&connection="+connectionType; // Replace as needed
     }
   }
 
@@ -115,7 +115,23 @@ return (
     <h2>{h2Text}</h2> 
     <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
     {currentStep < 3 && (
-      <footer><button onClick={handleNextClick}>Next</button></footer>
+      <footer>
+      <button onClick={handleNextClick}>Next</button>
+      <div class="info lists">  <ul class="list-1"> <li>1. ON/OFF:  zapnutí/vypnutí modemu</li>
+          <li>2.RESET:  obnovení továrního nastavení</li>
+          <li>3.POWER: napájecí zdroj</li> 
+          <li>4.USB: USB port (např. externí disk)</li>
+        </ul>
+        <ul class="list-2">  <li>5.LAN1 – LAN4:  připojení koncového zařízení (např. k počítači, set-top boxu, televizi)</li>
+          <li>6.WAN:  připojení k internetové zásuvce</li>
+          <li>7.DSL:  připojení k telefonní zásuvce</li></ul><ul>
+          <li>8.WIFI ON/OFF:  zapnutí/vypnutí Wi-Fi</li>
+          <li>9.WPS:  spárování zařízení</li>
+          <li>10.Údaje k modemu (administrace nebo Wi-Fi)</li>
+          <li>11.Otvory  zavěšení modemu</li>
+        </ul>
+      </div>
+    </footer>
     )} 
   </div>
 );

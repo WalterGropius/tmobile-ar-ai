@@ -46,6 +46,17 @@ flex-direction: column;
 background-color: white ;
 margin: 0;
 }
+.lists {
+    display: flex; /* Allow the lists to be side-by-side */
+    flex-direction: row;  /* Arrange the lists in a row */
+    justify-content: space-around; /* Distribute space around the lists */
+  } 
+  
+  /* Optional - for individual list width */
+  .list-1,
+  .list-2 {
+    flex: 1; /* Make both lists take up equal space */
+  }
 
 
     footer {
