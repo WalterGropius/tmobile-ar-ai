@@ -42,8 +42,9 @@ flex-direction: column;
 
         width: 100vw;
     }
-.header{
+.header,h2{
 background-color: white ;
+margin: 0;
 }
 
 

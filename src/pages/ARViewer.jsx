@@ -8,24 +8,23 @@ const ARViewer = ({ connectionType }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const portPlaneRef = useRef(null);
   const imagePlaneRef = useRef(null);
+  const [h2Text, setH2Text] = useState('Namiřte na zadní stranu modemu'); // Initialize correctly
 
   const initPortPlane = (plane, step) => {
     if (step === 1) {
-      // Initial POW position
       plane.position.set(-0.38, -0.3, 0);
     } else if (step === 2) {
-      // Connection type-based position
       if (connectionType === 'DSL') {
         plane.position.set(0.4, -0.3, 0);
       } else {
-        plane.position.set(0.3, -0.3, 0); // Default if not DSL
+        plane.position.set(0.3, -0.3, 0);
       }
     }
   }
 
   const initImagePlane = (plane) => {
-    plane.position.set(0, 0, 0); // Center the image plane
-    plane.scale.set(18, 12, 2); // Example: Scale up the image plane
+    plane.position.set(0, 0, 0);
+    plane.scale.set(18, 12, 2);
   }
 
   useEffect(() => {
@@ -86,15 +85,18 @@ const ARViewer = ({ connectionType }) => {
   }, []); 
 
   useEffect(() => {
-    if (!initialized) return; 
+    if (!initialized) return;
 
-    portPlaneRef.current.visible = (currentStep === 1 || currentStep === 2); 
-    imagePlaneRef.current.visible = (currentStep === 0); 
+    portPlaneRef.current.visible = (currentStep === 1 || currentStep === 2);
+    imagePlaneRef.current.visible = (currentStep === 0);
   }, [currentStep, initialized]);
 
   const handleNextClick = () => {
     if (currentStep < 3) {
-      setCurrentStep(currentStep + 1); 
+      setCurrentStep(currentStep + 1);
+      setH2Text(['Step 1: Locate the target image', 
+                  'Zapojte zdrojový kabel',  
+                  'Zapojte kabel '+connectionType][currentStep + 1]); // Update h2Text
     }
 
     if (currentStep === 1) { 
@@ -104,23 +106,19 @@ const ARViewer = ({ connectionType }) => {
     }
   }
 
-  const stepTexts = [
-    "Step 1: Locate the target image", 
-    "Step 2: Identify your port",  
-    "Step 3: Connection type confirmed" 
-];
+  
 
 
-  return (
-    <div>
-      <h1>AR detekce</h1>
-      <h2></h2>
-      <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
-      {currentStep < 3 && (
-       <footer><button onClick={handleNextClick}>Next</button></footer> 
-      )} 
-    </div>
-  );
+return (
+  <div>
+    <h1>AR detekce</h1>
+    <h2>{h2Text}</h2> 
+    <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
+    {currentStep < 3 && (
+      <footer><button onClick={handleNextClick}>Next</button></footer>
+    )} 
+  </div>
+);
 };
 
 export default ARViewer; 
