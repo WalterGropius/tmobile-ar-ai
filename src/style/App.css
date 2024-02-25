@@ -1,88 +1,114 @@
 @font-face {
-    font-family: 'Tele Neo';
-    src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
-  }
+  font-family: "Tele Neo";
+  src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
+}
 
-  body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-   
-    color: #ea0a8e;
-   
-    font-family: 'Tele Neo', sans-serif; }
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
-    h1, h3, p{
-        padding: 1rem ;
-        margin: 0;
-        background-color: white ;
+  color: #ea0a8e;
 
+  font-family: "Tele Neo", sans-serif;
+}
 
+.ARViewer__header {
+  background-color:  white;
+}
 
-    }
-button{
-width: 6rem;
-background-color: #ea0a8e; /* Green */
+h1,
+h3 {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+p {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1.5rem;
+}
+button {
+  width: 17rem;
+  background-color: #ea0a8e; /* Green */
   border: none;
-  font-family: 'Tele Neo', sans-serif; 
+  font-family: "Tele Neo", sans-serif;
   font-size: large;
   color: white;
-
 }
-.buttons{
-    justify-content: center; 
-    align-items: center;
-    display: flex; 
-flex-direction: column;
+.buttons {
+  margin-top: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
 }
 
-
-    img{
-
-
-        width: 100vw;
-    }
-.header,h2{
-background-color: white ;
-margin: 0;
+img {
+  width: 100vw;
 }
+.header {
+  margin: 0;
+  padding: 0.25em 2em;
+}
+
+h2 {
+  margin: 0;
+  padding: 0.25em 0.8em;
+  font-size: 3em;
+}
+.buttons h2 {
+  padding: 0;
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+  padding: 1em 1.7em;
+  font-size: 2em;
+  color: #fff;
+  background-color: #ea0a8e;
+}
+
 .lists {
-    display: flex; /* Allow the lists to be side-by-side */
-    flex-direction: row;  /* Arrange the lists in a row */
-    justify-content: space-around; /* Distribute space around the lists */
-  } 
-  
-  /* Optional - for individual list width */
-  .list-1,
-  .list-2 {
-    flex: 1; /* Make both lists take up equal space */
+  display: flex; /* Allow the lists to be side-by-side */
+  flex-direction: row; /* Arrange the lists in a row */
+  justify-content: space-around; /* Distribute space around the lists */
+}
+
+/* Optional - for individual list width */
+.list-1,
+.list-2 {
+  flex: 1; /* Make both lists take up equal space */
+}
+
+footer, .footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100vw;
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+  button {
+    font-size: 2em;
+    padding: 0.5em 0;
+    z-index: 1000000000;
+    font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100vw;
   }
+}
 
+video {
+  justify-content: center;
+  align-items: center;
+}
 
-    footer {
-        position: absolute;
-        bottom:0px;
-        width:100vw;
-        height: 10vh;
-        align-items: center;
-        justify-content: center;
-background-color: white ;
-        button {
-            z-index: 1000000000;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 40%;
-
-        }
-    }
-
-    video{
-       
-justify-content: center;
-align-items: center;
-    }
-
-    .container {
-    color: #ea0a8e;
-      }
+.container {
+  color: #ea0a8e;
+}

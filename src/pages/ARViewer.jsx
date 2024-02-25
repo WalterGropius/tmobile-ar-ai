@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
-import * as THREE from 'three';
+import React, { useEffect, useRef, useState } from "react";
+import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
+import * as THREE from "three";
 
 const ARViewer = ({ connectionType }) => {
   const containerRef = useRef(null);
@@ -8,24 +8,24 @@ const ARViewer = ({ connectionType }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const portPlaneRef = useRef(null);
   const imagePlaneRef = useRef(null);
-  const [h2Text, setH2Text] = useState('Namiřte na zadní stranu modemu'); // Initialize correctly
+  const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const initPortPlane = (plane, step) => {
     if (step === 1) {
       plane.position.set(-0.38, -0.3, 0);
     } else if (step === 2) {
-      if (connectionType === 'DSL') {
+      if (connectionType === "DSL") {
         plane.position.set(0.4, -0.3, 0);
       } else {
         plane.position.set(0.3, -0.3, 0);
       }
     }
-  }
+  };
 
-  const initImagePlane = (plane) => {
+  const initImagePlane = plane => {
     plane.position.set(0, 0, 0);
     plane.scale.set(18, 12, 2);
-  }
+  };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -41,7 +41,11 @@ const ARViewer = ({ connectionType }) => {
 
     // Port Plane setup
     const portGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const portMaterial = new THREE.MeshBasicMaterial({ color: 0xea0a8e, transparent: true, opacity: 0.5 });
+    const portMaterial = new THREE.MeshBasicMaterial({
+      color: 0xea0a8e,
+      transparent: true,
+      opacity: 0.5
+    });
     const portPlane = new THREE.Mesh(portGeometry, portMaterial);
     portPlaneRef.current = portPlane;
     portPlane.position.set(-0.38, -0.3, 0);
@@ -49,8 +53,8 @@ const ARViewer = ({ connectionType }) => {
 
     // Image Plane setup
     const imageGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const imageTexture = new THREE.TextureLoader().load('/modemback.png'); 
-    const imageMaterial = new THREE.MeshBasicMaterial({ 
+    const imageTexture = new THREE.TextureLoader().load("/modemback.png");
+    const imageMaterial = new THREE.MeshBasicMaterial({
       map: imageTexture,
       transparent: true, // Enable transparency
       alphaTest: 0.2 // Set an alpha threshold
@@ -72,9 +76,9 @@ const ARViewer = ({ connectionType }) => {
     return () => {
       if (renderer) renderer.setAnimationLoop(null);
       if (mindarThree) {
-        mindarThree.stop()
-        renderer.dispose()
-      };
+        mindarThree.stop();
+        renderer.dispose();
+      }
       const elements = document.querySelectorAll(".mindar-ui-overlay");
       for (let i = 0; i < elements.length; i++) {
         elements[i].remove();
@@ -82,59 +86,85 @@ const ARViewer = ({ connectionType }) => {
       setInitialized(false);
       console.log("ARViewer cleanup: stopped rendering and MindAR.");
     };
-  }, []); 
+  }, []);
 
-  useEffect(() => {
-    if (!initialized) return;
+  useEffect(
+    () => {
+      if (!initialized) return;
 
-    portPlaneRef.current.visible = (currentStep === 1 || currentStep === 2);
-    imagePlaneRef.current.visible = (currentStep === 0);
-  }, [currentStep, initialized]);
+      portPlaneRef.current.visible = currentStep === 1 || currentStep === 2;
+      imagePlaneRef.current.visible = currentStep === 0;
+    },
+    [currentStep, initialized]
+  );
 
   const handleNextClick = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
-      setH2Text(['Step 1: Locate the target image', 
-                  'Zapojte zdrojový kabel do označené zdířky',  
-                  'Zapojte kabel '+connectionType+' do označené zdířky'][currentStep + 1]); // Update h2Text
+      setH2Text(
+        [
+          "Step 1: Locate the target image",
+          "Zapojte zdrojový kabel do označené zdířky",
+          "Zapojte kabel " + connectionType + " do označené zdířky"
+        ][currentStep + 1]
+      ); // Update h2Text
     }
 
-    if (currentStep === 1) { 
-      initPortPlane(portPlaneRef.current, currentStep + 1); 
+    if (currentStep === 1) {
+      initPortPlane(portPlaneRef.current, currentStep + 1);
     } else if (currentStep === 2) {
-      window.location.href = "/#page=5&connection="+connectionType; // Replace as needed
+      window.location.href = "/#page=5&connection=" + connectionType; // Replace as needed
     }
-  }
+  };
 
-  
-
-
-return (
-  <div>
-    <h1>AR detekce</h1>
-    <h2>{h2Text}</h2> 
-    <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
-    {currentStep < 3 && (
-      <footer>
-      <button onClick={handleNextClick}>Next</button>
-      <div className="info lists">  <ul className="list-1"> <li>1. ON/OFF:  zapnutí/vypnutí modemu</li>
-          <li>2.RESET:  obnovení továrního nastavení</li>
-          <li>3.POWER: napájecí zdroj</li> 
-          <li>4.USB: USB port (např. externí disk)</li>
-        </ul>
-        <ul className="list-2">  <li>5.LAN1 – LAN4:  připojení koncového zařízení (např. k počítači, set-top boxu, televizi)</li>
-          <li>6.WAN:  připojení k internetové zásuvce</li>
-          <li>7.DSL:  připojení k telefonní zásuvce</li></ul><ul>
-          <li>8.WIFI ON/OFF:  zapnutí/vypnutí Wi-Fi</li>
-          <li>9.WPS:  spárování zařízení</li>
-          <li>10.Údaje k modemu</li>
-          <li>11.Otvory  zavěšení modemu</li>
-        </ul>
+  return (
+    <div>
+      <div className="ARViewer__header">
+        <h1>AR detekce </h1>
+        <p>
+          {h2Text}
+        </p>
+        {currentStep === 0 ? <div className="info lists">
+          <ul className="list-1">
+            {/* <li>1.ON/OFF: zapnutí/vypnutí modemu</li>
+              <li>2.RESET: obnovení továrního nastavení</li>
+              <li>3.POWER: napájecí zdroj</li>
+              <li>4.USB: USB port (např. externí disk)</li> */}
+            <li>1-ON/OFF</li>
+            <li>2-RESET</li>
+            <li>3-POWER</li>
+            <li>4-USB</li>
+          </ul>
+          <ul className="list-2">
+            {/* <li>
+                5.LAN1 – LAN4: připojení koncového zařízení (např. k počítači,
+                set-top boxu, televizi)
+              </li>
+              <li>6.WAN: připojení k internetové zásuvce</li>
+              <li>7.DSL: připojení k telefonní zásuvce</li> */}
+            <li>5-LAN</li>
+            <li>6-WAN</li>
+            <li>7-DSL</li>
+          </ul>
+          <ul>
+            {/* <li>8.WIFI ON/OFF: zapnutí/vypnutí Wi-Fi</li>
+              <li>9.WPS: spárování zařízení</li>
+              <li>10.Údaje k modemu</li>
+              <li>11.Otvory zavěšení modemu</li> */}
+            <li>8-WIFI ON/OFF</li>
+            <li>9-WPS</li>
+            <li>10-Info</li>
+            <li>11-Zavěšení</li>
+          </ul>
+        </div> : null}
       </div>
-    </footer>
-    )} 
-  </div>
-);
+      <div ref={containerRef} style={{ width: "100vw", height: "100vh" }} />
+      {currentStep < 3 &&
+        <footer>
+          <button onClick={handleNextClick}>Next</button>
+        </footer>}
+    </div>
+  );
 };
 
-export default ARViewer; 
+export default ARViewer;
