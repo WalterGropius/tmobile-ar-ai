@@ -25,7 +25,7 @@ const ARViewer = ({ connectionType }) => {
 
   const initImagePlane = (plane) => {
     plane.position.set(0, 0, 0); // Center the image plane
-    plane.scale.set(2, 2, 2); // Example: Scale up the image plane
+    plane.scale.set(18, 12, 2); // Example: Scale up the image plane
   }
 
   useEffect(() => {
@@ -42,14 +42,15 @@ const ARViewer = ({ connectionType }) => {
 
     // Port Plane setup
     const portGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const portMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
+    const portMaterial = new THREE.MeshBasicMaterial({ color: 0xea0a8e, transparent: true, opacity: 0.5 });
     const portPlane = new THREE.Mesh(portGeometry, portMaterial);
     portPlaneRef.current = portPlane;
+    portPlane.position.set(-0.38, -0.3, 0);
     anchor.group.add(portPlane);
 
     // Image Plane setup
     const imageGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const imageTexture = new THREE.TextureLoader().load('/modemfront.png'); 
+    const imageTexture = new THREE.TextureLoader().load('/modemback.png'); 
     const imageMaterial = new THREE.MeshBasicMaterial({ 
       map: imageTexture,
       transparent: true, // Enable transparency
@@ -103,9 +104,17 @@ const ARViewer = ({ connectionType }) => {
     }
   }
 
+  const stepTexts = [
+    "Step 1: Locate the target image", 
+    "Step 2: Identify your port",  
+    "Step 3: Connection type confirmed" 
+];
+
+
   return (
     <div>
       <h1>AR detekce</h1>
+      <h2></h2>
       <div ref={containerRef} style={{ width: "100vw", height: "100vh" }}></div>
       {currentStep < 3 && (
        <footer><button onClick={handleNextClick}>Next</button></footer> 
