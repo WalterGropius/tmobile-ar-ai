@@ -1,3 +1,6 @@
+//page 2
+
+
 const CONNECTION_DESCRIPTIONS = {
   DSL: [
     `
@@ -29,6 +32,7 @@ const CONNECTION_DESCRIPTIONS = {
 const ConnectionTypePage = () => {
   const navigate = (page, type) => {
     window.location.hash = `#page=${page}&connection=${type}`;
+    //location.reload();
   };
 
   // Retrieve the connection type from the URL hash
@@ -55,6 +59,9 @@ const ConnectionTypePage = () => {
       </div>
     <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
       {connectionType ? <div className="footer">
+      <button onClick={() => navigate(1, connectionType || "DSL")}>
+          Zpět
+        </button>
         <button onClick={() => navigate(3, connectionType || "DSL")}>
           Pokračovat
         </button>

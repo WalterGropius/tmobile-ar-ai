@@ -1,3 +1,5 @@
+//page 5
+
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl";
@@ -126,20 +128,24 @@ const Yolo7modem = () => {
         <div className="content">
           <div className="header">
             <h1>AI kontrola zapojení</h1>
-            <h2>{modemStatus}</h2>
-         
+            <p>{modemStatus}</p>
           </div>
+  
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-           <p>debug:</p>
-          <p>connectionType:{connectionType}</p>
-          <p>detections:{ detectedObjects.map((label) =><li>{label}</li>)}</p>
-          
-          
+  
+          {debugMode && ( // Conditional rendering for debug section 
+            <div> 
+              <p>debug:</p>
+              <p>connectionType:{connectionType}</p>
+              <p>detections:{detectedObjects.map((label) => <li key={label}>{label}</li>)}</p> 
+            </div>
+          )} 
         </div>
       )}
     </div>
   );
+  
 };
 
 export default Yolo7modem;

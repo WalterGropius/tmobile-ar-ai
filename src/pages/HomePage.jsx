@@ -1,3 +1,5 @@
+//page 1
+
 const HomePage = () => {
   const navigateToConnectionType = () => {
     window.location.hash = '#page=2';

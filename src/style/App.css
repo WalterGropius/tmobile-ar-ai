@@ -76,20 +76,17 @@ h3 {
 .lists {
   display: flex; /* Allow the lists to be side-by-side */
   flex-direction: row; /* Arrange the lists in a row */
-  justify-content: space-around; /* Distribute space around the lists */
+  justify-content: space-evenly;
 }
 
-/* Optional - for individual list width */
-.list-1,
-.list-2 {
-  flex: 1; /* Make both lists take up equal space */
-}
 
 footer, .footer {
   position: absolute;
+  display: flex;
+  flex-direction: row;
   bottom: 0px;
   width: 100vw;
-  height: 10vh;
+  
   align-items: center;
   justify-content: center;
   button {
@@ -107,8 +104,14 @@ footer, .footer {
 video {
   justify-content: center;
   align-items: center;
+  height: 60vh;
+  overflow: none;
 }
 
 .container {
   color: #ea0a8e;
+}
+li {
+  
+
 }
