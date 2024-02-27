@@ -4,6 +4,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import * as THREE from "three";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'; 
 
 const ARViewer = ({ connectionType }) => {
   const containerRef = useRef(null);
@@ -42,7 +43,7 @@ const ARViewer = ({ connectionType }) => {
 
     const mindarThree = new MindARThree({
       container,
-      imageTargetSrc: "/targets3.mind"
+      imageTargetSrc: "/targets4.mind"
     });
 
     const { renderer, scene, camera, cssRenderer } = mindarThree;
@@ -89,6 +90,25 @@ const ARViewer = ({ connectionType }) => {
     initImagePlane(imagePlaneRef.current);
     initImagePlane2(imagePlaneRef2.current);
 
+    const loader = new GLTFLoader();
+    loader.load('/arrow.glb', (gltf) => {
+      const arrow = gltf.scene.children[0]; // Assumes arrow is the first object in your GLTF
+      arrow.position.set(0, 0.05, 0);  // Adjust position as needed
+      arrow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
+      arrow.material= portMaterial; //
+      portPlaneRef.current.add(arrow);
+
+      const animationClip = gltf.animations[0];  
+
+    // Create a mixer
+    const mixer = new THREE.AnimationMixer(arrow); 
+    const animationAction = mixer.clipAction(animationClip);
+    animationAction.play(); // Start the animation
+
+   
+
+    });
+
     mindarThree.start().then(() => {
       renderer.setAnimationLoop(() => {
         renderer.render(scene, camera);
@@ -116,6 +136,10 @@ const ARViewer = ({ connectionType }) => {
       if (!initialized) return;
 
       portPlaneRef.current.visible = currentStep === 2 || currentStep === 3;
+      if (portPlaneRef.current.children.length > 0) {
+        portPlaneRef.current.children[0].visible = portPlaneRef.current.visible; 
+      }
+  
       imagePlaneRef.current.visible = currentStep === 0;
       imagePlaneRef2.current.visible = currentStep === 1;
     },
