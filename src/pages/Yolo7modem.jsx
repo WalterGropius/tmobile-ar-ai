@@ -99,26 +99,31 @@ const Yolo7modem = () => {
 
     //if step 1 check cables
    if (currentStep === 0) {
+    console.log("branch0")
     if (indCount+lightoffCount >= 4 
     ) {
       setModemStatus("Otočte Modem na druhou stranu");
     }  
-   else if (
+  if (
+    
         connectionType === "DSL" &&
         (cabpowExists.length > 0 && portwanExists.length > 0)
       ) {
         setModemStatus("Správné zapojení DSL");
+        console.log("branch 0 DSL")
         enableNext(true);
       }
-      else if (
+      if (
         connectionType !== "DSL" &&
         (cabpowExists.length > 0 && portdslExists.length > 0)
       ) {
         setModemStatus("Správné zapojení " + connectionType);
+        console.log("branch 0 nDSL")
         enableNext(true);
       } 
       else {
         setModemStatus("Analyzuji");
+        console.log("branch 0 analz")
       }
     }
     //if step 2 check indicators
@@ -126,12 +131,13 @@ const Yolo7modem = () => {
       
       if (lightoffCount >= 5) {
         setModemStatus("Zapněte modem tlačítkem ON/OFF");
-      } else if (lightonCount + lightoffCount === 6) {
-        console.log("lights:" + lights);
-      } else if (lightonCount >= 3) {
+        console.log("zapn")
+      } if (lightonCount >= 3) {
+        console.log("branch 1 on")
         setModemStatus("Správné Zapojení");
         enableNext(true);
       } else {
+        console.log("branch 1 anlz")
         setModemStatus("Analyzuji");
       }
     }
