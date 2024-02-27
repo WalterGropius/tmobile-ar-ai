@@ -115,6 +115,6 @@ video {
   color: #ea0a8e;
 }
 canvas {
-  
+  position: relative;
   z-index: 1;
 }
