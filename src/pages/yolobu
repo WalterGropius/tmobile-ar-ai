@@ -28,7 +28,7 @@ const Yolo7modem = () => {
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
-  const [modemStatus, setModemStatus] = useState("Analyzji zapojení"); // State for modem status
+  const [modemStatus, setModemStatus] = useState("Analyzuji"); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
@@ -50,17 +50,15 @@ const Yolo7modem = () => {
     });
     posLabel.sort();
     setDetectedObjects(posLabel);
-    console.table(posLabel);
+console.table(posLabel);
     updateModemStatus(posLabel);
   };
 
   const updateModemStatus = posLabel => {
-    const lightoffCount = posLabel.filter(label => label.includes("lightoff"))
-      .length;
+    const lightoffCount = posLabel.filter(label => label.includes("lightoff")).length;
     const portCount = posLabel.filter(label => label.includes("port")).length;
     const indCount = posLabel.filter(label => label.includes("ind")).length;
-    const lightonCount = posLabel.filter(label => label.includes("lightg"))
-      .length;
+    const lightonCount = posLabel.filter(label => label.includes("lightg")).length;
     const lights = posLabel.filter(label => label.includes("light"));
 
     const portpowExists = posLabel.filter(label => label.includes("portpow"));
@@ -70,70 +68,40 @@ const Yolo7modem = () => {
     const cabpowExists = posLabel.filter(label => label.includes("cabpow"));
     const cabdslExists = posLabel.filter(label => label.includes("cabdsl"));
     const cabwanExists = posLabel.filter(label => label.includes("cabwan"));
+    
+    
+console.log(" lightoffCount: "+lightoffCount + " portCount: "+portCount + " indCount: "+indCount + " lightonCount: "+lightonCount +" lights: "+lights + " portdslExists: "+portdslExists+" cabdslExists: "+ cabdslExists+" cabwanExists: "+cabwanExists + " portpowExists: "+portpowExists+" porwanExists: "+portwanExists+" cabpowexists: "+cabpowExists);
 
-    console.log(
-      " lightoffCount: " +
-        lightoffCount +
-        " portCount: " +
-        portCount +
-        " indCount: " +
-        indCount +
-        " lightonCount: " +
-        lightonCount +
-        " lights: " +
-        lights +
-        " portdslExists: " +
-        portdslExists +
-        " cabdslExists: " +
-        cabdslExists +
-        " cabwanExists: " +
-        cabwanExists +
-        " portpowExists: " +
-        portpowExists +
-        " porwanExists: " +
-        portwanExists +
-        " cabpowexists: " +
-        cabpowExists
-    );
+//check if right side
+if ((indCount >= 4 && currentStep === 0)||(portCount >= 4 && currentStep === 1))
+ {
+  setModemStatus("Otočte Modem na druhou stranu");
+  }
 
-    //check if right side
-    if (
-      (indCount >= 4 && currentStep === 0) ||
-      (portCount >= 4 && currentStep === 1)
-    ) {
-      setModemStatus("Otočte Modem na druhou stranu");
-    }
-
-    //if step 1 check cables
-    if (currentStep == 0) {
-      if (
-        connectionType === "DSL" &&
-        (cabpowExists.length > 0 && portwanExists.length > 0)
-      ) {
+//if step 1 check cables
+if (currentStep==0) {
+ if (connectionType === "DSL" &&(cabpowExists.length > 0&&portwanExists.length > 0)) {
         setModemStatus("Správné zapojení DSL");
         enableNext(true);
-      } else if (
-        connectionType !== "DSL" &&
-        (cabpowExists.length > 0 && portdslExists.length > 0)
-      ) {
+      } 
+      else (connectionType !== "DSL" &&(cabpowExists.length > 0&&portdslExists.length > 0)); {
         setModemStatus("Správné zapojení " + connectionType);
         enableNext(true);
-      } else {
-        setModemStatus("Analyzuji");
-      }
+      } 
+    }  
+//if step 2 check indicators
+if (currentStep==1) {
+if (lightoffCount >= 5) {
+      setModemStatus("Zapněte modem tlačítkem ON/OFF");
     }
-    //if step 2 check indicators
-    if (currentStep == 1) {
-      if (lightoffCount >= 5) {
-        setModemStatus("Zapněte modem tlačítkem ON/OFF");
-      } else if (lightonCount + lightoffCount === 6) {
-        console.log("lights:" + lights);
-      } else if (lightonCount >= 3) {
-        setModemStatus("Správné Zapojení");
-        enableNext(true);
-      } else {
-        setModemStatus("Analyzuji");
-      }
+     else if (lightonCount + lightoffCount === 6) {
+      console.log("lights:"+lights)
+    } 
+    else if (lightonCount >= 3) {
+      setModemStatus("Správné Zapojení");
+      enableNext(true);
+    }
+
     }
   };
 
@@ -195,8 +163,9 @@ const Yolo7modem = () => {
         ["Namiřte na zadní stranu modemu", "Namiřte na přední stranu modemu"][
           currentStep + 1
         ]
+        
       );
-      enableNext(false);
+      enableNext(false); 
     }
 
     if (currentStep === 0) {
@@ -241,9 +210,9 @@ const Yolo7modem = () => {
               <h2>
                 {h2Text}
               </h2>
-              <h2>
+              <h1>
                 {modemStatus}
-              </h2>
+              </h1>
             </div>
 
             <video autoPlay playsInline muted ref={videoRef} id="frame" />
@@ -253,14 +222,26 @@ const Yolo7modem = () => {
               ref={canvasRef}
               style={{ display: debugMode ? "block" : "none" }}
             />
-            {!next &&
-              <div className="wrapper">
-                <div className="spinner" />
-              </div>}
+ {!next &&<div className="wrapper" >
+      <div className="spinner"></div></div>}
             <footer>
               <button onClick={handlePreviousClick}>Zpět</button>
-              {next && <button onClick={handleNextClick}>Pokračovat</button>}
+              {next &&<button onClick={handleNextClick}>Pokračovat</button>}
             </footer>
+            {debugMode && // Conditional rendering for debug section
+              <div>
+                <p>debug:</p>
+                <p>
+                  connectionType:{connectionType}
+                </p>
+                <p>
+                  detections:{detectedObjects.map(label =>
+                    <li key={label}>
+                      {label}
+                    </li>
+                  )}
+                </p>
+              </div>}
           </div>}
     </div>
   );

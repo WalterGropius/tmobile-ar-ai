@@ -122,9 +122,18 @@ canvas {
 }
 
 #frame{
+  position: absolute;
   justify-content: center;
   align-items: center;
   height: 60vh;
   overflow: none;
   
+}
+
+.analyzuji{
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000000;
 }
