@@ -28,7 +28,7 @@ const Yolo7modem = () => {
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
-  const [modemStatus, setModemStatus] = useState("Analyzji zapojení"); // State for modem status
+  const [modemStatus, setModemStatus] = useState("Analyzji"); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
@@ -96,34 +96,34 @@ const Yolo7modem = () => {
         cabpowExists
     );
 
-    //check if right side
-    if (
-      (indCount >= 4 && currentStep === 0) ||
-      (portCount >= 4 && currentStep === 1)
-    ) {
-      setModemStatus("Otočte Modem na druhou stranu");
-    }
 
     //if step 1 check cables
-    if (currentStep == 0) {
-      if (
+   if (currentStep === 0) {
+    if (indCount+lightoffCount >= 4 
+    ) {
+      setModemStatus("Otočte Modem na druhou stranu");
+    }  
+   else if (
         connectionType === "DSL" &&
         (cabpowExists.length > 0 && portwanExists.length > 0)
       ) {
         setModemStatus("Správné zapojení DSL");
         enableNext(true);
-      } else if (
+      }
+      else if (
         connectionType !== "DSL" &&
         (cabpowExists.length > 0 && portdslExists.length > 0)
       ) {
         setModemStatus("Správné zapojení " + connectionType);
         enableNext(true);
-      } else {
+      } 
+      else {
         setModemStatus("Analyzuji");
       }
     }
     //if step 2 check indicators
-    if (currentStep == 1) {
+    else if(currentStep === 1) {
+      
       if (lightoffCount >= 5) {
         setModemStatus("Zapněte modem tlačítkem ON/OFF");
       } else if (lightonCount + lightoffCount === 6) {
@@ -199,7 +199,8 @@ const Yolo7modem = () => {
       enableNext(false);
     }
 
-    if (currentStep === 0) {
+    if (currentStep
+       === 0) {
       console.log("0");
     } else if (currentStep === 1) {
       window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
