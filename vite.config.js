@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt'], // Add more assets you need to include
+      includeAssets: ['favicon.svg', 'targets3.mind','/modem_web_model/model.json','/modem_web_model/group1-shard1of6.bin','/modem_web_model/group1-shard2of6.bin','/modem_web_model/group1-shard3of6.bin','/modem_web_model/group1-shard4of6.bin','/modem_web_model/group1-shard5of6.bin','/modem_web_model/group1-shard6of6.bin','robots.txt'], // Add more assets you need to include
       manifest: {
         // Your manifest settings here
         name: 'T-Mobile AR návod',
