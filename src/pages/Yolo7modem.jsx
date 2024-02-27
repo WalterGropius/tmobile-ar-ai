@@ -34,6 +34,8 @@ const Yolo7modem = () => {
   const modelName = "modem";
   const threshold = 0.60;
   const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
+  const [currentStep, setCurrentStep] = useState(0);
+  const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const processDetections = (detections) => {
     const posLabel = detections.map(det => {
@@ -101,6 +103,42 @@ const Yolo7modem = () => {
     requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
   };
+  const handlePreviousClick = () => {
+    if (currentStep === 0) {
+      // Redirect when at step 0
+      window.location.href = "/#page=4&connection=" + connectionType; 
+    } else { 
+      // Standard 'previous' behavior for other steps
+      setCurrentStep(currentStep - 1);
+
+      setH2Text([
+        "Namiřte na zadní stranu modemu",
+        "Namiřte na přední stranu modemu",
+      ][currentStep - 1]); 
+
+      if (currentStep === 2) {
+        console.log("0");
+      }
+    }
+  };
+  const handleNextClick = () => {
+    if (currentStep < 1) {
+      setCurrentStep(currentStep + 1);
+      setH2Text(
+        [
+          "Namiřte na zadní stranu modemu",
+          "Namiřte na přední stranu modemu",
+        ][currentStep + 1]
+      ); // Update h2Text
+    }
+
+    if (currentStep === 0) {
+      console.log("0");
+    } else if (currentStep === 1) {
+      window.location.href = "/#page=6"//&connection=" + connectionType; // Replace as needed
+    }};
+
+  const toggleDebugMode = () => setDebugMode(!debugMode);
 
   useEffect(() => {
     tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
@@ -116,8 +154,7 @@ const Yolo7modem = () => {
       });
     });
   }, []);
-
-  const toggleDebugMode = () => setDebugMode(!debugMode);
+  
 
   
   return (
@@ -128,12 +165,16 @@ const Yolo7modem = () => {
         <div className="content">
           <div className="header">
             <h1>AI kontrola zapojení</h1>
+            <h2>{h2Text}</h2>
             <p>{modemStatus}</p>
           </div>
   
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
-  
+          <footer>
+          <button onClick={handlePreviousClick}>Zpět</button>
+          <button onClick={handleNextClick}>Pokračovat</button>
+        </footer>
           {debugMode && ( // Conditional rendering for debug section 
             <div> 
               <p>debug:</p>

@@ -8,6 +8,7 @@ import "./style/App.css";
 
 // Import the custom hook
 import useHash from './hooks/useHash';
+import Fin from './pages/Fin';
 
 const App = () => {
   const hash = useHash(); // Use the custom hook
@@ -38,6 +39,8 @@ const renderPage = () => {
       return <ARViewer connectionType={connectionType}/>;
     case 5:
       return <Yolo7modem/>;
+    case 6:
+      return <Fin/>;
     default:
       return <HomePage />;
   }

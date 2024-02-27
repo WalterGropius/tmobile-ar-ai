@@ -120,3 +120,11 @@ canvas {
   position: relative;
   z-index: 1;
 }
+
+#frame{
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  overflow: none;
+  
+}
