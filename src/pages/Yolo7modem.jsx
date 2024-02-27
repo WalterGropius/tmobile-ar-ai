@@ -42,7 +42,7 @@ const Yolo7modem = () => {
       const label = labels[det[5]];
       const score = (det[4] * 100).toFixed(2);
       const pos=parseInt((det[0]));
-      return `${label}`;
+      return `${pos}_${label}`;
      /*  ${pos}_ */
     });
     posLabel.sort();
@@ -56,10 +56,15 @@ const Yolo7modem = () => {
     const portCount = posLabel.filter(label => label.includes("port")).length;
     const indCount = posLabel.filter(label => label.includes("ind")).length;
     const lightonCount = posLabel.filter(label => label.includes("lightg")).length;
+    const lights = posLabel.filter(label => label.includes("light"));
+ 
  
   if (lightoffCount >= 5) {
       setModemStatus("Zapněte modem tlačítkem ON/OFF");
     } 
+    else if (lightonCount + lightoffCount === 6) {
+      setModemStatus(lights);
+    }
     else if (lightonCount >= 3) {
       setModemStatus("Správné Zapojení");
     }
