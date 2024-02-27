@@ -15,9 +15,9 @@ const ARViewer = ({ connectionType }) => {
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const initPortPlane = (plane, step) => {
-    if (step === 1) {
+    if (step === 2) {
       plane.position.set(-0.38, -0.3, 0);
-    } else if (step === 2) {
+    } else if (step === 3) {
       if (connectionType === "DSL") {
         plane.position.set(0.4, -0.3, 0);
       } else {
@@ -115,8 +115,9 @@ const ARViewer = ({ connectionType }) => {
     () => {
       if (!initialized) return;
 
-      portPlaneRef.current.visible = currentStep === 1 || currentStep === 2;
+      portPlaneRef.current.visible = currentStep === 2 || currentStep === 3;
       imagePlaneRef.current.visible = currentStep === 0;
+      imagePlaneRef2.current.visible = currentStep === 1;
     },
     [currentStep, initialized]
   );
@@ -130,30 +131,32 @@ const ARViewer = ({ connectionType }) => {
 
       setH2Text([
         "Namiřte na zadní stranu modemu",
+        "Namiřte na přední stranu modemu",
         "Zapojte zdrojový kabel do označené zdířky",
         "Zapojte kabel " + connectionType + " do označené zdířky"
       ][currentStep - 1]); 
 
-      if (currentStep === 2) {
+      if (currentStep === 3) {
         initPortPlane(portPlaneRef.current, currentStep - 1); 
       }
     }
   };
   const handleNextClick = () => {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
       setH2Text(
         [
           "Namiřte na zadní stranu modemu",
+          "Namiřte na přední stranu modemu",
           "Zapojte zdrojový kabel do označené zdířky",
           "Zapojte kabel " + connectionType + " do označené zdířky"
         ][currentStep + 1]
       ); // Update h2Text
     }
 
-    if (currentStep === 1) {
+    if (currentStep === 2) {
       initPortPlane(portPlaneRef.current, currentStep + 1);
-    } else if (currentStep === 2) {
+    } else if (currentStep === 3) {
       window.location.href = "/#page=5&connection=" + connectionType; // Replace as needed
     }
   };
@@ -166,6 +169,20 @@ const ARViewer = ({ connectionType }) => {
         <p>
           {h2Text}
         </p>
+        {currentStep === 1 ? <div className="info lists">
+          <ol className="list-2"type="1" start="1">
+            
+            <li>Napájení</li>
+            <li>DSL</li>
+            <li>Internet</li>
+          </ol>
+          <ol type="1" start="4">
+            
+            <li>LAN 1-4</li>
+            <li>WIFI 2.4Ghz</li>
+            <li>WIFI 5Ghz</li>
+           
+          </ol></div>:null}
         {currentStep === 0 ? <div><div className="info lists">
           
           <ol className="list-1" type="1">
@@ -202,7 +219,7 @@ const ARViewer = ({ connectionType }) => {
         </div></div> : null}
       </div>
       <div ref={containerRef} style={{ width: "100vw", height: "100vh" }} />
-      {currentStep < 3 &&
+      {currentStep < 4 &&
         <footer>
           <button onClick={handlePreviousClick}>Zpět</button>
           <button onClick={handleNextClick}>Pokračovat</button>
