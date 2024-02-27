@@ -11,6 +11,7 @@ const ARViewer = ({ connectionType }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const portPlaneRef = useRef(null);
   const imagePlaneRef = useRef(null);
+  const imagePlaneRef2 = useRef(null);
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const initPortPlane = (plane, step) => {
@@ -30,17 +31,23 @@ const ARViewer = ({ connectionType }) => {
     plane.scale.set(18, 12, 2);
   };
 
+  const initImagePlane2 = plane => {
+    plane.position.set(-0.05, 0.3, 0);
+    plane.scale.set(19 , 7, 2);
+  };
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const mindarThree = new MindARThree({
       container,
-      imageTargetSrc: "/targets2.mind"
+      imageTargetSrc: "/targets3.mind"
     });
 
     const { renderer, scene, camera, cssRenderer } = mindarThree;
     const anchor = mindarThree.addAnchor(0);
+    const anchor2 = mindarThree.addAnchor(1);
 
     // Port Plane setup
     const portGeometry = new THREE.PlaneGeometry(0.1, 0.1);
@@ -66,8 +73,21 @@ const ARViewer = ({ connectionType }) => {
     imagePlaneRef.current = imagePlane;
     anchor.group.add(imagePlane);
 
+    const imageGeometry2 = new THREE.PlaneGeometry(0.1, 0.1);
+    const imageTexture2 = new THREE.TextureLoader().load("/modemfront.png");
+    const imageMaterial2 = new THREE.MeshBasicMaterial({
+      map: imageTexture2,
+      transparent: true, // Enable transparency
+      alphaTest: 0.2 // Set an alpha threshold
+    });
+    const imagePlane2 = new THREE.Mesh(imageGeometry2, imageMaterial2);
+    imagePlaneRef2.current = imagePlane2;
+    anchor2.group.add(imagePlane2);
+
+
     initPortPlane(portPlaneRef.current, 0); // Initialize port plane (hidden)
     initImagePlane(imagePlaneRef.current);
+    initImagePlane2(imagePlaneRef2.current);
 
     mindarThree.start().then(() => {
       renderer.setAnimationLoop(() => {
@@ -140,6 +160,7 @@ const ARViewer = ({ connectionType }) => {
 
   return (
     <div>
+      
       <div className="ARViewer__header">
         <h1>AR detekce </h1>
         <p>
