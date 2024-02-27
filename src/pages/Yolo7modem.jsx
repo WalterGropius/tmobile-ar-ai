@@ -53,8 +53,15 @@ const Yolo7modem = () => {
 
   const updateModemStatus = (posLabel) => {
     const lightoffCount = posLabel.filter(label => label.includes("lightoff")).length;
-    if (lightoffCount >= 6) {
-      setModemStatus("Zapněte modem");
+    const portCount = posLabel.filter(label => label.includes("port")).length;
+    const indCount = posLabel.filter(label => label.includes("ind")).length;
+    if ((indCount >= 3 && currentStep===0)||(portCount >= 3 && currentStep===1))
+    {
+      setModemStatus("Otočte Modem na druhou stranu");
+    }
+ 
+  if (lightoffCount >= 6) {
+      setModemStatus("Zapněte modem tlačítkem ON/OFF");
     } else {
       // New logic for determining modem status based on connectionType
       const portdslExists = posLabel.includes("portdsl");
@@ -63,12 +70,12 @@ const Yolo7modem = () => {
       const cabwanDoesntExist = !posLabel.includes("cabwan");
       const portpowExists = !posLabel.includes("portpow");
 
-      if (connectionType === "DSL" && (portwanExists && cabwanDoesntExist)) {
+      if (connectionType === "DSL" && (portwanExists && cabwanDoesntExist && !portpowExists)) {
         setModemStatus("Správné zapojení DSL");
-      } else if (connectionType !== "DSL" && (portdslExists && cabdslDoesntExist/* &&!portwanExists&&!portpowExists */)) {
+      } else if (connectionType !== "DSL" && (portdslExists && cabdslDoesntExist && !portwanExists && !portpowExists)) {
         setModemStatus("Správné zapojení "+connectionType);
       } else {
-        setModemStatus("Nesprávné zapojení, zkuste znovu");
+        setModemStatus("Modem nenalezen");
       }
     }
   };
@@ -166,12 +173,14 @@ const Yolo7modem = () => {
           <div className="header">
             <h1>AI kontrola zapojení</h1>
             <h2>{h2Text}</h2>
-            <p>{modemStatus}</p>
+            
           </div>
   
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? "block" : "none" }} />
+          <p>{modemStatus}</p>
           <footer>
+          
           <button onClick={handlePreviousClick}>Zpět</button>
           <button onClick={handleNextClick}>Pokračovat</button>
         </footer>
