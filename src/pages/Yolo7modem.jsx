@@ -55,11 +55,15 @@ const Yolo7modem = () => {
     const lightoffCount = posLabel.filter(label => label.includes("lightoff")).length;
     const portCount = posLabel.filter(label => label.includes("port")).length;
     const indCount = posLabel.filter(label => label.includes("ind")).length;
-    
+    const lightonCount = posLabel.filter(label => label.includes("lightg")).length;
  
   if (lightoffCount >= 5) {
       setModemStatus("Zapněte modem tlačítkem ON/OFF");
-    } else {
+    } 
+    else if (lightonCount >= 3) {
+      setModemStatus("Správné Zapojení");
+    }
+    else {
       // New logic for determining modem status based on connectionType
       const portdslExists = posLabel.includes("portdsl");
       const cabdslDoesntExist = !posLabel.includes("cabdsl");
