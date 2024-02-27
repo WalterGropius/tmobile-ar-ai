@@ -55,12 +55,9 @@ const Yolo7modem = () => {
     const lightoffCount = posLabel.filter(label => label.includes("lightoff")).length;
     const portCount = posLabel.filter(label => label.includes("port")).length;
     const indCount = posLabel.filter(label => label.includes("ind")).length;
-    if ((indCount >= 3 && currentStep===0)||(portCount >= 3 && currentStep===1))
-    {
-      setModemStatus("Otočte Modem na druhou stranu");
-    }
+    
  
-  if (lightoffCount >= 6) {
+  if (lightoffCount >= 5) {
       setModemStatus("Zapněte modem tlačítkem ON/OFF");
     } else {
       // New logic for determining modem status based on connectionType
@@ -74,7 +71,12 @@ const Yolo7modem = () => {
         setModemStatus("Správné zapojení DSL");
       } else if (connectionType !== "DSL" && (portdslExists && cabdslDoesntExist && !portwanExists && !portpowExists)) {
         setModemStatus("Správné zapojení "+connectionType);
-      } else {
+      } else if ((indCount >= 4 && currentStep===0)||(portCount >= 4 && currentStep===1))
+      {
+        setModemStatus("Otočte Modem na druhou stranu");
+      } 
+      
+      else {
         setModemStatus("Modem nenalezen");
       }
     }
