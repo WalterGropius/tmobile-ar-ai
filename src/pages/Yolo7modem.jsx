@@ -109,7 +109,7 @@ const Yolo7modem = () => {
         connectionType === "DSL" &&
         (cabpowExists.length > 0 && portwanExists.length > 0)
       ) {
-        setModemStatus("Správné zapojení DSL");
+        setModemStatus("Správné zapojení");
         console.log("back");
         enableNext(true);
       }
@@ -118,7 +118,7 @@ const Yolo7modem = () => {
         connectionType !== "DSL" &&
         (cabpowExists.length > 0 && portdslExists.length > 0)
       ) {
-        setModemStatus("Správné zapojení " + connectionType);
+        setModemStatus("Správné zapojení");
         console.log("branch 0 nDSL");
         enableNext(true);
       }
