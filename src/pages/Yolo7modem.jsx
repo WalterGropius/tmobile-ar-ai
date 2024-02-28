@@ -231,9 +231,9 @@ const Yolo7modem = () => {
               <h2>
                 {h2Text}
               </h2>
-              <h2>
+              <h3>
                 {modemStatus}
-              </h2>
+              </h3>
             </div>
 
             <video autoPlay playsInline muted ref={videoRef} id="frame" />

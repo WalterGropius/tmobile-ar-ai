@@ -75,7 +75,7 @@ const ARViewer = ({ connectionType }) => {
     anchor.group.add(imagePlane);
 
     const imageGeometry2 = new THREE.PlaneGeometry(0.1, 0.1);
-    const imageTexture2 = new THREE.TextureLoader().load("/modemfront.png");
+    const imageTexture2 = new THREE.TextureLoader().load("/modemfrontsm.png");
     const imageMaterial2 = new THREE.MeshBasicMaterial({
       map: imageTexture2,
       transparent: true, // Enable transparency
