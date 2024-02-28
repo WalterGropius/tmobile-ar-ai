@@ -37,7 +37,7 @@ const Yolo7modem = () => {
   const connectionType = new URLSearchParams(
     window.location.hash.replace("#", "")
   ).get("connection");
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(false);
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const processDetections = detections => {
@@ -55,10 +55,11 @@ const Yolo7modem = () => {
   };
 
   const updateModemStatus = posLabel => {
-    const lightoffCount = posLabel.filter(label => label.includes("lightoff"))
-      .length;
     const portCount = posLabel.filter(label => label.includes("port")).length;
     const indCount = posLabel.filter(label => label.includes("ind")).length;
+   
+    const lightoffCount = posLabel.filter(label => label.includes("lightoff"))
+      .length;
     const lightonCount = posLabel.filter(label => label.includes("lightg"))
       .length;
     const lights = posLabel.filter(label => label.includes("light"));
@@ -96,21 +97,19 @@ const Yolo7modem = () => {
         cabpowExists
     );
 
-console.log("currentStep: "+currentStep);
-    //if step 1 check cables
-   if (currentStep == 0) {
-    console.log("branch0 step:"+currentStep);
-    if (indCount+lightoffCount >= 4 
-    ) {
-      setModemStatus("Otočte Modem na druhou stranu");
-    }  
-  if (
-    
+    console.log("currentStep: " + currentStep);
+
+    if (!currentStep) {
+      console.log("branch0 step:" + currentStep);
+      if (indCount + lightoffCount >= 4) {
+        setModemStatus("Otočte Modem na druhou stranu");
+      }
+      if (
         connectionType === "DSL" &&
         (cabpowExists.length > 0 && portwanExists.length > 0)
       ) {
         setModemStatus("Správné zapojení DSL");
-        console.log("branch 0 DSL")
+        console.log("back");
         enableNext(true);
       }
       if (
@@ -118,26 +117,25 @@ console.log("currentStep: "+currentStep);
         (cabpowExists.length > 0 && portdslExists.length > 0)
       ) {
         setModemStatus("Správné zapojení " + connectionType);
-        console.log("branch 0 nDSL")
+        console.log("branch 0 nDSL");
         enableNext(true);
-      } 
-      else {
-        setModemStatus("Analyzuji");
-        console.log("branch 0 analz")
       }
-    }
-    //if step 2 check indicators
-    if(currentStep == 1) {
-    console.log("branch1");  
+    } else {
+      console.log("front");
       if (lightoffCount >= 5) {
         setModemStatus("Zapněte modem tlačítkem ON/OFF");
-        console.log("zapn")
-      } if (lightonCount >= 3) {
-        console.log("branch 1 on")
+        console.log("zapn");
+      }
+      if (portCount >= 4) {
+        setModemStatus("Otočte Modem na druhou stranu");
+      }
+      if (lightonCount >= 3) {
+        console.log("branch 1 on");
         setModemStatus("Správné Zapojení");
+        console.log("hura");
         enableNext(true);
       } else {
-        console.log("branch 1 anlz")
+        console.log("branch 1 anlz");
         setModemStatus("Analyzuji");
       }
     }
@@ -163,7 +161,7 @@ console.log("currentStep: "+currentStep);
       const class_detect = shortenedCol(detections, [5]);
 
       processDetections(detections); // Always process detections for footer
-
+      console.log("detections");
       if (debugMode) {
         // Only render boxes if debug mode is enabled
         renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
@@ -175,34 +173,21 @@ console.log("currentStep: "+currentStep);
     tf.engine().endScope();
   };
   const handlePreviousClick = () => {
-    if (currentStep === 0) {
+    if (!currentStep) {
       // Redirect when at step 0
       window.location.href = "/#page=4&connection=" + connectionType;
     } else {
-      // Standard 'previous' behavior for other steps
-      setCurrentStep(currentStep - 1);
-
+      setCurrentStep(false);
       setH2Text("Namiřte na zadní stranu modemu");
-
-      if (currentStep === 2) {
-        console.log("0");
-      }
     }
   };
   const handleNextClick = () => {
-    if (currentStep < 1) {
-      setCurrentStep(currentStep + 1);
-      // Update h2Text
-      setH2Text(
-        ["Namiřte na přední stranu modemu"]
-      );
+    if (!currentStep) {
+      setCurrentStep(true);
+      console.log("Next");
+      setH2Text(["Namiřte na přední stranu modemu"]);
       enableNext(false);
-    }
-
-    if (currentStep
-       === 0) {
-      console.log("0");
-    } else if (currentStep === 1) {
+    } else {
       window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
     }
   };
