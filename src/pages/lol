@@ -37,7 +37,7 @@ const Yolo7modem = () => {
   const connectionType = new URLSearchParams(
     window.location.hash.replace("#", "")
   ).get("connection");
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState("Back");
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const processDetections = detections => {
@@ -98,7 +98,7 @@ const Yolo7modem = () => {
 
 console.log("currentStep: "+currentStep);
     //if step 1 check cables
-   if (currentStep == 0) {
+   if (currentStep === "Back") {
     console.log("branch0 step:"+currentStep);
     if (indCount+lightoffCount >= 4 
     ) {
@@ -127,7 +127,7 @@ console.log("currentStep: "+currentStep);
       }
     }
     //if step 2 check indicators
-    if(currentStep == 1) {
+    if(currentStep === "Front") {
     console.log("branch1");  
       if (lightoffCount >= 5) {
         setModemStatus("Zapněte modem tlačítkem ON/OFF");
@@ -190,9 +190,8 @@ console.log("currentStep: "+currentStep);
     }
   };
   const handleNextClick = () => {
-    if (currentStep < 1) {
-      setCurrentStep(currentStep + 1);
-      // Update h2Text
+    if (currentStep === "Back") {
+      setCurrentStep("Front");
       setH2Text(
         ["Namiřte na přední stranu modemu"]
       );
@@ -200,7 +199,7 @@ console.log("currentStep: "+currentStep);
     }
 
     if (currentStep
-       === 0) {
+       === "Back") {
       console.log("0");
     } else if (currentStep === 1) {
       window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
