@@ -28,7 +28,7 @@ const Yolo7modem = () => {
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
-  const [modemStatus, setModemStatus] = useState("Analyzji"); // State for modem status
+  const [modemStatus, setModemStatus] = useState("Analyzuji"); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
@@ -97,7 +97,7 @@ const Yolo7modem = () => {
         cabpowExists
     );
 
-    console.log("currentStep: " + currentStep);
+    console.log("0currentStep: " + currentStep);
 
     
       if (indCount + lightoffCount >= 4) {
@@ -134,7 +134,7 @@ const Yolo7modem = () => {
         //setModemStatus("Otočte Modem na druhou stranu");
       }
       
-      if (lightonCount >= 3) {
+      if (lightonCount >= 4) {
         console.log("branch 1 on");
         setModemStatus("Správné Zapojení");
         console.log("hura");
@@ -189,6 +189,7 @@ const Yolo7modem = () => {
     if (!currentStep) {
       setCurrentStep(true);
       console.log("Next");
+      console.log("currentStep: " + currentStep);
       setH2Text(["Namiřte na přední stranu modemu"]);
       enableNext(false);
     } else {
