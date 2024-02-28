@@ -99,11 +99,12 @@ const Yolo7modem = () => {
 
     console.log("currentStep: " + currentStep);
 
-    if (!currentStep) {
-      console.log("branch0 step:" + currentStep);
+    
       if (indCount + lightoffCount >= 4) {
-        setModemStatus("Otočte Modem na druhou stranu");
+       // setModemStatus("Otočte Modem na druhou stranu");
+       console.log("Front");
       }
+
       if (
         connectionType === "DSL" &&
         (cabpowExists.length > 0 && portwanExists.length > 0)
@@ -112,6 +113,7 @@ const Yolo7modem = () => {
         console.log("back");
         enableNext(true);
       }
+      
       if (
         connectionType !== "DSL" &&
         (cabpowExists.length > 0 && portdslExists.length > 0)
@@ -120,25 +122,25 @@ const Yolo7modem = () => {
         console.log("branch 0 nDSL");
         enableNext(true);
       }
-    } else {
+  
       console.log("front");
       if (lightoffCount >= 5) {
         setModemStatus("Zapněte modem tlačítkem ON/OFF");
         console.log("zapn");
       }
+      
       if (portCount >= 4) {
-        setModemStatus("Otočte Modem na druhou stranu");
+        console.log("back");
+        //setModemStatus("Otočte Modem na druhou stranu");
       }
+      
       if (lightonCount >= 3) {
         console.log("branch 1 on");
         setModemStatus("Správné Zapojení");
         console.log("hura");
         enableNext(true);
-      } else {
-        console.log("branch 1 anlz");
-        setModemStatus("Analyzuji");
-      }
-    }
+      } 
+    
   };
 
   const detectFrame = async model => {
@@ -172,6 +174,7 @@ const Yolo7modem = () => {
     requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
   };
+  
   const handlePreviousClick = () => {
     if (!currentStep) {
       // Redirect when at step 0
@@ -181,6 +184,7 @@ const Yolo7modem = () => {
       setH2Text("Namiřte na zadní stranu modemu");
     }
   };
+  
   const handleNextClick = () => {
     if (!currentStep) {
       setCurrentStep(true);
