@@ -41,36 +41,39 @@ const Yolo7modem = () => {
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
   const processDetections = detections => {
-    const posLabel = detections.map(det => {
+    const posLabels = detections.map(det => {
       const label = labels[det[5]];
       const score = (det[4] * 100).toFixed(2);
       const pos = parseInt(det[0]);
-      return `${pos}_${label}`;
-      /*  ${pos}_ */
+      return {
+        xPosition: pos,
+        label: label
+      }
     });
-    posLabel.sort();
-    setDetectedObjects(posLabel);
-    console.table(posLabel);
-    updateModemStatus(posLabel);
+
+    posLabels.sort((a, b) => a.xPosition - b.xPosition);
+    setDetectedObjects(posLabels);
+    console.table(posLabels);
+    updateModemStatus(posLabels);
   };
 
-  const updateModemStatus = posLabel => {
-    const portCount = posLabel.filter(label => label.includes("port")).length;
-    const indCount = posLabel.filter(label => label.includes("ind")).length;
+  const updateModemStatus = posLabels => {
+    const portCount = posLabels.filter(({label}) => label.includes("port")).length;
+    const indCount = posLabels.filter(({label}) => label.includes("ind")).length;
+
+    const filterByLabel = (filterLabel) => posLabels.filter(({label}) => label === filterLabel)
    
-    const lightoffCount = posLabel.filter(label => label.includes("lightoff"))
-      .length;
-    const lightonCount = posLabel.filter(label => label.includes("lightg"))
-      .length;
-    const lights = posLabel.filter(label => label.includes("light"));
+    const lightoffCount = filterByLabel("lightoff").length;
+    const lightonCount = filterByLabel("lightg").length;
+    const lights = filterByLabel("light");
 
-    const portpowExists = posLabel.filter(label => label.includes("portpow"));
-    const portdslExists = posLabel.filter(label => label.includes("portdsl"));
-    const portwanExists = posLabel.filter(label => label.includes("portwan"));
+    const portpowExists = filterByLabel("portpow");
+    const portdslExists = filterByLabel("portdsl");
+    const portwanExists = filterByLabel("portwan");
 
-    const cabpowExists = posLabel.filter(label => label.includes("cabpow"));
-    const cabdslExists = posLabel.filter(label => label.includes("cabdsl"));
-    const cabwanExists = posLabel.filter(label => label.includes("cabwan"));
+    const cabpowExists = filterByLabel("cabpow");
+    const cabdslExists = filterByLabel("cabdsl");
+    const cabwanExists = filterByLabel("cabwan");
 
     console.log(
       " lightoffCount: " +
@@ -97,7 +100,7 @@ const Yolo7modem = () => {
         cabpowExists
     );
 
-    console.log("0currentStep: " + currentStep);
+    console.log("currentStep: " + currentStep);
 
     
       if (indCount + lightoffCount >= 4) {
