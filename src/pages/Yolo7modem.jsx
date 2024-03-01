@@ -38,7 +38,95 @@ const Yolo7modem = () => {
     window.location.hash.replace("#", "")
   ).get("connection");
   const [currentStep, setCurrentStep] = useState(false);
-  const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
+  const [h2Text, setH2Text] = useState("Namiřte na ZADNÍ stranu modemu"); // Initialize correctly
+
+  const currentStepRef = useRef(currentStep)
+
+  useEffect(() => {
+    currentStepRef.current = currentStep;
+  }, [currentStep])
+
+  const processBackSide = ({
+    indCount,
+    lightoffCount,
+    cabpowExists,
+    portwanExists,
+    portdslExists,
+  }) => {
+    if (indCount + lightoffCount >= 4) {
+      setModemStatus("Otočte Modem na druhou stranu");
+      console.log("Front");
+    }
+
+    if (
+      connectionType === "DSL" &&
+      cabpowExists.length > 0 &&
+      portwanExists.length > 0
+    ) {
+      setModemStatus("Správné zapojení");
+      console.log("back");
+      enableNext(true);
+    }
+
+    if (
+      connectionType !== "DSL" &&
+      cabpowExists.length > 0 &&
+      portdslExists.length > 0
+    ) {
+      setModemStatus("Správné zapojení");
+      console.log("branch 0 nDSL");
+      enableNext(true);
+    }
+  };
+
+  const lightsToString = (trueValue, falseValue) => (posLabels) => {
+    return posLabels
+      .map(({ label }) => (label === "lightg" ? trueValue : falseValue))
+      .join("");
+  };
+  const toBinaryString = lightsToString("1", "0");
+  const toEmojiString = lightsToString("🟢", "⚫");
+
+  const processLights = (lights) => {
+    // if power on
+    if (lights[0].label === "lightg") {
+      binstr = toBinaryString(lights);
+      if (binstr === "111011" || binstr === "111100") {
+        setModemStatus("Spravné zapojení");
+        enableNext(true);
+      }
+    } else {
+      setModemStatus("Zapněte modem tlačítkem ON/OFF");
+    }
+  };
+  const processFrontSide = ({
+    lightoffCount,
+    portCount,
+    lightonCount,
+    lights,
+  }) => {
+    console.log("front");
+    if (lights.length === 6) {
+      setModemStatus(toEmojiString(lights));
+      processLights(lights);
+    } else {
+      if (lightoffCount >= 5) {
+        setModemStatus("Zapněte modem tlačítkem ON/OFF");
+        console.log("zapn");
+      }
+
+      if (portCount >= 4) {
+        console.log("back");
+        setModemStatus("Otočte Modem na DRUHOU stranu");
+      }
+
+      /* if (lightonCount >= 4) {
+      console.log("branch 1 on");
+      setModemStatus("Správné Zapojení");
+      console.log("hura");
+      enableNext(true); */
+    }
+  };
 
   const processDetections = (detections) => {
     const posLabels = detections.map((det) => {
@@ -69,7 +157,7 @@ const Yolo7modem = () => {
 
     const lightoffCount = filterByLabel("lightoff").length;
     const lightonCount = filterByLabel("lightg").length;
-    const lights = filterByLabel("light");
+    const lights = filterByLabelIncludes("light");
 
     const portpowExists = filterByLabel("portpow");
     const portdslExists = filterByLabel("portdsl");
@@ -95,49 +183,12 @@ const Yolo7modem = () => {
 
     console.table(data);
 
-    console.log("currentStep: " + currentStep);
+    console.log("currentStep: " + currentStepRef.current);
 
-    if (indCount + lightoffCount >= 4) {
-      // setModemStatus("Otočte Modem na druhou stranu");
-      console.log("Front");
-    }
-
-    if (
-      connectionType === "DSL" &&
-      cabpowExists.length > 0 &&
-      portwanExists.length > 0
-    ) {
-      setModemStatus("Správné zapojení");
-      console.log("back");
-      enableNext(true);
-    }
-
-    if (
-      connectionType !== "DSL" &&
-      cabpowExists.length > 0 &&
-      portdslExists.length > 0
-    ) {
-      setModemStatus("Správné zapojení");
-      console.log("branch 0 nDSL");
-      enableNext(true);
-    }
-
-    console.log("front");
-    if (lightoffCount >= 5) {
-      setModemStatus("Zapněte modem tlačítkem ON/OFF");
-      console.log("zapn");
-    }
-
-    if (portCount >= 4) {
-      console.log("back");
-      //setModemStatus("Otočte Modem na druhou stranu");
-    }
-
-    if (lightonCount >= 4) {
-      console.log("branch 1 on");
-      setModemStatus("Správné Zapojení");
-      console.log("hura");
-      enableNext(true);
+    if (!currentStepRef.current) {
+      processBackSide(data);
+    } else {
+      processFrontSide(data);
     }
   };
 
@@ -153,21 +204,20 @@ const Yolo7modem = () => {
       return img;
     });
 
-    await model.executeAsync(input).then((res) => {
-      res = res.arraySync()[0];
-      var detections = non_max_suppression(res);
-      const boxes = shortenedCol(detections, [0, 1, 2, 3]);
-      const scores = shortenedCol(detections, [4]);
-      const class_detect = shortenedCol(detections, [5]);
+    const modelRes = await model.executeAsync(input);
+    const res = modelRes.arraySync()[0];
+    const detections = non_max_suppression(res);
+    const boxes = shortenedCol(detections, [0, 1, 2, 3]);
+    const scores = shortenedCol(detections, [4]);
+    const class_detect = shortenedCol(detections, [5]);
 
-      processDetections(detections); // Always process detections for footer
-      console.log("detections");
-      if (debugMode) {
-        // Only render boxes if debug mode is enabled
-        renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
-      }
-      tf.dispose(res);
-    });
+    processDetections(detections); // Always process detections for footer
+    console.log("detections");
+    if (debugMode) {
+      // Only render boxes if debug mode is enabled
+      renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
+    }
+    tf.dispose(res);
 
     requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
@@ -189,7 +239,7 @@ const Yolo7modem = () => {
       setCurrentStep(true);
       console.log("Next");
       console.log("currentStep: " + currentStep);
-      setH2Text(["Namiřte na přední stranu modemu"]);
+      setH2Text("Namiřte na přední stranu modemu");
       enableNext(false);
     } else {
       window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
