@@ -16,8 +16,8 @@ import labels from "../utils/labels.json";
  */
 
 function shortenedCol(arrayofarray, indexlist) {
-  return arrayofarray.map(function(array) {
-    return indexlist.map(function(idx) {
+  return arrayofarray.map(function (array) {
+    return indexlist.map(function (idx) {
       return array[idx];
     });
   });
@@ -40,15 +40,15 @@ const Yolo7modem = () => {
   const [currentStep, setCurrentStep] = useState(false);
   const [h2Text, setH2Text] = useState("Namiřte na zadní stranu modemu"); // Initialize correctly
 
-  const processDetections = detections => {
-    const posLabels = detections.map(det => {
+  const processDetections = (detections) => {
+    const posLabels = detections.map((det) => {
       const label = labels[det[5]];
       const score = (det[4] * 100).toFixed(2);
       const pos = parseInt(det[0]);
       return {
         xPosition: pos,
-        label: label
-      }
+        label: label,
+      };
     });
 
     posLabels.sort((a, b) => a.xPosition - b.xPosition);
@@ -57,12 +57,16 @@ const Yolo7modem = () => {
     updateModemStatus(posLabels);
   };
 
-  const updateModemStatus = posLabels => {
-    const portCount = posLabels.filter(({label}) => label.includes("port")).length;
-    const indCount = posLabels.filter(({label}) => label.includes("ind")).length;
+  const updateModemStatus = (posLabels) => {
+    const filterByLabelIncludes = (filterLabel) =>
+      posLabels.filter(({ label }) => label.includes(filterLabel));
+    const filterByLabel = (filterLabel) =>
+      posLabels.filter(({ label }) => label === filterLabel);
 
-    const filterByLabel = (filterLabel) => posLabels.filter(({label}) => label === filterLabel)
-   
+    // There are multiple port and ind classes, we want to count them all
+    const portCount = filterByLabelIncludes("port").length;
+    const indCount = filterByLabelIncludes("ind").length;
+
     const lightoffCount = filterByLabel("lightoff").length;
     const lightonCount = filterByLabel("lightg").length;
     const lights = filterByLabel("light");
@@ -75,78 +79,69 @@ const Yolo7modem = () => {
     const cabdslExists = filterByLabel("cabdsl");
     const cabwanExists = filterByLabel("cabwan");
 
-    console.log(
-      " lightoffCount: " +
-        lightoffCount +
-        " portCount: " +
-        portCount +
-        " indCount: " +
-        indCount +
-        " lightonCount: " +
-        lightonCount +
-        " lights: " +
-        lights +
-        " portdslExists: " +
-        portdslExists +
-        " cabdslExists: " +
-        cabdslExists +
-        " cabwanExists: " +
-        cabwanExists +
-        " portpowExists: " +
-        portpowExists +
-        " porwanExists: " +
-        portwanExists +
-        " cabpowexists: " +
-        cabpowExists
-    );
+    const data = {
+      lightoffCount,
+      portCount,
+      indCount,
+      lightonCount,
+      lights,
+      portdslExists,
+      cabdslExists,
+      cabwanExists,
+      portpowExists,
+      portwanExists,
+      cabpowExists,
+    };
+
+    console.table(data);
 
     console.log("currentStep: " + currentStep);
 
-    
-      if (indCount + lightoffCount >= 4) {
-       // setModemStatus("Otočte Modem na druhou stranu");
-       console.log("Front");
-      }
+    if (indCount + lightoffCount >= 4) {
+      // setModemStatus("Otočte Modem na druhou stranu");
+      console.log("Front");
+    }
 
-      if (
-        connectionType === "DSL" &&
-        (cabpowExists.length > 0 && portwanExists.length > 0)
-      ) {
-        setModemStatus("Správné zapojení");
-        console.log("back");
-        enableNext(true);
-      }
-      
-      if (
-        connectionType !== "DSL" &&
-        (cabpowExists.length > 0 && portdslExists.length > 0)
-      ) {
-        setModemStatus("Správné zapojení");
-        console.log("branch 0 nDSL");
-        enableNext(true);
-      }
-  
-      console.log("front");
-      if (lightoffCount >= 5) {
-        setModemStatus("Zapněte modem tlačítkem ON/OFF");
-        console.log("zapn");
-      }
-      
-      if (portCount >= 4) {
-        console.log("back");
-        //setModemStatus("Otočte Modem na druhou stranu");
-      }
-      
-      if (lightonCount >= 4) {
-        console.log("branch 1 on");
-        setModemStatus("Správné Zapojení");
-        console.log("hura");
-        enableNext(true);
-      } 
-    
+    if (
+      connectionType === "DSL" &&
+      cabpowExists.length > 0 &&
+      portwanExists.length > 0
+    ) {
+      setModemStatus("Správné zapojení");
+      console.log("back");
+      enableNext(true);
+    }
+
+    if (
+      connectionType !== "DSL" &&
+      cabpowExists.length > 0 &&
+      portdslExists.length > 0
+    ) {
+      setModemStatus("Správné zapojení");
+      console.log("branch 0 nDSL");
+      enableNext(true);
+    }
+
+    console.log("front");
+    if (lightoffCount >= 5) {
+      setModemStatus("Zapněte modem tlačítkem ON/OFF");
+      console.log("zapn");
+    }
+
+    if (portCount >= 4) {
+      console.log("back");
+      //setModemStatus("Otočte Modem na druhou stranu");
+    }
+
+    if (lightonCount >= 4) {
+      console.log("branch 1 on");
+      setModemStatus("Správné Zapojení");
+      console.log("hura");
+      enableNext(true);
+    }
   };
 
-  const detectFrame = async model => {
+  const detectFrame = async (model) => {
     const model_dim = [640, 640];
     tf.engine().startScope();
     const input = tf.tidy(() => {
@@ -158,7 +153,7 @@ const Yolo7modem = () => {
       return img;
     });
 
-    await model.executeAsync(input).then(res => {
+    await model.executeAsync(input).then((res) => {
       res = res.arraySync()[0];
       var detections = non_max_suppression(res);
       const boxes = shortenedCol(detections, [0, 1, 2, 3]);
@@ -177,17 +172,18 @@ const Yolo7modem = () => {
     requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
   };
-  
+
   const handlePreviousClick = () => {
     if (!currentStep) {
       // Redirect when at step 0
       window.location.href = "/#page=4&connection=" + connectionType;
+      window.location.reload();
     } else {
       setCurrentStep(false);
       setH2Text("Namiřte na zadní stranu modemu");
     }
   };
-  
+
   const handleNextClick = () => {
     if (!currentStep) {
       setCurrentStep(true);
@@ -203,59 +199,54 @@ const Yolo7modem = () => {
   const toggleDebugMode = () => setDebugMode(!debugMode);
 
   useEffect(() => {
-    tf
-      .loadGraphModel(
-        `${window.location.origin}/${modelName}_web_model/model.json`,
-        {
-          onProgress: fractions =>
-            setLoading({ loading: true, progress: fractions })
-        }
-      )
-      .then(async yolov7 => {
-        const dummyInput = tf.ones(yolov7.inputs[0].shape);
-        await yolov7.executeAsync(dummyInput).then(warmupResult => {
-          tf.dispose(warmupResult);
-          tf.dispose(dummyInput);
+    tf.loadGraphModel(
+      `${window.location.origin}/${modelName}_web_model/model.json`,
+      {
+        onProgress: (fractions) =>
+          setLoading({ loading: true, progress: fractions }),
+      }
+    ).then(async (yolov7) => {
+      const dummyInput = tf.ones(yolov7.inputs[0].shape);
+      await yolov7.executeAsync(dummyInput).then((warmupResult) => {
+        tf.dispose(warmupResult);
+        tf.dispose(dummyInput);
 
-          setLoading({ loading: false, progress: 1 });
-          webcam.open(videoRef, () => detectFrame(yolov7));
-        });
+        setLoading({ loading: false, progress: 1 });
+        webcam.open(videoRef, () => detectFrame(yolov7));
       });
+    });
   }, []);
 
   return (
     <div className="App">
-      {loading.loading
-        ? <Loader>
-            Loading model... {(loading.progress * 100).toFixed(2)}%
-          </Loader>
-        : <div className="content">
-            <div className="header">
-              <h1>AI kontrola zapojení</h1>
-              <h2>
-                {h2Text}
-              </h2>
-              <h3>
-                {modemStatus}
-              </h3>
-            </div>
+      {loading.loading ? (
+        <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
+      ) : (
+        <div className="content">
+          <div className="header">
+            <h1>AI kontrola zapojení</h1>
+            <h2>{h2Text}</h2>
+            <h3>{modemStatus}</h3>
+          </div>
 
-            <video autoPlay playsInline muted ref={videoRef} id="frame" />
-            <canvas
-              height={640}
-              width={640}
-              ref={canvasRef}
-              style={{ display: debugMode ? "block" : "none" }}
-            />
-            {!next &&
-              <div className="wrapper">
-                <div className="spinner" />
-              </div>}
-            <footer>
-              <button onClick={handlePreviousClick}>Zpět</button>
-              {next && <button onClick={handleNextClick}>Pokračovat</button>}
-            </footer>
-          </div>}
+          <video autoPlay playsInline muted ref={videoRef} id="frame" />
+          <canvas
+            height={640}
+            width={640}
+            ref={canvasRef}
+            style={{ display: debugMode ? "block" : "none" }}
+          />
+          {!next && (
+            <div className="wrapper">
+              <div className="spinner" />
+            </div>
+          )}
+          <footer>
+            <button onClick={handlePreviousClick}>Zpět</button>
+            {next && <button onClick={handleNextClick}>Pokračovat</button>}
+          </footer>
+        </div>
+      )}
     </div>
   );
 };
