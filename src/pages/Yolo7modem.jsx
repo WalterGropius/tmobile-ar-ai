@@ -54,7 +54,7 @@ const Yolo7modem = () => {
     portdslExists,
   }) => {
     if (indCount + lightoffCount >= 4) {
-      setModemStatus("Otočte Modem na druhou stranu");
+      setModemStatus("Otočte Modem na DRUHOU stranu");
       console.log("Front");
     }
 
