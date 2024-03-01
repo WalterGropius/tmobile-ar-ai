@@ -240,7 +240,7 @@ const Yolo7modem = () => {
       setCurrentStep(true);
       console.log("Next");
       console.log("currentStep: " + currentStep);
-      setH2Text("Namiřte na přední stranu modemu");
+      setH2Text("Namiřte na PŘEDNÍ stranu modemu");
       setModemStatus("Analyzuji")
       enableNext(false);
     } else {
