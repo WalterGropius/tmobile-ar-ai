@@ -20,6 +20,10 @@ html {
   position: relative;
 }
 
+.yolo__modemLights {
+  font-size: 0.5em;
+}
+
 h1,
 h3 {
   padding: 1rem;

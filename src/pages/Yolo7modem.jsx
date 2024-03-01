@@ -90,7 +90,7 @@ const Yolo7modem = () => {
   const processLights = (lights) => {
     // if power on
     if (lights[0].label === "lightg") {
-      binstr = toBinaryString(lights);
+      const binstr = toBinaryString(lights);
       if (binstr === "111011" || binstr === "111100") {
         setModemStatus("Spravné zapojení");
         enableNext(true);
@@ -107,7 +107,7 @@ const Yolo7modem = () => {
   }) => {
     console.log("front");
     if (lights.length === 6) {
-      setModemStatus(toEmojiString(lights));
+      setModemStatus(<span className="yolo__modemLights">Detekovaný stav:<br/>{toEmojiString(lights)}</span>);
       processLights(lights);
     } else {
       if (lightoffCount >= 5) {
@@ -240,6 +240,7 @@ const Yolo7modem = () => {
       console.log("Next");
       console.log("currentStep: " + currentStep);
       setH2Text("Namiřte na přední stranu modemu");
+      setModemStatus("Analyzuji")
       enableNext(false);
     } else {
       window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
