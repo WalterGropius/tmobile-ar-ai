@@ -5,8 +5,6 @@ import ConnectionInfoPage from './pages/ConnectionInfoPage';
 import Yolo7modem from './pages/Yolo7modem';
 import ARViewer from './pages/ARViewer';
 import "./style/App.css";
-
-// Import the custom hook
 import useHash from './hooks/useHash';
 import Fin from './pages/Fin';
 
