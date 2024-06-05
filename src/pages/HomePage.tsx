@@ -1,9 +1,5 @@
-//page 1
-
-const HomePage = () => {
-  const navigateToConnectionType = () => {
-    window.location.hash = '#page=2';
-  };
+export const HomePage = () => {
+  const navigateToConnectionType = () => (window.location.hash = '#page=connectionType');
 
   return (
     <div className="page">
@@ -19,5 +15,3 @@ const HomePage = () => {
     </div>
   );
 };
-
-export default HomePage;

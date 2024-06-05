@@ -1,13 +1,11 @@
-//page 3
+import { useState, useEffect } from 'react';
+import { Page } from '../types/page';
 
-import React, { useState, useEffect } from 'react';
-
-const ConnectionInfoPage = () => {
+export const ConnectionInfoPage = () => {
   const [connectionType, setConnectionType] = useState('');
 
-  const navigate = (page, type) => {
+  const navigate = (page: Page, type: string) => {
     window.location.hash = `#page=${page}&connection=${type}`;
-    // location.reload();
   };
 
   useEffect(() => {
@@ -25,11 +23,9 @@ const ConnectionInfoPage = () => {
       <p>- kabel pro propojení {connectionType.toUpperCase()} zásuvky k modemu</p>
       <p>- zdrojový kabel pro připojení modemu do elektřiny</p>
       <div className="footer">
-        <button onClick={() => navigate(2, connectionType || 'DSL')}>Zpět</button>
-        <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button>
+        <button onClick={() => navigate('connectionType', connectionType || 'DSL')}>Zpět</button>
+        <button onClick={() => navigate('arViewer', connectionType || 'DSL')}>Pokračovat</button>
       </div>
     </div>
   );
 };
-
-export default ConnectionInfoPage;

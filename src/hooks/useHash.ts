@@ -1,21 +1,17 @@
-// src/hooks/useHash.jsx
 import { useState, useEffect } from 'react';
 
-export default function useHash() {
+export const useHash = (): string => {
   const [hash, setHash] = useState(window.location.hash);
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      setHash(window.location.hash);
-    };
+  const handleHashChange = () => setHash(window.location.hash);
 
+  useEffect(() => {
     window.addEventListener('hashchange', handleHashChange);
 
-    // Cleanup on component unmount
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
 
   return hash;
-}
+};

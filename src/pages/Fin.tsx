@@ -1,13 +1,11 @@
-//page 6
+import { useState, useEffect } from 'react';
+import { Page } from '../types/page';
 
-import React, { useState, useEffect } from 'react';
-
-const Fin = () => {
+export const Fin = () => {
   const [connectionType, setConnectionType] = useState('');
 
-  const navigate = (page, type) => {
+  const navigate = (page: Page, type: string) => {
     window.location.hash = `#page=${page}&connection=${type}`;
-    // location.reload();
   };
 
   useEffect(() => {
@@ -25,11 +23,8 @@ const Fin = () => {
       <p>pro zapnutí WIFI sítě a připojte se pomocí QR kodu na zadní straně modemu</p>
       <p>nebo přihlášením pomocí WEP údajů.</p>
       <div className="footer">
-        <button onClick={() => navigate(5, connectionType || 'DSL')}>Zpět</button>
-        {/*  <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button> */}
+        <button onClick={() => navigate('yolo7modem', connectionType || 'DSL')}>Zpět</button>
       </div>
     </div>
   );
 };
-
-export default Fin;

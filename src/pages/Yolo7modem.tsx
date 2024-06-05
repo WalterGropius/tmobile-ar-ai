@@ -1,34 +1,40 @@
-//page 5
-
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode } from 'react';
+import { non_max_suppression } from '../utils/nonMaxSuppression';
+import { renderBoxes } from '../utils/renderBox';
+import { Webcam } from '../utils/webcam';
+import { Loader } from '../components/Loader';
+import labels from '../utils/labels.json';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
-import Loader from '../components/loader';
-import { Webcam } from '../utils/webcam';
-import { renderBoxes } from '../utils/renderBox';
-import { non_max_suppression } from '../utils/nonMaxSuppression';
 
-import labels from '../utils/labels.json';
+type PosLabel = {
+  xPosition: number;
+  label: string;
+  score: string;
+};
 
-/**
- * Function to detect image.
- * @param {HTMLCanvasElement} canvasRef canvas reference
- */
+type Data = {
+  lightOffCount: number;
+  portCount: number;
+  indCount: number;
+  lightonCount: number;
+  lights: PosLabel[];
+  portDslExists: PosLabel[];
+  cabDslExists: PosLabel[];
+  cabWanExists: PosLabel[];
+  portPowExists: PosLabel[];
+  portWanExists: PosLabel[];
+  cabPowExists: PosLabel[];
+};
 
-function shortenedCol(arrayofarray, indexlist) {
-  return arrayofarray.map(function (array) {
-    return indexlist.map(function (idx) {
-      return array[idx];
-    });
-  });
-}
+const shortenedCol = (arrayofarray: unknown[], indexlist: unknown[]) =>
+  arrayofarray.map((array) => indexlist.map((idx) => array[idx]));
 
-const Yolo7modem = () => {
+export const Yolo7modem = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
-  const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
-  const [modemStatus, setModemStatus] = useState('Analyzuji'); // State for modem status
+  const [modemStatus, setModemStatus] = useState<ReactNode>('Analyzuji'); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
@@ -44,26 +50,26 @@ const Yolo7modem = () => {
     currentStepRef.current = currentStep;
   }, [currentStep]);
 
-  const processBackSide = ({ indCount, lightoffCount, cabpowExists, portwanExists, portdslExists }) => {
-    if (indCount + lightoffCount >= 4) {
+  const processBackSide = ({ indCount, lightOffCount, cabPowExists, portWanExists, portDslExists }: Data) => {
+    if (indCount + lightOffCount >= 4) {
       setModemStatus('Otočte Modem na DRUHOU stranu');
       console.log('Front');
     }
 
-    if (connectionType === 'DSL' && cabpowExists.length > 0 && portwanExists.length > 0) {
+    if (connectionType === 'DSL' && cabPowExists.length > 0 && portWanExists.length > 0) {
       setModemStatus('Správné zapojení');
       console.log('back');
       enableNext(true);
     }
 
-    if (connectionType !== 'DSL' && cabpowExists.length > 0 && portdslExists.length > 0) {
+    if (connectionType !== 'DSL' && cabPowExists.length > 0 && portDslExists.length > 0) {
       setModemStatus('Správné zapojení');
       console.log('branch 0 nDSL');
       enableNext(true);
     }
   };
 
-  const lightsToString = (trueValue, falseValue) => (posLabels) => {
+  const lightsToString = (trueValue: string, falseValue: string) => (posLabels) => {
     return posLabels.map(({ label }) => (label === 'lightg' ? trueValue : falseValue)).join('');
   };
   const toBinaryString = lightsToString('1', '0');
@@ -81,7 +87,7 @@ const Yolo7modem = () => {
       setModemStatus('Zapněte modem tlačítkem ON/OFF');
     }
   };
-  const processFrontSide = ({ lightoffCount, portCount, lightonCount, lights }) => {
+  const processFrontSide = ({ lightOffCount, portCount, lights }: Data) => {
     console.log('front');
     if (lights.length === 6) {
       setModemStatus(
@@ -93,7 +99,7 @@ const Yolo7modem = () => {
       );
       processLights(lights);
     } else {
-      if (lightoffCount >= 5) {
+      if (lightOffCount >= 5) {
         setModemStatus('Zapněte modem tlačítkem ON/OFF');
         console.log('zapn');
       }
@@ -104,59 +110,40 @@ const Yolo7modem = () => {
     }
   };
 
-  const processDetections = (detections) => {
-    const posLabels = detections.map((det) => {
-      const label = labels[det[5]];
-      const score = (det[4] * 100).toFixed(2);
-      const pos = parseInt(det[0]);
-      return {
-        xPosition: pos,
-        label: label,
-      };
-    });
+  const processDetections = (detections: unknown[][]) => {
+    const posLabels: PosLabel[] = detections.map(
+      (det: unknown[]): PosLabel => ({
+        xPosition: parseInt(det[0]),
+        label: labels[det[5]],
+        score: (det[4] * 100).toFixed(2),
+      })
+    );
 
-    posLabels.sort((a, b) => a.xPosition - b.xPosition);
-    setDetectedObjects(posLabels);
+    posLabels.sort((a: PosLabel, b: PosLabel): number => a.xPosition - b.xPosition);
     console.table(posLabels);
     updateModemStatus(posLabels);
   };
 
-  const updateModemStatus = (posLabels) => {
-    const filterByLabelIncludes = (filterLabel) => posLabels.filter(({ label }) => label.includes(filterLabel));
-    const filterByLabel = (filterLabel) => posLabels.filter(({ label }) => label === filterLabel);
+  const updateModemStatus = (posLabels: PosLabel[]) => {
+    const filterByLabelIncludes = (filterLabel: string) => posLabels.filter(({ label }) => label.includes(filterLabel));
+    const filterByLabel = (filterLabel: string) => posLabels.filter(({ label }) => label === filterLabel);
 
     // There are multiple port and ind classes, we want to count them all
-    const portCount = filterByLabelIncludes('port').length;
-    const indCount = filterByLabelIncludes('ind').length;
-
-    const lightoffCount = filterByLabel('lightoff').length;
-    const lightonCount = filterByLabel('lightg').length;
-    const lights = filterByLabelIncludes('light');
-
-    const portpowExists = filterByLabel('portpow');
-    const portdslExists = filterByLabel('portdsl');
-    const portwanExists = filterByLabel('portwan');
-
-    const cabpowExists = filterByLabel('cabpow');
-    const cabdslExists = filterByLabel('cabdsl');
-    const cabwanExists = filterByLabel('cabwan');
-
-    const data = {
-      lightoffCount,
-      portCount,
-      indCount,
-      lightonCount,
-      lights,
-      portdslExists,
-      cabdslExists,
-      cabwanExists,
-      portpowExists,
-      portwanExists,
-      cabpowExists,
+    const data: Data = {
+      lightOffCount: filterByLabel('lightoff').length,
+      portCount: filterByLabelIncludes('port').length,
+      indCount: filterByLabelIncludes('ind').length,
+      lightonCount: filterByLabel('lightg').length,
+      lights: filterByLabelIncludes('light'),
+      portDslExists: filterByLabel('portdsl'),
+      cabDslExists: filterByLabel('cabdsl'),
+      cabWanExists: filterByLabel('cabwan'),
+      portPowExists: filterByLabel('portpow'),
+      portWanExists: filterByLabel('portwan'),
+      cabPowExists: filterByLabel('cabpow'),
     };
 
     console.table(data);
-
     console.log('currentStep: ' + currentStepRef.current);
 
     if (!currentStepRef.current) {
@@ -167,16 +154,15 @@ const Yolo7modem = () => {
   };
 
   const detectFrame = async (model) => {
-    const model_dim = [640, 640];
     tf.engine().startScope();
-    const input = tf.tidy(() => {
-      const img = tf.image
-        .resizeBilinear(tf.browser.fromPixels(videoRef.current), model_dim)
+
+    const input = tf.tidy(() =>
+      tf.image
+        .resizeBilinear(tf.browser.fromPixels(videoRef.current), [640, 640])
         .div(255.0)
         .transpose([2, 0, 1])
-        .expandDims(0);
-      return img;
-    });
+        .expandDims(0)
+    );
 
     const modelRes = await model.executeAsync(input);
     const res = modelRes.arraySync()[0];
@@ -200,7 +186,7 @@ const Yolo7modem = () => {
   const handlePreviousClick = () => {
     if (!currentStep) {
       // Redirect when at step 0
-      window.location.href = '/#page=4&connection=' + connectionType;
+      window.location.href = '/#page=arViewer&connection=' + connectionType;
       window.location.reload();
     } else {
       setCurrentStep(false);
@@ -217,11 +203,9 @@ const Yolo7modem = () => {
       setModemStatus('Analyzuji');
       enableNext(false);
     } else {
-      window.location.href = '/#page=6'; //&connection=" + connectionType; // Replace as needed
+      window.location.href = '/#page=fin';
     }
   };
-
-  const toggleDebugMode = () => setDebugMode(!debugMode);
 
   useEffect(() => {
     tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
@@ -266,5 +250,3 @@ const Yolo7modem = () => {
     </div>
   );
 };
-
-export default Yolo7modem;

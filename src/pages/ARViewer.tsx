@@ -1,11 +1,9 @@
-//page 4
-
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
-import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'three';
 
-const ARViewer = ({ connectionType }) => {
+export const ARViewer = ({ connectionType }) => {
   const containerRef = useRef(null);
   const [initialized, setInitialized] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -140,7 +138,7 @@ const ARViewer = ({ connectionType }) => {
   const handlePreviousClick = () => {
     if (currentStep === 0) {
       // Redirect when at step 0
-      window.location.href = '/#page=3&connection=' + connectionType;
+      window.location.href = '/#page=connectionInfo&connection=' + connectionType;
       window.location.reload();
     } else {
       // Standard 'previous' behavior for other steps
@@ -176,7 +174,7 @@ const ARViewer = ({ connectionType }) => {
     if (currentStep === 2) {
       initPortPlane(portPlaneRef.current, currentStep + 1);
     } else if (currentStep === 3) {
-      window.location.href = '/#page=5&connection=' + connectionType; // Replace as needed
+      window.location.href = '/#page=yolo7modem&connection=' + connectionType; // Replace as needed
     }
   };
 
@@ -247,5 +245,3 @@ const ARViewer = ({ connectionType }) => {
     </div>
   );
 };
-
-export default ARViewer;

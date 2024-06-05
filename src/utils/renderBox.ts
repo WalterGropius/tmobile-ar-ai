@@ -1,14 +1,14 @@
 import labels from './labels.json';
 
-function xywh2xyxy(x) {
+const xywh2xyxy = (x) => {
   //Convert boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
-  var y = [];
+  let y = [];
   y[0] = x[0] - x[2] / 2; //top left x
   y[1] = x[1] - x[3] / 2; //top left y
   y[2] = x[0] + x[2] / 2; //bottom right x
   y[3] = x[1] + x[3] / 2; //bottom right y
   return y;
-}
+};
 
 export const renderBoxes = (canvasRef, threshold, boxes_data, scores_data, classes_data) => {
   const ctx = canvasRef.current.getContext('2d');
