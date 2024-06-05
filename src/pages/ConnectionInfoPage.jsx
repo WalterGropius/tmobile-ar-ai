@@ -7,7 +7,7 @@ const ConnectionInfoPage = () => {
 
   const navigate = (page, type) => {
     window.location.hash = `#page=${page}&connection=${type}`;
-   // location.reload();
+    // location.reload();
   };
 
   useEffect(() => {
@@ -24,9 +24,10 @@ const ConnectionInfoPage = () => {
       <p>- modem položený na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory</p>
       <p>- kabel pro propojení {connectionType.toUpperCase()} zásuvky k modemu</p>
       <p>- zdrojový kabel pro připojení modemu do elektřiny</p>
-<div className="footer">
-<button onClick={() => navigate(2, connectionType || 'DSL')}>Zpět</button>
-      <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button></div>
+      <div className="footer">
+        <button onClick={() => navigate(2, connectionType || 'DSL')}>Zpět</button>
+        <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button>
+      </div>
     </div>
   );
 };

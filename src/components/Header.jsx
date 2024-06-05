@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import "../style/App.css";
+import '../style/App.css';
+
 const Header = () => {
   const [pageTitle, setPageTitle] = useState('Introduction');
 

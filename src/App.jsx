@@ -4,7 +4,7 @@ import ConnectionTypePage from './pages/ConnectionTypePage';
 import ConnectionInfoPage from './pages/ConnectionInfoPage';
 import Yolo7modem from './pages/Yolo7modem';
 import ARViewer from './pages/ARViewer';
-import "./style/App.css";
+import './style/App.css';
 
 // Import the custom hook
 import useHash from './hooks/useHash';
@@ -27,28 +27,26 @@ const App = () => {
     setCurrentPage(page);
   }, [hash]);
 
-const renderPage = () => {
-  switch (currentPage) {
-    case 1:
-      return <HomePage />;
-    case 2:
-      return <ConnectionTypePage />;
-    case 3:
-      return <ConnectionInfoPage />;
-    case 4:
-      return <ARViewer connectionType={connectionType}/>;
-    case 5:
-      return <Yolo7modem/>;
-    case 6:
-      return <Fin/>;
-    default:
-      return <HomePage />;
-  }
-};
-
+  const renderPage = () => {
+    switch (currentPage) {
+      case 1:
+        return <HomePage />;
+      case 2:
+        return <ConnectionTypePage />;
+      case 3:
+        return <ConnectionInfoPage />;
+      case 4:
+        return <ARViewer connectionType={connectionType} />;
+      case 5:
+        return <Yolo7modem />;
+      case 6:
+        return <Fin />;
+      default:
+        return <HomePage />;
+    }
+  };
 
   return <div>{renderPage()}</div>;
 };
-
 
 export default App;

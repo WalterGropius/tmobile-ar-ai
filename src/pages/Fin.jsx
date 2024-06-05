@@ -7,7 +7,7 @@ const Fin = () => {
 
   const navigate = (page, type) => {
     window.location.hash = `#page=${page}&connection=${type}`;
-   // location.reload();
+    // location.reload();
   };
 
   useEffect(() => {
@@ -24,10 +24,10 @@ const Fin = () => {
       <p>pro připojení zapojte LAN kabel anebo stiskněte WIFI tlačítko</p>
       <p>pro zapnutí WIFI sítě a připojte se pomocí QR kodu na zadní straně modemu</p>
       <p>nebo přihlášením pomocí WEP údajů.</p>
-<div className="footer">
-<button onClick={() => navigate(5, connectionType || 'DSL')}>Zpět</button>
-     {/*  <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button> */}
-     </div>
+      <div className="footer">
+        <button onClick={() => navigate(5, connectionType || 'DSL')}>Zpět</button>
+        {/*  <button onClick={() => navigate(4, connectionType || 'DSL')}>Pokračovat</button> */}
+      </div>
     </div>
   );
 };

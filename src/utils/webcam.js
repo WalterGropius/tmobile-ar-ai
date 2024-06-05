@@ -13,7 +13,7 @@ export class Webcam {
         .getUserMedia({
           audio: false,
           video: {
-            facingMode: "environment",
+            facingMode: 'environment',
           },
         })
         .then((stream) => {
@@ -36,6 +36,6 @@ export class Webcam {
       window.localStream.getTracks().forEach((track) => {
         track.stop();
       });
-    } else alert("Please open Webcam first!");
+    } else alert('Please open Webcam first!');
   };
 }

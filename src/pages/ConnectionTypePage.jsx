@@ -1,6 +1,5 @@
 //page 2
 
-
 const CONNECTION_DESCRIPTIONS = {
   DSL: [
     `
@@ -9,7 +8,7 @@ const CONNECTION_DESCRIPTIONS = {
 
   Rychlost DSL připojení se pohybuje od několika Mbps do desítek Mbps a
   může klesat s větší vzdáleností od distribučního bodu.
-`
+`,
   ],
   OPTIC: [
     `
@@ -18,7 +17,7 @@ const CONNECTION_DESCRIPTIONS = {
 
           Vzhled optického kabelu je tenký a flexibilní, s vysokou odolností
           vůči elektromagnetickému rušení.
-  `
+  `,
   ],
   WAN: `
           Rychlost přenosu dat přes WAN kabely se liší podle použité technologie
@@ -26,7 +25,7 @@ const CONNECTION_DESCRIPTIONS = {
 
         WAN spojení se používá pro připojení na velké vzdálenosti, například
         mezi městy nebo kontinenty.
-`
+`,
 };
 
 const ConnectionTypePage = () => {
@@ -36,10 +35,7 @@ const ConnectionTypePage = () => {
   };
 
   // Retrieve the connection type from the URL hash
-  const connectionType = new URLSearchParams(
-    window.location.hash.replace("#", "")
-  ).get("connection");
-
+  const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
 
   return (
     <div>
@@ -47,25 +43,23 @@ const ConnectionTypePage = () => {
         <h1>Vyberte typ připojení</h1>
       </div>
       <div className="buttons">
-        <button onClick={() => navigate(2, "DSL")}>
+        <button onClick={() => navigate(2, 'DSL')}>
           <h2>DSL</h2>
         </button>
-        <button onClick={() => navigate(2, "OPTIC")}>
+        <button onClick={() => navigate(2, 'OPTIC')}>
           <h2>OPTIC</h2>
         </button>
-        <button onClick={() => navigate(2, "WAN")}>
+        <button onClick={() => navigate(2, 'WAN')}>
           <h2>WAN</h2>
         </button>
       </div>
-    <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
-      {connectionType ? <div className="footer">
-      <button onClick={() => navigate(1, connectionType || "DSL")}>
-          Zpět
-        </button>
-        <button onClick={() => navigate(3, connectionType || "DSL")}>
-          Pokračovat
-        </button>
-      </div> : null }
+      <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
+      {connectionType ? (
+        <div className="footer">
+          <button onClick={() => navigate(1, connectionType || 'DSL')}>Zpět</button>
+          <button onClick={() => navigate(3, connectionType || 'DSL')}>Pokračovat</button>
+        </div>
+      ) : null}
     </div>
   );
 };

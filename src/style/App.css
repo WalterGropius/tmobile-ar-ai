@@ -1,104 +1,103 @@
 @font-face {
-  font-family: "Tele Neo";
-  src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
+    font-family: "Tele Neo";
+    src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
 }
 
-body,
-html {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-
-  color: #ea0a8e;
-
-  font-family: "Tele Neo", sans-serif;
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #ea0a8e;
+    font-family: "Tele Neo", sans-serif;
 }
 
 .ARViewer__header {
-  background-color:  white;
-  z-index: 1000;
-  position: relative;
+    background-color: white;
+    z-index: 1000;
+    position: relative;
 }
 
 .yolo__modemLights {
-  font-size: 0.5em;
+    font-size: 0.5em;
 }
 
-h1,
-h3 {
-  padding: 1rem;
-  margin: 0;
-  font-size: 1.75rem;
+h1, h3 {
+    padding: 1rem;
+    margin: 0;
+    font-size: 1.75rem;
 }
 
 p {
-  padding: 1rem;
-  margin: 0;
-  font-size: 1.5rem;
+    padding: 1rem;
+    margin: 0;
+    font-size: 1.5rem;
 }
+
 button {
-  width: 17rem;
-  background-color: #ea0a8e; /* Green */
-  border: none;
-  font-family: "Tele Neo", sans-serif;
-  font-size: large;
-  color: white;
+    width: 17rem;
+    background-color: #ea0a8e;
+    border: none;
+    font-family: "Tele Neo", sans-serif;
+    font-size: large;
+    color: white;
 }
+
 .buttons {
-  margin-top: 5rem;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 50vh;
+    margin-top: 5rem;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
 }
 
 img {
-  width: 100vw;
+    width: 100vw;
 }
+
 .header {
-  margin: 0;
- /*  position: absolute;
-  top:0; */
-  padding: 0.25em 2em;
-  z-index: 1000000000;
+    margin: 0;
+    padding: 0.25em 2em;
+    z-index: 1000000000;
 }
 
 h2 {
-  margin: 0;
-  padding: 0.25em 0.8em;
-  font-size: 1.5em;
+    margin: 0;
+    padding: 0.25em 0.8em;
+    font-size: 1.5em;
 }
+
 .buttons h2 {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 h3 {
-  margin: 0;
-  padding: 1em 1.7em;
-  font-size: 1.5em;
-  color: #fff;
-  background-color: #ea0a8e;
+    margin: 0;
+    padding: 1em 1.7em;
+    font-size: 1.5em;
+    color: #fff;
+    background-color: #ea0a8e;
 }
 
 .lists {
-  display: flex; /* Allow the lists to be side-by-side */
-  flex-direction: row; /* Arrange the lists in a row */
-  justify-content: space-evenly;
+    display: flex; /* Allow the lists to be side-by-side */
+    flex-direction: row; /* Arrange the lists in a row */
+    justify-content: space-evenly;
 }
 
-
 footer, .footer {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  bottom: 0px;
-  width: 100vw;
-  z-index: 1000000000;
-  align-items: center;
-  justify-content: center;
-  button {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    bottom: 0;
+    width: 100vw;
+    z-index: 1000000000;
+    align-items: center;
+    justify-content: center;
+}
+
+footer, .footer button {
     font-size: 2em;
     padding: 0.5em 0;
     z-index: 1000000000;
@@ -107,37 +106,36 @@ footer, .footer {
     margin-left: auto;
     margin-right: auto;
     width: 100vw;
-  }
 }
 
 video {
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-  overflow: none;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    overflow: hidden;
 }
 
 .container {
-  color: #ea0a8e;
+    color: #ea0a8e;
 }
+
 canvas {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
-#frame{
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-  overflow: none;
-  
+#frame {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    overflow: hidden;
 }
 
-.analyzuji{
-  display: flex;
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000000;
+.analyzuji {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000;
 }

@@ -1,14 +1,14 @@
 //page 5
 
-import React, { useState, useEffect, useRef } from "react";
-import * as tf from "@tensorflow/tfjs";
-import "@tensorflow/tfjs-backend-webgl";
-import Loader from "../components/loader";
-import { Webcam } from "../utils/webcam";
-import { renderBoxes } from "../utils/renderBox";
-import { non_max_suppression } from "../utils/nonMaxSuppression";
+import React, { useState, useEffect, useRef } from 'react';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
+import Loader from '../components/loader';
+import { Webcam } from '../utils/webcam';
+import { renderBoxes } from '../utils/renderBox';
+import { non_max_suppression } from '../utils/nonMaxSuppression';
 
-import labels from "../utils/labels.json";
+import labels from '../utils/labels.json';
 
 /**
  * Function to detect image.
@@ -28,103 +28,79 @@ const Yolo7modem = () => {
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState([]); // State to store detected labels and scores
-  const [modemStatus, setModemStatus] = useState("Analyzuji"); // State for modem status
+  const [modemStatus, setModemStatus] = useState('Analyzuji'); // State for modem status
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const webcam = new Webcam();
-  const modelName = "modem";
+  const modelName = 'modem';
   const threshold = 0.6;
-  const connectionType = new URLSearchParams(
-    window.location.hash.replace("#", "")
-  ).get("connection");
+  const connectionType = new URLSearchParams(window.location.hash.replace('#', '')).get('connection');
   const [currentStep, setCurrentStep] = useState(false);
-  const [h2Text, setH2Text] = useState("Namiřte na ZADNÍ stranu modemu"); // Initialize correctly
+  const [h2Text, setH2Text] = useState('Namiřte na ZADNÍ stranu modemu'); // Initialize correctly
 
-  const currentStepRef = useRef(currentStep)
+  const currentStepRef = useRef(currentStep);
 
   useEffect(() => {
     currentStepRef.current = currentStep;
-  }, [currentStep])
+  }, [currentStep]);
 
-  const processBackSide = ({
-    indCount,
-    lightoffCount,
-    cabpowExists,
-    portwanExists,
-    portdslExists,
-  }) => {
+  const processBackSide = ({ indCount, lightoffCount, cabpowExists, portwanExists, portdslExists }) => {
     if (indCount + lightoffCount >= 4) {
-      setModemStatus("Otočte Modem na DRUHOU stranu");
-      console.log("Front");
+      setModemStatus('Otočte Modem na DRUHOU stranu');
+      console.log('Front');
     }
 
-    if (
-      connectionType === "DSL" &&
-      cabpowExists.length > 0 &&
-      portwanExists.length > 0
-    ) {
-      setModemStatus("Správné zapojení");
-      console.log("back");
+    if (connectionType === 'DSL' && cabpowExists.length > 0 && portwanExists.length > 0) {
+      setModemStatus('Správné zapojení');
+      console.log('back');
       enableNext(true);
     }
 
-    if (
-      connectionType !== "DSL" &&
-      cabpowExists.length > 0 &&
-      portdslExists.length > 0
-    ) {
-      setModemStatus("Správné zapojení");
-      console.log("branch 0 nDSL");
+    if (connectionType !== 'DSL' && cabpowExists.length > 0 && portdslExists.length > 0) {
+      setModemStatus('Správné zapojení');
+      console.log('branch 0 nDSL');
       enableNext(true);
     }
   };
 
   const lightsToString = (trueValue, falseValue) => (posLabels) => {
-    return posLabels
-      .map(({ label }) => (label === "lightg" ? trueValue : falseValue))
-      .join("");
+    return posLabels.map(({ label }) => (label === 'lightg' ? trueValue : falseValue)).join('');
   };
-  const toBinaryString = lightsToString("1", "0");
-  const toEmojiString = lightsToString("🟢", "⚫");
+  const toBinaryString = lightsToString('1', '0');
+  const toEmojiString = lightsToString('🟢', '⚫');
 
   const processLights = (lights) => {
     // if power on
-    if (lights[0].label === "lightg") {
+    if (lights[0].label === 'lightg') {
       const binstr = toBinaryString(lights);
-      if (binstr === "111011" || binstr === "111100") {
-        setModemStatus("Spravné zapojení");
+      if (binstr === '111011' || binstr === '111100') {
+        setModemStatus('Spravné zapojení');
         enableNext(true);
       }
     } else {
-      setModemStatus("Zapněte modem tlačítkem ON/OFF");
+      setModemStatus('Zapněte modem tlačítkem ON/OFF');
     }
   };
-  const processFrontSide = ({
-    lightoffCount,
-    portCount,
-    lightonCount,
-    lights,
-  }) => {
-    console.log("front");
+  const processFrontSide = ({ lightoffCount, portCount, lightonCount, lights }) => {
+    console.log('front');
     if (lights.length === 6) {
-      setModemStatus(<span className="yolo__modemLights">Detekovaný stav:<br/>{toEmojiString(lights)}</span>);
+      setModemStatus(
+        <span className="yolo__modemLights">
+          Detekovaný stav:
+          <br />
+          {toEmojiString(lights)}
+        </span>
+      );
       processLights(lights);
     } else {
       if (lightoffCount >= 5) {
-        setModemStatus("Zapněte modem tlačítkem ON/OFF");
-        console.log("zapn");
+        setModemStatus('Zapněte modem tlačítkem ON/OFF');
+        console.log('zapn');
       }
-
       if (portCount >= 4) {
-        console.log("back");
-        setModemStatus("Otočte Modem na DRUHOU stranu");
+        console.log('back');
+        setModemStatus('Otočte Modem na DRUHOU stranu');
       }
-
-      /* if (lightonCount >= 4) {
-      console.log("branch 1 on");
-      setModemStatus("Správné Zapojení");
-      console.log("hura");
-      enableNext(true); */
     }
   };
 
@@ -146,28 +122,25 @@ const Yolo7modem = () => {
   };
 
   const updateModemStatus = (posLabels) => {
-    const filterByLabelIncludes = (filterLabel) =>
-      posLabels.filter(({ label }) => label.includes(filterLabel));
-    const filterByLabel = (filterLabel) =>
-      posLabels.filter(({ label }) => label === filterLabel);
+    const filterByLabelIncludes = (filterLabel) => posLabels.filter(({ label }) => label.includes(filterLabel));
+    const filterByLabel = (filterLabel) => posLabels.filter(({ label }) => label === filterLabel);
 
     // There are multiple port and ind classes, we want to count them all
-    const portCount = filterByLabelIncludes("port").length;
-    const indCount = filterByLabelIncludes("ind").length;
+    const portCount = filterByLabelIncludes('port').length;
+    const indCount = filterByLabelIncludes('ind').length;
 
-    const lightoffCount = filterByLabel("lightoff").length;
-    const lightonCount = filterByLabel("lightg").length;
-    const lights = filterByLabelIncludes("light");
+    const lightoffCount = filterByLabel('lightoff').length;
+    const lightonCount = filterByLabel('lightg').length;
+    const lights = filterByLabelIncludes('light');
 
-    const portpowExists = filterByLabel("portpow");
-    const portdslExists = filterByLabel("portdsl");
-    const portwanExists = filterByLabel("portwan");
+    const portpowExists = filterByLabel('portpow');
+    const portdslExists = filterByLabel('portdsl');
+    const portwanExists = filterByLabel('portwan');
 
-    const cabpowExists = filterByLabel("cabpow");
-    const cabdslExists = filterByLabel("cabdsl");
-    const cabwanExists = filterByLabel("cabwan");
+    const cabpowExists = filterByLabel('cabpow');
+    const cabdslExists = filterByLabel('cabdsl');
+    const cabwanExists = filterByLabel('cabwan');
 
-    
     const data = {
       lightoffCount,
       portCount,
@@ -184,7 +157,7 @@ const Yolo7modem = () => {
 
     console.table(data);
 
-    console.log("currentStep: " + currentStepRef.current);
+    console.log('currentStep: ' + currentStepRef.current);
 
     if (!currentStepRef.current) {
       processBackSide(data);
@@ -213,7 +186,7 @@ const Yolo7modem = () => {
     const class_detect = shortenedCol(detections, [5]);
 
     processDetections(detections); // Always process detections for footer
-    console.log("detections");
+    console.log('detections');
     if (debugMode) {
       // Only render boxes if debug mode is enabled
       renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
@@ -227,37 +200,33 @@ const Yolo7modem = () => {
   const handlePreviousClick = () => {
     if (!currentStep) {
       // Redirect when at step 0
-      window.location.href = "/#page=4&connection=" + connectionType;
+      window.location.href = '/#page=4&connection=' + connectionType;
       window.location.reload();
     } else {
       setCurrentStep(false);
-      setH2Text("Namiřte na zadní stranu modemu");
+      setH2Text('Namiřte na zadní stranu modemu');
     }
   };
 
   const handleNextClick = () => {
     if (!currentStep) {
       setCurrentStep(true);
-      console.log("Next");
-      console.log("currentStep: " + currentStep);
-      setH2Text("Namiřte na PŘEDNÍ stranu modemu");
-      setModemStatus("Analyzuji")
+      console.log('Next');
+      console.log('currentStep: ' + currentStep);
+      setH2Text('Namiřte na PŘEDNÍ stranu modemu');
+      setModemStatus('Analyzuji');
       enableNext(false);
     } else {
-      window.location.href = "/#page=6"; //&connection=" + connectionType; // Replace as needed
+      window.location.href = '/#page=6'; //&connection=" + connectionType; // Replace as needed
     }
   };
 
   const toggleDebugMode = () => setDebugMode(!debugMode);
 
   useEffect(() => {
-    tf.loadGraphModel(
-      `${window.location.origin}/${modelName}_web_model/model.json`,
-      {
-        onProgress: (fractions) =>
-          setLoading({ loading: true, progress: fractions }),
-      }
-    ).then(async (yolov7) => {
+    tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
+      onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
+    }).then(async (yolov7) => {
       const dummyInput = tf.ones(yolov7.inputs[0].shape);
       await yolov7.executeAsync(dummyInput).then((warmupResult) => {
         tf.dispose(warmupResult);
@@ -282,12 +251,7 @@ const Yolo7modem = () => {
           </div>
 
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
-          <canvas
-            height={640}
-            width={640}
-            ref={canvasRef}
-            style={{ display: debugMode ? "block" : "none" }}
-          />
+          <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? 'block' : 'none' }} />
           {!next && (
             <div className="wrapper">
               <div className="spinner" />
