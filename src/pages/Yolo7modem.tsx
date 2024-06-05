@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, ReactNode } from 'react';
 import { non_max_suppression } from '../utils/nonMaxSuppression';
+import { HeaderTitle } from '../components/HeaderTitle';
 import { renderBoxes } from '../utils/renderBox';
 import { Webcam } from '../utils/webcam';
 import { Loader } from '../components/Loader';
@@ -228,11 +229,11 @@ export const Yolo7modem = () => {
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
       ) : (
         <div className="content">
-          <div className="header">
+          <HeaderTitle>
             <h1>AI kontrola zapojení</h1>
             <h2>{h2Text}</h2>
             <h3>{modemStatus}</h3>
-          </div>
+          </HeaderTitle>
 
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? 'block' : 'none' }} />

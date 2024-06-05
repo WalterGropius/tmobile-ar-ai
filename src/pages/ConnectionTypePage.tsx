@@ -1,38 +1,47 @@
 import { CONNECTION_DESCRIPTIONS, ConnectionType } from '../types/connection';
-import { Page } from '../types/page';
+import { Link, useLocation } from 'react-router-dom';
+import { HeaderTitle } from '../components/HeaderTitle';
+import { Box, Button } from '@mui/material';
 
 export const ConnectionTypePage = () => {
-  const navigate = (page: Page, type: ConnectionType) => {
-    window.location.hash = `#page=${page}&connection=${type}`;
-  };
+  const location = useLocation();
 
-  // Retrieve the connection type from the URL hash
-  const connectionType = (new URLSearchParams(window.location.hash.replace('#', '')).get('connection') ||
-    '') as ConnectionType;
+  const queryParams = new URLSearchParams(location.search);
+  const connectionType = (queryParams.get('connection') || '') as ConnectionType;
 
   return (
-    <div>
-      <div className="header">
+    <Box>
+      <HeaderTitle>
         <h1>Vyberte typ připojení</h1>
-      </div>
-      <div className="buttons">
-        <button onClick={() => navigate('connectionType', 'DSL')}>
-          <h2>DSL</h2>
-        </button>
-        <button onClick={() => navigate('connectionType', 'OPTIC')}>
-          <h2>OPTIC</h2>
-        </button>
-        <button onClick={() => navigate('connectionType', 'WAN')}>
-          <h2>WAN</h2>
-        </button>
-      </div>
+      </HeaderTitle>
+      <Box className="buttons">
+        <Link to="/connection-type?connection=DSL">
+          <Button variant="contained">
+            <h2>DSL</h2>
+          </Button>
+        </Link>
+        <Link to="/connection-type?connection=OPTIC">
+          <Button variant="contained">
+            <h2>OPTIC</h2>
+          </Button>
+        </Link>
+        <Link to="/connection-type?connection=WAN">
+          <Button variant="contained">
+            <h2>WAN</h2>
+          </Button>
+        </Link>
+      </Box>
       <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
       {connectionType ? (
-        <div className="footer">
-          <button onClick={() => navigate('home', connectionType || 'DSL')}>Zpět</button>
-          <button onClick={() => navigate('connectionInfo', connectionType || 'DSL')}>Pokračovat</button>
-        </div>
+        <Box className="footer">
+          <Link to={`/home?connection=${connectionType}`}>
+            <Button variant="outlined">Zpět</Button>
+          </Link>
+          <Link to={`/connection-info?connection=${connectionType}`}>
+            <Button variant="contained">Pokračovat</Button>
+          </Link>
+        </Box>
       ) : null}
-    </div>
+    </Box>
   );
 };

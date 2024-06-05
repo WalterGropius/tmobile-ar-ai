@@ -16,7 +16,7 @@ export const ConnectionInfoPage = () => {
   }, [window.location.hash]);
 
   return (
-    <div className="page">
+    <div>
       <h1>Základní instrukce pro instalaci {connectionType.toUpperCase()} připojení</h1>
       <h2>Pro úspěšnou instalaci je potřeba následující:</h2>
       <p>- modem položený na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory</p>

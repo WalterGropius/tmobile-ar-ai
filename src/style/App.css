@@ -55,12 +55,6 @@ img {
     width: 100vw;
 }
 
-.header {
-    margin: 0;
-    padding: 0.25em 2em;
-    z-index: 1000000000;
-}
-
 h2 {
     margin: 0;
     padding: 0.25em 0.8em;

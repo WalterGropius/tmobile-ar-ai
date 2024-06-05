@@ -16,7 +16,7 @@ export const Fin = () => {
   }, [window.location.hash]);
 
   return (
-    <div className="page">
+    <div>
       <h1>Gratulujeme</h1>
       <h2>Modem byl úspěšně zapojen</h2>
       <p>pro připojení zapojte LAN kabel anebo stiskněte WIFI tlačítko</p>
