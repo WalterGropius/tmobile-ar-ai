@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
-import { PAGE_BY_TYPE } from '../Router';
 import { Page } from '../types/page';
 import '../style/App.css';
+
+const PAGE_BY_TYPE: Partial<Record<Page, string>> = {
+  home: 'AR Manuál pro modem Zyxel',
+  connectionType: 'Vyberte typ připojení',
+  connectionInfo: 'Info o připojení',
+};
 
 export const Header = () => {
   const [pageTitle, setPageTitle] = useState('Introduction');
@@ -11,7 +16,7 @@ export const Header = () => {
     const params = new URLSearchParams(hash.replace('#', ''));
     const page = (params.get('page') || '') as Page;
 
-    setPageTitle(PAGE_BY_TYPE[page].title || 'AR Manuál');
+    setPageTitle(PAGE_BY_TYPE[page] || 'AR Manuál');
   }, [window.location.hash]);
 
   return (

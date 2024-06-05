@@ -1,13 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { FC } from 'react';
 
-type Props = {
-  page: string;
-};
+export const Error404: FC = () => {
+  const location = useLocation();
 
-export const Error404: FC<Props> = ({ page }) => (
-  <Box sx={{ m: 2 }}>
-    <h1>Error 404</h1>
-    <p>Route "{page || '/'}" does not exist.</p>
-  </Box>
-);
+  return (
+    <Box sx={{ m: 2 }}>
+      <h1>Error 404</h1>
+      <p>Route "{location.pathname}" does not exist.</p>
+    </Box>
+  );
+};

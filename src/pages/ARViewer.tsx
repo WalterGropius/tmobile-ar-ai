@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
-export const ARViewer = ({ connectionType }) => {
+export const ARViewer: FC = () => {
+  const connectionType = 'TODO'; // TODO
+
   const containerRef = useRef(null);
   const [initialized, setInitialized] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -168,7 +170,7 @@ export const ARViewer = ({ connectionType }) => {
           'Zapojte zdrojový kabel do označené zdířky',
           'Zapojte kabel ' + connectionType + ' do označené zdířky',
         ][currentStep + 1]
-      ); // Update h2Text
+      );
     }
 
     if (currentStep === 2) {
@@ -201,31 +203,17 @@ export const ARViewer = ({ connectionType }) => {
           <div>
             <div className="info lists">
               <ol className="list-1" type="1">
-                {/* <li>1.ON/OFF: zapnutí/vypnutí modemu</li>
-              <li>2.RESET: obnovení továrního nastavení</li>
-              <li>3.POWER: napájecí zdroj</li>
-              <li>4.USB: USB port (např. externí disk)</li> */}
                 <li>ON/OFF</li>
                 <li>RESET</li>
                 <li>POWER</li>
                 <li>USB</li>
               </ol>
               <ol className="list-2" type="1" start="5">
-                {/* <li>
-                5.LAN1 – LAN4: připojení koncového zařízení (např. k počítači,
-                set-top boxu, televizi)
-              </li>
-              <li>6.WAN: připojení k internetové zásuvce</li>
-              <li>7.DSL: připojení k telefonní zásuvce</li> */}
                 <li>LAN</li>
                 <li>WAN</li>
                 <li>DSL</li>
               </ol>
               <ol type="1" start="8">
-                {/* <li>8.WIFI ON/OFF: zapnutí/vypnutí Wi-Fi</li>
-              <li>9.WPS: spárování zařízení</li>
-              <li>10.Údaje k modemu</li>
-              <li>11.Otvory zavěšení modemu</li> */}
                 <li>WIFI ON/OFF</li>
                 <li>WPS</li>
                 <li>Info</li>

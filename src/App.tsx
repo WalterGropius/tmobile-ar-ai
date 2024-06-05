@@ -1,25 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useHash } from './hooks/useHash';
-import { Router } from './Router';
-import { Page } from './types/page';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { ConnectionInfoPage } from './pages/ConnectionInfoPage';
+import { ConnectionTypePage } from './pages/ConnectionTypePage';
+import { Yolo7modem } from './pages/Yolo7modem';
+import { Error404 } from './pages/Error404';
+import { ARViewer } from './pages/ARViewer';
+import { HomePage } from './pages/HomePage';
+import { Fin } from './pages/Fin';
 import './style/App.css';
 
-export const App = () => {
-  const hash = useHash(); // Use the custom hook
-  const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [connectionType, setConnectionType] = useState('');
-
-  useEffect(() => {
-    const params = new URLSearchParams(hash.replace('#', ''));
-    const page = params.get('page') || '';
-    const connection = params.get('connection');
-
-    if (connection) {
-      setConnectionType(connection);
-    }
-
-    setCurrentPage(page as Page); // TODO
-  }, [hash]);
-
-  return <Router page={currentPage || 'home'} />;
-};
+export const App = () => (
+  <HashRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/connectionType" element={<ConnectionTypePage />} />
+      <Route path="/connectionInfo" element={<ConnectionInfoPage />} />
+      <Route path="/arViewer" element={<ARViewer />} />
+      <Route path="/yolo7modem" element={<Yolo7modem />} />
+      <Route path="/fin" element={<Fin />} />
+      <Route path="*" element={<Error404 />} />
+    </Routes>
+  </HashRouter>
+);
