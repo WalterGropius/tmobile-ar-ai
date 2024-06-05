@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Page } from '../types/page';
+import { Box, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Footer } from '../components/Footer';
 
 export const ConnectionInfoPage = () => {
   const [connectionType, setConnectionType] = useState('');
@@ -16,16 +19,20 @@ export const ConnectionInfoPage = () => {
   }, [window.location.hash]);
 
   return (
-    <div>
+    <Box>
       <h1>Základní instrukce pro instalaci {connectionType.toUpperCase()} připojení</h1>
       <h2>Pro úspěšnou instalaci je potřeba následující:</h2>
       <p>- modem položený na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory</p>
       <p>- kabel pro propojení {connectionType.toUpperCase()} zásuvky k modemu</p>
-      <p>- zdrojový kabel pro připojení modemu do elektřiny</p>
-      <div className="footer">
-        <button onClick={() => navigate('connectionType', connectionType || 'DSL')}>Zpět</button>
-        <button onClick={() => navigate('arViewer', connectionType || 'DSL')}>Pokračovat</button>
-      </div>
-    </div>
+      <p>- zdrojov kabel pro připojení modemu do elektřiny</p>
+      <Footer>
+        <Link to={`/connection-type?connection=${connectionType || 'DSL'}`}>
+          <Button>Zpět</Button>
+        </Link>
+        <Link to={`/ar-viewer?connection=${connectionType || 'DSL'}`}>
+          <Button>Pokračovat</Button>
+        </Link>
+      </Footer>
+    </Box>
   );
 };

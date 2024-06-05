@@ -2,6 +2,7 @@ import { CONNECTION_DESCRIPTIONS, ConnectionType } from '../types/connection';
 import { Link, useLocation } from 'react-router-dom';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { Box, Button } from '@mui/material';
+import { Footer } from '../components/Footer';
 
 export const ConnectionTypePage = () => {
   const location = useLocation();
@@ -33,14 +34,14 @@ export const ConnectionTypePage = () => {
       </Box>
       <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
       {connectionType ? (
-        <Box className="footer">
+        <Footer>
           <Link to={`/home?connection=${connectionType}`}>
             <Button variant="outlined">Zpět</Button>
           </Link>
           <Link to={`/connection-info?connection=${connectionType}`}>
             <Button variant="contained">Pokračovat</Button>
           </Link>
-        </Box>
+        </Footer>
       ) : null}
     </Box>
   );

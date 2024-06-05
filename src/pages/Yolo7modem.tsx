@@ -7,6 +7,7 @@ import { Loader } from '../components/Loader';
 import labels from '../utils/labels.json';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
+import { Footer } from '../components/Footer';
 
 type PosLabel = {
   xPosition: number;
@@ -242,10 +243,10 @@ export const Yolo7modem = () => {
               <div className="spinner" />
             </div>
           )}
-          <footer>
+          <Footer>
             <button onClick={handlePreviousClick}>Zpět</button>
             {next && <button onClick={handleNextClick}>Pokračovat</button>}
-          </footer>
+          </Footer>
         </div>
       )}
     </div>

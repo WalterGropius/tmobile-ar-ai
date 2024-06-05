@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
+import { Footer } from '../components/Footer';
 
 export const ARViewer: FC = () => {
   const connectionType = 'TODO'; // TODO
@@ -225,10 +226,10 @@ export const ARViewer: FC = () => {
       </div>
       <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
       {currentStep < 4 && (
-        <footer>
+        <Footer>
           <button onClick={handlePreviousClick}>Zpět</button>
           <button onClick={handleNextClick}>Pokračovat</button>
-        </footer>
+        </Footer>
       )}
     </div>
   );

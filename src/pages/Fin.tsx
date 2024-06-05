@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Page } from '../types/page';
+import { Footer } from '../components/Footer';
+import { Link } from 'react-router-dom';
+import { Button, Box } from '@mui/material';
 
 export const Fin = () => {
   const [connectionType, setConnectionType] = useState('');
-
-  const navigate = (page: Page, type: string) => {
-    window.location.hash = `#page=${page}&connection=${type}`;
-  };
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -16,15 +14,17 @@ export const Fin = () => {
   }, [window.location.hash]);
 
   return (
-    <div>
+    <Box>
       <h1>Gratulujeme</h1>
       <h2>Modem byl úspěšně zapojen</h2>
       <p>pro připojení zapojte LAN kabel anebo stiskněte WIFI tlačítko</p>
       <p>pro zapnutí WIFI sítě a připojte se pomocí QR kodu na zadní straně modemu</p>
-      <p>nebo přihlášením pomocí WEP údajů.</p>
-      <div className="footer">
-        <button onClick={() => navigate('yolo7modem', connectionType || 'DSL')}>Zpět</button>
-      </div>
-    </div>
+      <p>nebo přihlášením pomocí WEP dajů.</p>
+      <Footer>
+        <Link to={`/yolo-7-modem?connection=${connectionType || 'DSL'}`}>
+          <Button variant="contained">Zpět</Button>
+        </Link>
+      </Footer>
+    </Box>
   );
 };
