@@ -16,21 +16,13 @@ export const ConnectionTypePage = () => {
         <h1>Vyberte typ připojení</h1>
       </HeaderTitle>
       <Box className="buttons">
-        <Link to="/connection-type?connection=DSL">
-          <Button variant="contained">
-            <h2>DSL</h2>
-          </Button>
-        </Link>
-        <Link to="/connection-type?connection=OPTIC">
-          <Button variant="contained">
-            <h2>OPTIC</h2>
-          </Button>
-        </Link>
-        <Link to="/connection-type?connection=WAN">
-          <Button variant="contained">
-            <h2>WAN</h2>
-          </Button>
-        </Link>
+        {['DSL', 'OPTIC', 'WAN'].map((connection) => (
+          <Link key={connection} to={`/connection-type?connection=${connection}`}>
+            <Button variant="contained">
+              <h2>{connection}</h2>
+            </Button>
+          </Link>
+        ))}
       </Box>
       <p>{CONNECTION_DESCRIPTIONS[connectionType]}</p>
       {connectionType ? (
