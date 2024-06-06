@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { LightIndicator } from '../ui/LightIndicator';
 import { ColorGrid } from '../documentation/ColorGrid';
 import { Card } from '../ui/Card';
@@ -11,6 +11,13 @@ export const Documentation = () => {
         <h2>Color</h2>
         <ColorGrid />
         <h2>Components</h2>
+        <h3>Button</h3>
+        <Card title="Primary contained">
+          <Button variant="contained">Pokračovat</Button>
+        </Card>
+        <Card title="Secondary outlined">
+          <Button variant="outlined">Zpět</Button>
+        </Card>
         <h3>Status list</h3>
         <Card title="No status">
           <LightIndicator statusList={[]} />
