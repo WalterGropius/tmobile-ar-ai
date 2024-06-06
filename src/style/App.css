@@ -6,9 +6,12 @@
 body, html {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     color: #ea0a8e;
     font-family: "Tele Neo", sans-serif;
+}
+
+.no-scroll {
+    overflow: hidden;
 }
 
 .ARViewer__header {
