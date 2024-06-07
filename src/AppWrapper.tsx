@@ -15,6 +15,7 @@ const theme = createTheme({
     text: { primary: Color.black, secondary: Color.black },
   },
   typography: {
+    h2: { fontWeight: 700, color: Color.black },
     h1: { fontWeight: 700, fontSize: '1.5rem' },
     h4: { fontWeight: 700, fontSize: '1.2rem' },
     subtitle1: { fontSize: '1.2rem' },
@@ -30,7 +31,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: '1rem',
-          color: Color.magenta,
+          color: Color.black,
           borderColor: Color.magenta,
           textTransform: 'none',
           border: `1px solid transparent`,
@@ -40,6 +41,11 @@ const theme = createTheme({
           background: Color.magenta,
           color: Color.white,
           ':hover': { background: Color.white, color: Color.magenta },
+        },
+        outlined: {
+          color: Color.magenta,
+          borderColor: Color.magenta,
+          ':hover': { background: Color.magenta, color: Color.white, border: `1px solid ${Color.magenta}` },
         },
       },
     },

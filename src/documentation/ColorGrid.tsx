@@ -14,7 +14,7 @@ export const ColorGrid: FC = () => (
             padding: '.25em .75em',
             borderTopLeftRadius: '.25rem',
             borderTopRightRadius: '.25rem',
-            borderBottom: `1px solid ${Color.magentaDark}`,
+            borderBottom: `1px solid ${Color.black}`,
           }}
         >
           <Box>

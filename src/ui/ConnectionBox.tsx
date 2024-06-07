@@ -16,12 +16,13 @@ export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSr
     sx={{
       background: Color.lightGrey,
       backgroundImage: `url(${imageSrc})`,
-      backgroundPosition: 'calc(100% + 20%) calc(100% + 20%)',
+      backgroundPosition: 'calc(100% + 20%) calc(100% )',
       backgroundRepeat: 'no-repeat',
       color: Color.black,
       borderRadius: '.8em',
       boxShadow: '0 4px 8px rgba(0, 0, 0, .1)',
       padding: 3,
+      my: 3,
     }}
   >
     <Typography variant="h4">{title}</Typography>

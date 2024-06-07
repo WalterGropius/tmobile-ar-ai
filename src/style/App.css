@@ -6,7 +6,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    color: #ea0a8e;
+    color: #000000;
     font-family: "Tele Neo", sans-serif;
 }
 
@@ -60,7 +60,7 @@ img {
 
 h2 {
     margin: 0;
-    padding: 0.25em 0.8em;
+    padding: 0;
     font-size: 1.5em;
 }
 
