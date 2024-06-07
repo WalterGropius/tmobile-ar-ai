@@ -36,7 +36,7 @@ export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSr
         <InfoButton />
         <SelectButton>Vybrat</SelectButton>
       </Box>
-      <ImgBox src={imageSrc} alt={imageAlt} width="100px" height="100px" />
+      <ImgBox src={imageSrc} alt={imageAlt} width="100px" height="100px"  />
     </Box>
   );
 };

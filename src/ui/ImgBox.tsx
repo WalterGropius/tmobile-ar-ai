@@ -18,6 +18,7 @@ export const ImgBox: FC<ImgboxProps> = ({ src, alt, width = '100%', height = 'au
         width,
         height,
         borderRadius: '8px',
+        textAlign: 'left',
       }}
     />
   );

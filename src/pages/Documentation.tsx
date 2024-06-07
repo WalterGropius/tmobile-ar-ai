@@ -74,7 +74,7 @@ export const Documentation = () => {
         </Drawer>
         </PhoneScreen></Box>
         <PhoneScreen>
-          <ConnectionBox title="Connection Box" subtitle="Subtitle" imageSrc="https://via.placeholder.com/150" imageAlt="Image Alt" />
+          <ConnectionBox title="Connection Box" subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." imageSrc="https://via.placeholder.com/150" imageAlt="Image Alt" />
         </PhoneScreen>
       </Box>
     </Container>
