@@ -31,11 +31,12 @@ export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSr
       <Typography variant="body2" sx={{ marginBottom: '16px', textAlign: 'center', color: 'black' }}>
         {subtitle}
       </Typography>
-      <ImgBox src={imageSrc} alt={imageAlt} width="100px" height="100px" />
+     
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '16px' }}>
         <InfoButton />
         <SelectButton>Vybrat</SelectButton>
       </Box>
+      <ImgBox src={imageSrc} alt={imageAlt} width="100px" height="100px" />
     </Box>
   );
 };
