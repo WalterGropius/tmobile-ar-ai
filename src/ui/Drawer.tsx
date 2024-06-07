@@ -1,20 +1,27 @@
-import { Box, Modal, IconButton } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import { Color } from '../core/theme/color';
 
 type DrawerProps = {
-  open: boolean;
-  onClose: () => void;
-  children: ReactNode;
+  open?: boolean;
+  children?: ReactNode;
 };
 
-export const Drawer: FC<DrawerProps> = ({ open, onClose, children }) => (
-  <Modal open={open} onClose={onClose} sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-    <Box sx={{ position: 'relative', backgroundColor: 'white', width: '100%', height: '50%', borderRadius: 5 }}>
-      <IconButton onClick={onClose} sx={{ position: 'absolute', top: 8, right: 8 }}>
-        <CloseIcon />
-      </IconButton>
-      {children}
-    </Box>
-  </Modal>
+export const Drawer: FC<DrawerProps> = ({ open, children }) => (
+  <Box
+    sx={{
+      display: open ? 'block' : 'none',
+      position: 'fixed',
+      left: 0,
+      bottom: 0,
+      width: '100%',
+      p: 2,
+      background: Color.white,
+      borderTopLeftRadius: '.8em',
+      borderTopRightRadius: '.8em',
+      zIndex: 9999,
+    }}
+  >
+    <Container>{children}</Container>
+  </Box>
 );

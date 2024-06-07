@@ -63,6 +63,17 @@ export const Documentation = () => {
           <LightIndicator statusList={[true, true, true]} />
         </Card>
 
+        <h3>Drawer</h3>
+        <Card title="Drawer">
+          <Drawer>
+            <IndicatorInfoList
+              title="Namiřte na přední stranu modemu."
+              subtitle="Kontrolky znamenají toto:"
+              list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
+            />
+          </Drawer>
+        </Card>
+
         <h3>App Screens</h3>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(375px, 1fr))' }}>
           <PhoneScreen>
@@ -121,21 +132,31 @@ export const Documentation = () => {
           <PhoneScreen>
             <StatusBanner status="ardetect" />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button variant="outlined" sx={{ flex: 1, mr: 1 }}>Zpět</Button>
-              <Button variant="contained" sx={{ flex: 2 }}>Pokračovat</Button>
+              <Button variant="outlined" sx={{ flex: 1, mr: 1 }}>
+                Zpět
+              </Button>
+              <Button variant="contained" sx={{ flex: 2 }}>
+                Pokračovat
+              </Button>
             </Box>
           </PhoneScreen>
 
           <PhoneScreen>
             <StatusBanner status="aicontrol" />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button variant="outlined" sx={{ flex: 1, mr: 1 }}>Zpět</Button>
-              <Button variant="contained" sx={{ flex: 2 }}>Pokračovat</Button>
+              <Button variant="outlined" sx={{ flex: 1, mr: 1 }}>
+                Zpět
+              </Button>
+              <Button variant="contained" sx={{ flex: 2 }}>
+                Pokračovat
+              </Button>
             </Box>
           </PhoneScreen>
 
           <PhoneScreen>
-            <Box sx={{ color: Color.white, background: Color.magenta, p: 4, borderRadius: 4, my: 4, textAlign: 'center' }}>
+            <Box
+              sx={{ color: Color.white, background: Color.magenta, p: 4, borderRadius: 4, my: 4, textAlign: 'center' }}
+            >
               <h6>Zapojení bylo úspěšné ✓</h6>
               <h2>A je to!</h2>
               <h2>Váš modem Zyxel máte úspěšně zapojený.</h2>
