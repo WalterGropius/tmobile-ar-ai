@@ -39,7 +39,7 @@ const theme = createTheme({
         contained: {
           background: Color.magenta,
           color: Color.white,
-          ':hover': { background: Color.white, color: Color.white },
+          ':hover': { background: Color.white, color: Color.magenta },
         },
       },
     },

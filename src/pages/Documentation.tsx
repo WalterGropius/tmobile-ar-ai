@@ -40,12 +40,11 @@ export const Documentation = () => {
         </Card>
         <Card title="IndicatorInfoList">
           <IndicatorInfoList
-            title="Indicator Info List"
-            subtitle="Subtitle"
-            list={['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']}
+            title="Namiřte na přední stranu modemu."
+            subtitle="Kontrolky znamenají toto:"
+            list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
           />
         </Card>
-
         <h3>Status list</h3>
         <Card title="No status">
           <LightIndicator statusList={[]} />

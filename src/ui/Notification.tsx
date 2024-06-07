@@ -1,31 +1,33 @@
 import { Box, Typography } from '@mui/material';
+import { FC, ReactNode } from 'react';
+import { Color } from '../core/theme/color';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { FC } from 'react';
 
 type NotificationProps = {
-  title: string;
-  message: string;
+  title?: ReactNode;
+  message?: ReactNode;
 };
 
-export const Notification: FC<NotificationProps> = ({ title, message }) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#fff3e0', // Light orange background
-        borderRadius: '8px',
-        padding: '8px 16px',
-        
-      }}
-    >
-      <WarningAmberIcon sx={{ color: '#ffa726', marginRight: '8px' }} />
-      <Box>
+export const Notification: FC<NotificationProps> = ({ title, message }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: Color.orangeLight,
+      borderRadius: '8px',
+      padding: '8px 16px',
+    }}
+  >
+    <Box sx={{ mr: 1 }}>
+      <WarningAmberIcon sx={{ color: Color.orange, marginRight: '8px' }} />
+    </Box>
+    <Box>
+      {title && (
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
           {title}
         </Typography>
-        <Typography variant="body2">{message}</Typography>
-      </Box>
+      )}
+      {message && <Box sx={{ my: 1 }}>{message}</Box>}
     </Box>
-  );
-};
+  </Box>
+);

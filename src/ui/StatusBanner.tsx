@@ -1,28 +1,31 @@
+import { Color } from '../core/theme/color';
 import { Box } from '@mui/material';
 import { FC } from 'react';
 
+type Status = 'aicontrol' | 'ardetect';
+
 type StatusBannerProps = {
-  status: 'aicontrol' | 'ardetect' | null;
+  status?: Status;
 };
 
-export const StatusBanner: FC<StatusBannerProps> = ({ status }) => {
-  if (status === null) return null;
+// TODO: Barva z Color konstanty
+const STATUS_CONFIGURATION: Record<Status, { background: string; label: string }> = {
+  aicontrol: { background: 'green', label: '⚙ AI Control' },
+  ardetect: { background: 'black', label: '⚙ AR Detect' },
+};
 
-  const backgroundColor = status === 'aicontrol' ? 'green' : 'black';
-  const text = status === 'aicontrol' ? '⚙ AI Control' : '⚙ AR Detect';
-
-  return (
+export const StatusBanner: FC<StatusBannerProps> = ({ status }) =>
+  status ? (
     <Box
       sx={{
-        backgroundColor,
-        color: 'white',
+        background: STATUS_CONFIGURATION[status].background,
+        color: Color.white,
         p: 1,
         borderRadius: '4px',
         display: 'inline-block',
         width: 'auto',
       }}
     >
-      {text}
+      {STATUS_CONFIGURATION[status].label}
     </Box>
-  );
-};
+  ) : null;
