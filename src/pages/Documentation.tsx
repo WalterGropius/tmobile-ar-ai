@@ -43,7 +43,7 @@ export const Documentation = () => {
           <IndicatorInfoList
             title="Namiřte na přední stranu modemu."
             subtitle="Kontrolky znamenají toto:"
-            list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
+            list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz','Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
           />
         </Card>
         <h3>Status list</h3>

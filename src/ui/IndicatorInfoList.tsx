@@ -9,8 +9,6 @@ type IndicatorInfoListProps = {
 };
 
 export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle, list }) => {
-  const half = Math.ceil(list.length / 2);
-
   const renderList = (items: string[], increment = 0) => (
     <>
       {items.map((item, index) => (
@@ -22,6 +20,25 @@ export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle,
     </>
   );
 
+  const getColumns = (list: string[]) => {
+    if (list.length > 6) {
+      const third = Math.ceil(list.length / 3);
+      return [
+        renderList(list.slice(0, third)),
+        renderList(list.slice(third, 2 * third), third),
+        renderList(list.slice(2 * third), 2 * third),
+      ];
+    } else {
+      const half = Math.ceil(list.length / 2);
+      return [
+        renderList(list.slice(0, half)),
+        renderList(list.slice(half), half),
+      ];
+    }
+  };
+
+  const columns = getColumns(list);
+
   return (
     <Box>
       <Typography variant="h6" sx={{ color: Color.black }}>
@@ -31,8 +48,11 @@ export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle,
         {subtitle}
       </Typography>
       <Box sx={{ display: 'flex', mt: 1 }}>
-        <Box sx={{ mr: 2 }}>{renderList(list.slice(0, half))}</Box>
-        <Box>{renderList(list.slice(half), half)}</Box>
+        {columns.map((column, index) => (
+          <Box sx={{ mr: index < columns.length - 1 ? 2 : 0 }} key={index}>
+            {column}
+          </Box>
+        ))}
       </Box>
     </Box>
   );
