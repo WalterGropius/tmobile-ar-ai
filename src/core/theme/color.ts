@@ -1,6 +1,6 @@
 export const Color = {
   magenta: '#ea0a8e',
-  magentaDark: '#ea0a2c',
+  grey: '#808080',
   white: '#fff',
   black: '#000',
 } as const;

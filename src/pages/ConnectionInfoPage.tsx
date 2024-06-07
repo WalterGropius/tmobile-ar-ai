@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Page } from '../types/page';
 import { Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/Footer';
@@ -7,9 +6,6 @@ import { Footer } from '../components/Footer';
 export const ConnectionInfoPage = () => {
   const [connectionType, setConnectionType] = useState('');
 
-  const navigate = (page: Page, type: string) => {
-    window.location.hash = `#page=${page}&connection=${type}`;
-  };
 
   useEffect(() => {
     const hash = window.location.hash;
