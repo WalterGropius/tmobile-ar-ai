@@ -15,7 +15,6 @@ export const Drawer: FC<DrawerProps> = ({ open, children }) => (
       left: 0,
       bottom: 0,
       width: '100%',
-      p: 2,
       background: Color.white,
       borderTopLeftRadius: '.8em',
       borderTopRightRadius: '.8em',

@@ -1,24 +1,7 @@
-export const CONNECTION_DESCRIPTIONS = {
-  DSL: (
-    <>
-      DSL využívá kroucené dvojlinky, které jsou standardním typem telefonního kabelu, pro připojení k internetu.
-      Rychlost DSL připojení se pohybuje od několika Mbps do desítek Mbps a může klesat s větší vzdáleností od
-      distribučního bodu.
-    </>
-  ),
-  OPTIC: (
-    <>
-      Optické kabely přenášejí data pomocí světelných impulsů, což umožňuje velmi vysoké rychlosti přenosu, dosahující
-      až několik Gbps. Vzhled optického kabelu je tenký a flexibilní, s vysokou odolností vůči elektromagnetickému
-      rušení.
-    </>
-  ),
-  WAN: (
-    <>
-      Rychlost přenosu dat přes WAN kabely se liší podle použité technologie a může dosahovat od několika Mbps do Gbps.
-      WAN spojení se používá pro připojení na velké vzdálenosti, například mezi městy nebo kontinenty.
-    </>
-  ),
+export const TECHNOLOGY_ITEMS = {
+  DSL: { title: 'DSL', subTitle: <>Jde o připojení modemu do telefonní zásuvkyv rámci tarifů xDSL.</> },
+  OPTIC: { title: 'Optic', subTitle: <>Případ, kdy je modem připojen do optického převodníku v rámci tarifů FTTx.</> },
+  WAN: { title: 'DSL přes terminátor', subTitle: <>Připojení modemu přes takzvaný Terminátor.</> },
 } as const;
 
-export type ConnectionType = keyof typeof CONNECTION_DESCRIPTIONS;
+export type ConnectionType = keyof typeof TECHNOLOGY_ITEMS;

@@ -135,7 +135,10 @@ export const Documentation = () => {
               subtitle="Případ, kdy je modem připojen do optického převodníku v rámci tarifů FTTx."
               imageSrc="/ui/fromfigma/modem.png"
               imageAlt="Image Alt"
-            />
+            >
+              <InfoButton />
+              <SelectButton>Vybrat</SelectButton>
+            </ConnectionBox>
             <ConnectionBox
               title="DSL přes terminátor"
               subtitle="Připojení modemu přes takzvaný Terminátor."

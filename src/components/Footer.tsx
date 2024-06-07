@@ -1,25 +1,25 @@
-import { FC } from 'react';
 import { ReactNode } from 'react';
+import { Color } from '../core/theme/color';
 import { Box } from '@mui/material';
+import { FC } from 'react';
+
 type Props = {
-  children: ReactNode;
+  children?: ReactNode;
+  background?: typeof Color;
 };
 
-export const Footer: FC<Props> = ({ children }) => (
+export const Footer: FC<Props> = ({ children, background }) => (
   <Box
     component="footer"
     sx={{
-      position: 'absolute',
-      display: 'flex',
-      flexDirection: 'row',
+      position: 'fixed',
+      left: 0,
       bottom: 0,
-      width: '100vw',
-      zIndex: 1000000000,
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: '100%',
+      background: background || Color.white,
+      zIndex: 9999,
     }}
   >
-    {children}
-   
+    <Box sx={{ px: 2 }}>{children}</Box>
   </Box>
 );

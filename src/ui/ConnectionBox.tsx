@@ -1,7 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { SelectButton } from './Buttons/SelectButton';
-import { InfoButton } from './Buttons/InfoButton';
 import { Color } from '../core/theme/color';
 
 type ConnectionBoxProps = {
@@ -9,9 +7,10 @@ type ConnectionBoxProps = {
   subtitle?: ReactNode;
   imageSrc: string;
   imageAlt: string;
+  children?: ReactNode;
 };
 
-export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSrc, imageAlt }) => (
+export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSrc, imageAlt, children }) => (
   <Box
     sx={{
       background: Color.lightGrey,
@@ -29,10 +28,7 @@ export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSr
     {subtitle && <Box sx={{ my: 2 }}>{subtitle}</Box>}
     <Box sx={{ display: 'flex', height: '8em' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Box sx={{ display: 'flex' }}>
-          <InfoButton />
-          <SelectButton>Vybrat</SelectButton>
-        </Box>
+        <Box sx={{ display: 'flex' }}>{children}</Box>
       </Box>
     </Box>
   </Box>
