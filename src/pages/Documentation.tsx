@@ -39,7 +39,11 @@ export const Documentation = () => {
           <Notification title="Chyba" message="Něco se nepovedlo" />
         </Card>
         <Card title="IndicatorInfoList">
-          <IndicatorInfoList title="Indicator Info List" subtitle="Subtitle" list={['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']} />
+          <IndicatorInfoList
+            title="Indicator Info List"
+            subtitle="Subtitle"
+            list={['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']}
+          />
         </Card>
 
         <h3>Status list</h3>
@@ -60,21 +64,33 @@ export const Documentation = () => {
         </Card>
         <h3>Test Screens</h3>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <PhoneScreen>
+            <StatusBanner status="aicontrol" />
+          </PhoneScreen>
+          <PhoneScreen>
+            <StatusBanner status="ardetect" />
+            <Button variant="contained" onClick={() => setDrawerOpen(true)}>
+              Open Drawer
+            </Button>
+            <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+              <Box>
+                <h2>Nadpis</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat.
+                </p>
+              </Box>
+            </Drawer>
+          </PhoneScreen>
+        </Box>
         <PhoneScreen>
-          <StatusBanner status="aicontrol" />
-        </PhoneScreen>
-        <PhoneScreen>
-          <StatusBanner status="ardetect" />
-        <Button variant="contained" onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
-        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-          <Box>
-            <h2>Nadpis</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </Box>
-        </Drawer>
-        </PhoneScreen></Box>
-        <PhoneScreen>
-          <ConnectionBox title="Connection Box" subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." imageSrc="https://via.placeholder.com/150" imageAlt="Image Alt" />
+          <ConnectionBox
+            title="Connection Box"
+            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            imageSrc="https://via.placeholder.com/150"
+            imageAlt="Image Alt"
+          />
         </PhoneScreen>
       </Box>
     </Container>
