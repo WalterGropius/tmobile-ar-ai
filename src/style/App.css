@@ -14,74 +14,8 @@ body, html {
     overflow: hidden;
 }
 
-.ARViewer__header {
-    background-color: white;
-    z-index: 1000;
-    position: relative;
-}
 
-.yolo__modemLights {
-    font-size: 0.5em;
-}
 
-h1, h3 {
-    padding: 1rem;
-    margin: 0;
-    font-size: 1.75rem;
-}
-
-p {
-    padding: 1rem;
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-button {
-    width: 17rem;
-    background-color: #ea0a8e;
-    border: none;
-    font-family: "Tele Neo", sans-serif;
-    font-size: large;
-    color: white;
-}
-
-.buttons {
-    margin-top: 5rem;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 50vh;
-}
-
-img {
-    width: 100vw;
-}
-
-h2 {
-    margin: 0;
-    padding: 0;
-    font-size: 1.5em;
-}
-
-.buttons h2 {
-    padding: 0;
-    margin: 0;
-}
-
-h3 {
-    margin: 0;
-    padding: 1em 1.7em;
-    font-size: 1.5em;
-    color: #fff;
-    background-color: #ea0a8e;
-}
-
-.lists {
-    display: flex; /* Allow the lists to be side-by-side */
-    flex-direction: row; /* Arrange the lists in a row */
-    justify-content: space-evenly;
-}
 
 footer, .footer {
     position: absolute;
@@ -112,9 +46,6 @@ video {
     overflow: hidden;
 }
 
-.container {
-    color: #ea0a8e;
-}
 
 canvas {
     position: relative;

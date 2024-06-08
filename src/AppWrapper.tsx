@@ -15,6 +15,7 @@ const theme = createTheme({
     text: { primary: Color.black, secondary: Color.black },
   },
   typography: {
+    fontFamily: '"Tele Neo", sans-serif',
     h2: { fontWeight: 700, color: Color.black },
     h1: { fontWeight: 700, fontSize: '1.5rem' },
     h4: { fontWeight: 700, fontSize: '1.2rem' },

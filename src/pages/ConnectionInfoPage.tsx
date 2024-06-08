@@ -1,14 +1,15 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import { Drawer } from '../ui/Drawer';
+import { Color } from '../core/theme/color';
 
 export const ConnectionInfoPage = () => {
   const [searchParams] = useSearchParams();
 
-  // TODO: Background color
+
 
   return (
-    <Box>
+    <Box sx={{ backgroundColor: Color.grey }}>
       <Drawer open={true}>
         <h1>Co je potřeba na instalaci modemu?</h1>
         <Box>

@@ -8,6 +8,7 @@ import labels from '../utils/labels.json';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 import { Footer } from '../components/Footer';
+import { Box, Button } from '@mui/material';
 
 type PosLabel = {
   xPosition: number;
@@ -29,16 +30,16 @@ type Data = {
   cabPowExists: PosLabel[];
 };
 
-const shortenedCol = (arrayofarray: unknown[], indexlist: unknown[]) =>
-  arrayofarray.map((array) => indexlist.map((idx) => array[idx]));
+const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) =>
+  arrayofarray.map((array: unknown[]) => indexlist.map((idx) => array[idx]));
 
 export const Yolo7modem = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [debugMode, setDebugMode] = useState(false);
   const [next, enableNext] = useState(false);
   const [modemStatus, setModemStatus] = useState<ReactNode>('Analyzuji'); // State for modem status
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const webcam = new Webcam();
   const modelName = 'modem';
   const threshold = 0.6;
@@ -115,9 +116,9 @@ export const Yolo7modem = () => {
   const processDetections = (detections: unknown[][]) => {
     const posLabels: PosLabel[] = detections.map(
       (det: unknown[]): PosLabel => ({
-        xPosition: parseInt(det[0]),
-        label: labels[det[5]],
-        score: (det[4] * 100).toFixed(2),
+        xPosition: parseInt(det[0] as string),
+        label: labels[det[5] as number],
+        score: (det[4] as number * 100).toFixed(2),
       })
     );
 
@@ -225,11 +226,11 @@ export const Yolo7modem = () => {
   }, []);
 
   return (
-    <div className="App">
+    <Box className="App">
       {loading.loading ? (
         <Loader>Loading model... {(loading.progress * 100).toFixed(2)}%</Loader>
       ) : (
-        <div className="content">
+        <Box className="content">
           <HeaderTitle>
             <h1>AI kontrola zapojení</h1>
             <h2>{h2Text}</h2>
@@ -239,16 +240,16 @@ export const Yolo7modem = () => {
           <video autoPlay playsInline muted ref={videoRef} id="frame" />
           <canvas height={640} width={640} ref={canvasRef} style={{ display: debugMode ? 'block' : 'none' }} />
           {!next && (
-            <div className="wrapper">
+            <Box className="wrapper">
               <div className="spinner" />
-            </div>
+            </Box>
           )}
           <Footer>
-            <button onClick={handlePreviousClick}>Zpět</button>
-            {next && <button onClick={handleNextClick}>Pokračovat</button>}
+            <Button onClick={handlePreviousClick} variant="outlined">Zpět</Button>
+            {next && <Button onClick={handleNextClick} variant="contained">Pokračovat</Button>}
           </Footer>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };

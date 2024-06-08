@@ -3,6 +3,9 @@ import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 import { Footer } from '../components/Footer';
+import { Button, Box, Drawer } from '@mui/material';
+import { IndicatorInfoList } from '../ui/IndicatorInfoList';
+import { StatusBanner } from '../ui/StatusBanner';
 
 export const ARViewer: FC = () => {
   const connectionType = 'TODO'; // TODO
@@ -138,6 +141,14 @@ export const ARViewer: FC = () => {
     imagePlaneRef.current.visible = currentStep === 0;
     imagePlaneRef2.current.visible = currentStep === 1;
   }, [currentStep, initialized]);
+  
+  const instructions = [
+    'Namiřte na zadní stranu modemu',
+    'Namiřte na přední stranu modemu',
+    'Zapojte zdrojový kabel do označené zdířky',
+    'Zapojte kabel ' + connectionType + ' do označené zdířky',
+  ];
+
   const handlePreviousClick = () => {
     if (currentStep === 0) {
       // Redirect when at step 0
@@ -146,91 +157,64 @@ export const ARViewer: FC = () => {
     } else {
       // Standard 'previous' behavior for other steps
       setCurrentStep(currentStep - 1);
-
-      setH2Text(
-        [
-          'Namiřte na zadní stranu modemu',
-          'Namiřte na přední stranu modemu',
-          'Zapojte zdrojový kabel do označené zdířky',
-          'Zapojte kabel ' + connectionType + ' do označené zdířky',
-        ][currentStep - 1]
-      );
+      setH2Text(instructions[currentStep - 1]);
 
       if (currentStep === 3) {
         initPortPlane(portPlaneRef.current, currentStep - 1);
       }
     }
   };
+
   const handleNextClick = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
-      setH2Text(
-        [
-          'Namiřte na zadní stranu modemu',
-          'Namiřte na přední stranu modemu',
-          'Zapojte zdrojový kabel do označené zdířky',
-          'Zapojte kabel ' + connectionType + ' do označené zdířky',
-        ][currentStep + 1]
-      );
-    }
+      setH2Text(instructions[currentStep]);
 
-    if (currentStep === 2) {
-      initPortPlane(portPlaneRef.current, currentStep + 1);
-    } else if (currentStep === 3) {
-      window.location.href = '/#page=yolo7modem&connection=' + connectionType; // Replace as needed
+      if (currentStep === 2) {
+        initPortPlane(portPlaneRef.current, currentStep + 1);
+      } else if (currentStep === 3) {
+        window.location.href = '/#page=yolo7modem&connection=' + connectionType; // Replace as needed
+      }
     }
   };
 
   return (
-    <div>
-      <div className="ARViewer__header">
-        <h1>AR detekce </h1>
-        <p>{h2Text}</p>
-        {currentStep === 1 ? (
-          <div className="info lists">
-            <ol className="list-2" type="1" start="1">
-              <li>Napájení</li>
-              <li>DSL</li>
-              <li>Internet</li>
-            </ol>
-            <ol type="1" start="4">
-              <li>LAN 1-4</li>
-              <li>WIFI 2.4Ghz</li>
-              <li>WIFI 5Ghz</li>
-            </ol>
-          </div>
-        ) : null}
-        {currentStep === 0 ? (
-          <div>
-            <div className="info lists">
-              <ol className="list-1" type="1">
-                <li>ON/OFF</li>
-                <li>RESET</li>
-                <li>POWER</li>
-                <li>USB</li>
-              </ol>
-              <ol className="list-2" type="1" start="5">
-                <li>LAN</li>
-                <li>WAN</li>
-                <li>DSL</li>
-              </ol>
-              <ol type="1" start="8">
-                <li>WIFI ON/OFF</li>
-                <li>WPS</li>
-                <li>Info</li>
-                <li>Zavěšení</li>
-              </ol>
-            </div>
-          </div>
-        ) : null}
-      </div>
-      <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
+    <Box>
+      <StatusBanner status="ardetect" />
+      <Box ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
       {currentStep < 4 && (
         <Footer>
-          <button onClick={handlePreviousClick}>Zpět</button>
-          <button onClick={handleNextClick}>Pokračovat</button>
+<Drawer open={true}>
+          {currentStep === 1 ? (
+            <IndicatorInfoList
+              title="Namiřte na přední stranu modemu."
+              subtitle="Kontrolky znamenají toto:"
+              list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
+            />
+          ) : null}
+          {currentStep === 0 ? (
+            <IndicatorInfoList
+              title="Namiřte na přední stranu modemu."
+              subtitle="Kontrolky znamenají toto:"
+              list={[
+                'Napájení',
+                'DSL',
+                'Internet',
+                'Lan 1-4',
+                'Wi-Fi 2.5 Ghz',
+                'Wi-Fi 5Ghz',
+                'Internet',
+                'Lan 1-4',
+                'Wi-Fi 2.5 Ghz',
+                'Wi-Fi 5Ghz',
+              ]}
+            />
+          ) : null}
+          <Button onClick={handlePreviousClick} variant="outlined">Zpět</Button>
+          <Button onClick={handleNextClick} variant="contained">Pokračovat</Button>
+        </Drawer>
         </Footer>
       )}
-    </div>
+    </Box>
   );
 };
