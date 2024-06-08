@@ -6,8 +6,6 @@ import { Color } from '../core/theme/color';
 export const ConnectionInfoPage = () => {
   const [searchParams] = useSearchParams();
 
-
-
   return (
     <Box sx={{ backgroundColor: Color.grey }}>
       <Drawer open={true}>
