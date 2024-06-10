@@ -9,10 +9,12 @@ type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[
 
 type NullablePlaneRef = PlaneRef | null;
 
+type Step = 0 | 1 | 2 | 3 | 4;
+
 export const useAR = (connectionType: ConnectionType) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [initialized, setInitialized] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [step, setStep] = useState<Step>(0);
   const portPlaneRef = useRef<NullablePlaneRef>(null);
   const imagePlaneRefFront = useRef<NullablePlaneRef>(null);
   const imagePlaneRefBack = useRef<NullablePlaneRef>(null);
@@ -119,43 +121,43 @@ export const useAR = (connectionType: ConnectionType) => {
   useEffect(() => {
     if (!initialized) return;
     if (portPlaneRef.current) {
-      portPlaneRef.current.visible = currentStep === 2 || currentStep === 3;
+      portPlaneRef.current.visible = step === 2 || step === 3;
       if (portPlaneRef.current.children.length > 0) {
         portPlaneRef.current.children[0].visible = portPlaneRef.current.visible;
       }
     }
     if (imagePlaneRefFront.current) {
-      imagePlaneRefFront.current.visible = currentStep === 0;
+      imagePlaneRefFront.current.visible = step === 0;
     }
     if (imagePlaneRefBack.current) {
-      imagePlaneRefBack.current.visible = currentStep === 1;
+      imagePlaneRefBack.current.visible = step === 1;
     }
-  }, [currentStep, initialized]);
+  }, [step, initialized]);
 
   const handlePreviousClick = () => {
-    if (currentStep === 0) {
+    if (step === 0) {
       // Redirect when at step 0
       window.location.href = `/#/connection-info?connection=${connectionType}`;
       window.location.reload();
     } else {
       // Standard 'previous' behavior for other steps
-      setCurrentStep(currentStep - 1);
-      if (currentStep === 3 && portPlaneRef.current) {
-        initPortPlane(portPlaneRef.current as PlaneRef, currentStep - 1);
+      setStep((step - 1) as Step);
+      if (step === 3 && portPlaneRef.current) {
+        initPortPlane(portPlaneRef.current as PlaneRef, step - 1);
       }
     }
   };
 
   const handleNextClick = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-      if (currentStep === 2 && portPlaneRef.current) {
-        initPortPlane(portPlaneRef.current as PlaneRef, currentStep + 1);
-      } else if (currentStep === 3) {
+    if (step < 4) {
+      setStep((step + 1) as Step);
+      if (step === 2 && portPlaneRef.current) {
+        initPortPlane(portPlaneRef.current as PlaneRef, step + 1);
+      } else if (step === 3) {
         window.location.href = `/#/fin`;
       }
     }
   };
 
-  return { containerRef, currentStep, handlePreviousClick, handleNextClick };
+  return { containerRef, step, handlePreviousClick, handleNextClick };
 };

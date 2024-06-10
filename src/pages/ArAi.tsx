@@ -14,35 +14,57 @@ export const ArAi: FC = () => {
   const connection = searchParams.get('connection') || '';
   const connectionType = useMemo(() => resolveConnectionType(connection), [connection]);
 
-  const { containerRef, currentStep, handlePreviousClick, handleNextClick } = useAR(connectionType);
+  const { containerRef, step, handlePreviousClick, handleNextClick } = useAR(connectionType);
   //const { loading, debugMode, next, modemStatus, videoRef, canvasRef } =  useAI(connectionType); //a co  handleNextClick, handlePreviousClick?
 
   return (
     <Box>
-      <StatusBanner status="ardetect" />
+      <Box sx={{ m: 2 }}>
+        <StatusBanner status="ardetect" />
+      </Box>
       <Box ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
-      {currentStep < 4 && (
+      {step < 4 && (
         <Drawer open={true}>
-          {currentStep === 1 ? (
-            <IndicatorInfoList
-              title="Namiřte na přední stranu modemu."
-              subtitle="Kontrolky znamenají toto:"
-              list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
-            />
-          ) : null}
-          {currentStep === 0 ? (
-            <IndicatorInfoList
-              title="Namiřte na zadní stranu modemu."
-              subtitle="Jednotlivé části znamenají toto:"
-              list={['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení']}
-            />
-          ) : null}
-          <Button onClick={handlePreviousClick} variant="outlined">
-            Zpět
-          </Button>
-          <Button onClick={handleNextClick} variant="contained">
-            Pokračovat
-          </Button>
+          <Box sx={{ my: 2 }}>
+            {step === 1 ? (
+              <IndicatorInfoList
+                title="Namiřte na přední stranu modemu."
+                subtitle="Kontrolky znamenají toto:"
+                list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
+              />
+            ) : null}
+            {step === 0 ? (
+              <IndicatorInfoList
+                title="Namiřte na zadní stranu modemu."
+                subtitle="Jednotlivé části znamenají toto:"
+                list={[
+                  'On/Off',
+                  'Reset',
+                  'Power',
+                  'USB',
+                  'LAN',
+                  'WAN',
+                  'DSL',
+                  'WIFI ON/OFF',
+                  'WPS',
+                  'Info',
+                  'Zavěšení',
+                ]}
+              />
+            ) : null}
+            <Box sx={{ display: 'flex', mt: 1 }}>
+              <Box sx={{ width: '40%', pr: 1 }}>
+                <Button onClick={handlePreviousClick} variant="outlined" fullWidth>
+                  Zpět
+                </Button>
+              </Box>
+              <Box sx={{ width: '100%' }}>
+                <Button onClick={handleNextClick} variant="contained" fullWidth>
+                  Pokračovat
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Drawer>
       )}
     </Box>
