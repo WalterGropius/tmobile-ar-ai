@@ -7,11 +7,11 @@ export const ConnectionInfoPage = () => {
   const [searchParams] = useSearchParams();
 
   return (
-    <Box sx={{ backgroundColor: Color.grey }}>
+   
       <Drawer open={true}>
         <h1>Co je potřeba na instalaci modemu?</h1>
         <Box>
-          <p>Položte si modem na prázdn tmav stůl tak, abyste viděli v dolní části na konektory.</p>
+          <p>Položte si modem na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory.</p>
           <p>Připravte si kabel pro propojení zásuvky k modemu.</p>
           <p>Mějte po ruce také zdrojový kabel pro připojení modemu do elektřiny.</p>
         </Box>
@@ -21,6 +21,6 @@ export const ConnectionInfoPage = () => {
           </Button>
         </Link>
       </Drawer>
-    </Box>
+    
   );
 };

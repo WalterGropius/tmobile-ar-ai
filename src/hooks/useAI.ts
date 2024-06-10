@@ -40,8 +40,6 @@ export const useAI = (connectionType: ConnectionType) => {
   const modelName = 'modem';
   const threshold = 0.6;
   const [currentStep, setCurrentStep] = useState(false);
-  const [h2Text, setH2Text] = useState('Namiřte na ZADNÍ stranu modemu'); // Initialize correctly
-
   const currentStepRef = useRef(currentStep);
 
   useEffect(() => {
@@ -182,7 +180,6 @@ export const useAI = (connectionType: ConnectionType) => {
       window.location.reload();
     } else {
       setCurrentStep(false);
-      setH2Text('Namiřte na zadní stranu modemu');
     }
   };
 
@@ -191,7 +188,6 @@ export const useAI = (connectionType: ConnectionType) => {
       setCurrentStep(true);
       console.log('Next');
       console.log('currentStep: ' + currentStep);
-      setH2Text('Namiřte na PŘEDNÍ stranu modemu');
       setModemStatus('Analyzuji');
       enableNext(false);
     } else {
@@ -204,7 +200,7 @@ export const useAI = (connectionType: ConnectionType) => {
       onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
     }).then(async (yolov7) => {
       const dummyInput = tf.ones(yolov7.inputs[0].shape);
-      await yolov7.executeAsync(dummyInput).then((warmupResult) => {
+      await yolov7.executeAsync(dummyInput).then((warmupResult) => {    //use model.execute()
         tf.dispose(warmupResult);
         tf.dispose(dummyInput);
 
@@ -231,8 +227,6 @@ export const useAI = (connectionType: ConnectionType) => {
     connectionType,
     currentStep,
     setCurrentStep,
-    h2Text,
-    setH2Text,
     currentStepRef,
     handleNextClick,
     handlePreviousClick,

@@ -152,7 +152,7 @@ export const useAR = (connectionType: ConnectionType) => {
       if (currentStep === 2 && portPlaneRef.current) {
         initPortPlane(portPlaneRef.current as PlaneRef, currentStep + 1);
       } else if (currentStep === 3) {
-        window.location.href = `/#/yolo-7-modem?connection=${connectionType}`;
+        window.location.href = `/#/fin`;
       }
     }
   };

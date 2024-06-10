@@ -41,7 +41,7 @@ export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle,
 
   return (
     <Box>
-      <Typography variant="h6" sx={{ color: Color.black }}>
+      <Typography variant="h4" sx={{ color: Color.black }}>
         {title}
       </Typography>
       <Typography variant="subtitle1" sx={{ color: Color.black }}>

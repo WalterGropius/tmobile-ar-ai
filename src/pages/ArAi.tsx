@@ -5,13 +5,15 @@ import { useSearchParams } from 'react-router-dom';
 import { StatusBanner } from '../ui/StatusBanner';
 import { Drawer } from '../ui/Drawer';
 import { useAR } from '../hooks/useAR';
+import { useAI } from '../hooks/useAI';
 import { FC } from 'react';
 
-export const ARViewer: FC = () => {
+export const ArAi: FC = () => {
   const [searchParams] = useSearchParams();
   const connectionType = resolveConnectionType(searchParams.get('connection') || '');
 
   const { containerRef, currentStep, handlePreviousClick, handleNextClick } = useAR(connectionType);
+  //const { loading, debugMode, next, modemStatus, videoRef, canvasRef } =  useAI(connectionType); //a co  handleNextClick, handlePreviousClick?
 
   return (
     <Box>
@@ -20,28 +22,18 @@ export const ARViewer: FC = () => {
       {currentStep < 4 && (
         <Drawer open={true}>
           {currentStep === 1 ? (
-            <IndicatorInfoList
+           <IndicatorInfoList
               title="Namiřte na přední stranu modemu."
               subtitle="Kontrolky znamenají toto:"
               list={['Napájení', 'DSL', 'Internet', 'Lan 1-4', 'Wi-Fi 2.5 Ghz', 'Wi-Fi 5Ghz']}
+           
             />
           ) : null}
           {currentStep === 0 ? (
-            <IndicatorInfoList
-              title="Namiřte na přední stranu modemu."
-              subtitle="Kontrolky znamenají toto:"
-              list={[
-                'Napájení',
-                'DSL',
-                'Internet',
-                'Lan 1-4',
-                'Wi-Fi 2.5 Ghz',
-                'Wi-Fi 5Ghz',
-                'Internet',
-                'Lan 1-4',
-                'Wi-Fi 2.5 Ghz',
-                'Wi-Fi 5Ghz',
-              ]}
+             <IndicatorInfoList
+              title="Namiřte na zadní stranu modemu."
+              subtitle="Jednotlivé části znamenají toto:"
+              list={['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN',"DSL","WIFI ON/OFF","WPS","Info","Zavěšení"]}
             />
           ) : null}
           <Button onClick={handlePreviousClick} variant="outlined">
