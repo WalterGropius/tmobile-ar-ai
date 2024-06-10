@@ -200,7 +200,8 @@ export const useAI = (connectionType: ConnectionType) => {
       onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
     }).then(async (yolov7) => {
       const dummyInput = tf.ones(yolov7.inputs[0].shape);
-      await yolov7.executeAsync(dummyInput).then((warmupResult) => {    //use model.execute()
+      await yolov7.executeAsync(dummyInput).then((warmupResult) => {
+        //use model.execute()
         tf.dispose(warmupResult);
         tf.dispose(dummyInput);
 

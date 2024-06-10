@@ -1,41 +1,36 @@
-import { useState } from 'react';
-import { TECHNOLOGY_ITEMS } from '../types/connection';
+import { ConnectionType, TECHNOLOGY_ITEMS } from '../types/connection';
 import { Container, Box, Modal } from '@mui/material';
 import { ConnectionBox } from '../ui/ConnectionBox';
 import { SelectButton } from '../ui/Buttons/SelectButton';
 import { InfoButton } from '../ui/Buttons/InfoButton';
-import { Link } from 'react-router-dom';
+import { MainTitle } from '../ui/MainTitle';
+import { useState } from 'react';
 import { Drawer } from '../ui/Drawer';
+import { Link } from 'react-router-dom';
 
 export const ConnectionTypePage = () => {
-  const [open, setOpen] = useState(false);
-  const [modalImage, setModalImage] = useState('');
-
-  const handleOpen = (imageSrc: string) => {
-    setModalImage(imageSrc);
-    setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
+  const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
 
   return (
-    <>
-      <h1>Vyberte svůj typ online připojení</h1>
-      {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle, imgSrc }], key) => (
+    <Container sx={{ py: 3 }}>
+      <MainTitle>Vyberte svůj typ online připojení</MainTitle>
+      {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
         <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
           <Box sx={{ mr: 1 }}>
-            <InfoButton onClick={() => handleOpen(imgSrc)} />
+            <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
           </Box>
           <Link to={`/connection-info?connection=${technology}`}>
             <SelectButton>Vybrat</SelectButton>
           </Link>
         </ConnectionBox>
       ))}
-      <Modal open={open} onClose={handleClose}>
-        <Drawer>
-          <img src={modalImage} alt="Technology Info" />
-        </Drawer>
-      </Modal>
-      </>
+      {selectedTechnology && (
+        <Modal open={true} onClose={() => setSelectedTechnology(undefined)}>
+          <Drawer open={true}>
+            <img src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
+          </Drawer>
+        </Modal>
+      )}
+    </Container>
   );
 };

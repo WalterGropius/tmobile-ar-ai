@@ -19,7 +19,6 @@ export const Drawer: FC<DrawerProps> = ({ open, children }) => (
       borderTopLeftRadius: '.8em',
       borderTopRightRadius: '.8em',
       zIndex: 9999,
-      p:3,
     }}
   >
     <Container>{children}</Container>

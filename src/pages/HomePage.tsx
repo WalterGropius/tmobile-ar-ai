@@ -1,11 +1,12 @@
 import { Box, Button, Container } from '@mui/material';
+import { MainTitle } from '../ui/MainTitle';
 import { Footer } from '../components/Footer';
 import { Color } from '../core/theme/color';
 import { Link } from 'react-router-dom';
 
 export const HomePage = () => (
   <Container sx={{ py: 3 }}>
-    <h1>Instalace modemu v&nbsp;rozšířené realitě</h1>
+    <MainTitle>Instalace modemu v&nbsp;rozšířené realitě</MainTitle>
     <Box sx={{ background: Color.lightGrey, p: 4, borderRadius: 4, my: 4 }}>
       <h2>Zyxel</h2>
       <h4>VMG3625-T509</h4>

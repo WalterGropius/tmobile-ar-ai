@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
+import { FC, ReactNode } from 'react';
 import { Color } from '../core/theme/color';
-import { FC } from 'react';
 
 type IndicatorInfoListProps = {
   title: string;
@@ -9,7 +9,7 @@ type IndicatorInfoListProps = {
 };
 
 export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle, list }) => {
-  const renderList = (items: string[], increment = 0) => (
+  const renderList = (items: string[], increment = 0): ReactNode => (
     <>
       {items.map((item, index) => (
         <Box sx={{ display: 'flex', mb: 1 }} key={index}>
@@ -20,7 +20,7 @@ export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle,
     </>
   );
 
-  const getColumns = (list: string[]) => {
+  const getColumns = (list: string[]): ReactNode[] => {
     if (list.length > 6) {
       const third = Math.ceil(list.length / 3);
       return [
@@ -30,10 +30,7 @@ export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle,
       ];
     } else {
       const half = Math.ceil(list.length / 2);
-      return [
-        renderList(list.slice(0, half)),
-        renderList(list.slice(half), half),
-      ];
+      return [renderList(list.slice(0, half)), renderList(list.slice(half), half)];
     }
   };
 
