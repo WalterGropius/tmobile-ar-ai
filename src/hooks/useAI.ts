@@ -31,7 +31,7 @@ const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) =>
 
 export const useAI = (connectionType: ConnectionType) => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
-  const [debugMode, setDebugMode] = useState(false);
+  const [debugMode, setDebugMode] = useState(true);
   const [next, enableNext] = useState(false);
   const [modemStatus, setModemStatus] = useState<ReactNode>('Analyzuji'); // State for modem status
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -175,7 +175,7 @@ export const useAI = (connectionType: ConnectionType) => {
   };
 
   useEffect(() => {
-    tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
+    tf.loadGraphModel(`${window.location.origin}/modem_web_model/model.json`, {
       onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
     }).then(async (yolov7) => {
       const dummyInput = tf.ones(yolov7.inputs[0].shape);
@@ -202,7 +202,6 @@ export const useAI = (connectionType: ConnectionType) => {
     videoRef,
     canvasRef,
     webcam,
-    modelName,
     threshold,
     connectionType
   };
