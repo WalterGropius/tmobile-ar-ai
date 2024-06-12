@@ -37,68 +37,8 @@ export const useAI = (connectionType: ConnectionType) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const webcam = new Webcam();
-  const modelName = 'modem';
   const threshold = 0.6;
  
-
-  const processBackSide = ({ indCount, lightOffCount, cabPowExists, portWanExists, portDslExists }: Data) => {
-    if (indCount + lightOffCount >= 4) {
-      setModemStatus('Otočte Modem na DRUHOU stranu');
-      console.log('Front');
-    }
-
-    if (connectionType === 'DSL' && cabPowExists.length > 0 && portWanExists.length > 0) {
-      setModemStatus('Správné zapojení');
-      console.log('back');
-      enableNext(true);
-    }
-
-    if (connectionType !== 'DSL' && cabPowExists.length > 0 && portDslExists.length > 0) {
-      setModemStatus('Správné zapojení');
-      console.log('branch 0 nDSL');
-      enableNext(true);
-    }
-  };
-
-
-
-  const lightsToString = (trueValue: string, falseValue: string) => (posLabels) => {
-    return posLabels.map(({ label }) => (label === 'lightg' ? trueValue : falseValue)).join('');
-  };
-  const toBinaryString = lightsToString('1', '0');
-  const toEmojiString = lightsToString('🟢', '⚫');
-
-  const processLights = (lights) => {
-    // if power on
-    if (lights[0].label === 'lightg') {
-      const binstr = toBinaryString(lights);
-      if (binstr === '111011' || binstr === '111100') {
-        setModemStatus('Spravné zapojení');
-        enableNext(true);
-      }
-    } else {
-      setModemStatus('Zapněte modem tlačítkem ON/OFF');
-    }
-  };
-  
-  
-  
-  const processFrontSide = ({ lightOffCount, portCount, lights }: Data) => {
-    console.log('front');
-    if (lights.length === 6) {
-      setModemStatus(`Detekovaný stav: ${toEmojiString(lights)}`);
-      processLights(lights);
-    } else {
-      if (lightOffCount >= 5) {
-        setModemStatus('Zapněte modem tlačítkem ON/OFF');
-        console.log('zapn');
-      }
-      if (portCount >= 4) {
-        console.log('back');
-        setModemStatus('Otočte Modem na DRUHOU stranu');
-      }
-    }
-  };
 
   
   const processDetections = (detections: unknown[][]) => {
@@ -112,7 +52,6 @@ export const useAI = (connectionType: ConnectionType) => {
 
     posLabels.sort((a: PosLabel, b: PosLabel): number => a.xPosition - b.xPosition);
     console.table(posLabels);
-    updateModemStatus(posLabels);
   };
 
   
@@ -137,12 +76,6 @@ export const useAI = (connectionType: ConnectionType) => {
 
     console.table(data);
    
-    if (true) {
-      processBackSide(data);
-    } else {
-      processFrontSide(data);
-    }
-  };
 
   const detectFrame = async (model) => {
     tf.engine().startScope();

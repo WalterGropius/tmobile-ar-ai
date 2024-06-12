@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { Color } from '../core/theme/color';
+
 type InfoItem = {
   title: string;
   subtitle: string;

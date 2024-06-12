@@ -29,3 +29,4 @@ export const StatusBanner: FC<StatusBannerProps> = ({ status }) =>
       {STATUS_CONFIGURATION[status].label}
     </Box>
   ) : null;
+export type { Status };
