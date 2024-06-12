@@ -39,12 +39,7 @@ export const useAI = (connectionType: ConnectionType) => {
   const webcam = new Webcam();
   const modelName = 'modem';
   const threshold = 0.6;
-  const [currentStep, setCurrentStep] = useState(false);
-  const currentStepRef = useRef(currentStep);
-
-  useEffect(() => {
-    currentStepRef.current = currentStep;
-  }, [currentStep]);
+ 
 
   const processBackSide = ({ indCount, lightOffCount, cabPowExists, portWanExists, portDslExists }: Data) => {
     if (indCount + lightOffCount >= 4) {
@@ -65,6 +60,8 @@ export const useAI = (connectionType: ConnectionType) => {
     }
   };
 
+
+
   const lightsToString = (trueValue: string, falseValue: string) => (posLabels) => {
     return posLabels.map(({ label }) => (label === 'lightg' ? trueValue : falseValue)).join('');
   };
@@ -83,6 +80,9 @@ export const useAI = (connectionType: ConnectionType) => {
       setModemStatus('Zapněte modem tlačítkem ON/OFF');
     }
   };
+  
+  
+  
   const processFrontSide = ({ lightOffCount, portCount, lights }: Data) => {
     console.log('front');
     if (lights.length === 6) {
@@ -100,6 +100,7 @@ export const useAI = (connectionType: ConnectionType) => {
     }
   };
 
+  
   const processDetections = (detections: unknown[][]) => {
     const posLabels: PosLabel[] = detections.map(
       (det: unknown[]): PosLabel => ({
@@ -114,6 +115,7 @@ export const useAI = (connectionType: ConnectionType) => {
     updateModemStatus(posLabels);
   };
 
+  
   const updateModemStatus = (posLabels: PosLabel[]) => {
     const filterByLabelIncludes = (filterLabel: string) => posLabels.filter(({ label }) => label.includes(filterLabel));
     const filterByLabel = (filterLabel: string) => posLabels.filter(({ label }) => label === filterLabel);
@@ -134,9 +136,8 @@ export const useAI = (connectionType: ConnectionType) => {
     };
 
     console.table(data);
-    console.log('currentStep: ' + currentStepRef.current);
-
-    if (!currentStepRef.current) {
+   
+    if (true) {
       processBackSide(data);
     } else {
       processFrontSide(data);
@@ -173,28 +174,6 @@ export const useAI = (connectionType: ConnectionType) => {
     tf.engine().endScope();
   };
 
-  const handlePreviousClick = () => {
-    if (!currentStep) {
-      // Redirect when at step 0
-      window.location.href = '/#page=arViewer&connection=' + connectionType;
-      window.location.reload();
-    } else {
-      setCurrentStep(false);
-    }
-  };
-
-  const handleNextClick = () => {
-    if (!currentStep) {
-      setCurrentStep(true);
-      console.log('Next');
-      console.log('currentStep: ' + currentStep);
-      setModemStatus('Analyzuji');
-      enableNext(false);
-    } else {
-      window.location.href = '/#page=fin';
-    }
-  };
-
   useEffect(() => {
     tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
       onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
@@ -225,11 +204,6 @@ export const useAI = (connectionType: ConnectionType) => {
     webcam,
     modelName,
     threshold,
-    connectionType,
-    currentStep,
-    setCurrentStep,
-    currentStepRef,
-    handleNextClick,
-    handlePreviousClick,
+    connectionType
   };
 };

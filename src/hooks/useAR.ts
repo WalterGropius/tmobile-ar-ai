@@ -9,28 +9,24 @@ type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[
 
 type NullablePlaneRef = PlaneRef | null;
 
-type Step = 0 | 1 | 2 | 3 | 4;
-
 export const useAR = (connectionType: ConnectionType) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [initialized, setInitialized] = useState(false);
-  const [step, setStep] = useState<Step>(0);
+
   const portPlaneRef = useRef<NullablePlaneRef>(null);
   const imagePlaneRefFront = useRef<NullablePlaneRef>(null);
   const imagePlaneRefBack = useRef<NullablePlaneRef>(null);
 
-  const initPortPlane = (plane: PlaneRef, step: number) => {
-    if (step === 2) {
-      plane.position.set(-0.38, -0.3, 0);
-    } else if (step === 3) {
-      if (connectionType === 'DSL') {
-        plane.position.set(0.4, -0.3, 0);
-      } else {
-        plane.position.set(0.3, -0.3, 0);
-      }
-    }
+  const initPortPlane = (plane: PlaneRef) => {
+    //power location
+    plane.position.set(-0.38, -0.3, 0);
   };
 
+  const setPortPlane = (plane: PlaneRef, connectionType: ConnectionType) => {
+    //set location of power plane based on connection type
+    const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
+    plane.position.set(position.x, position.y, position.z);
+  };
   const initImagePlane = (plane: PlaneRef) => {
     plane.position.set(0, 0, 0);
     plane.scale.set(18, 12, 2);
@@ -44,9 +40,9 @@ export const useAR = (connectionType: ConnectionType) => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
+    
+    //MindAR setup
     const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets4.mind' });
-
     const { renderer, scene, camera, cssRenderer } = mindarThree;
     const anchor = mindarThree.addAnchor(0);
     const anchor2 = mindarThree.addAnchor(1);
@@ -60,28 +56,28 @@ export const useAR = (connectionType: ConnectionType) => {
     });
     const portPlane = new THREE.Mesh(portGeometry, portMaterial);
     portPlaneRef.current = portPlane;
-    portPlane.position.set(-0.38, -0.3, 0);
+    initPortPlane(portPlane);
     anchor.group.add(portPlane);
 
-    // Image Plane setup
-    const imageGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const imageTexture = new THREE.TextureLoader().load('/modemback.png');
-    const imageMaterial = new THREE.MeshBasicMaterial({ map: imageTexture, transparent: true, alphaTest: 0.2 });
-    const imagePlane = new THREE.Mesh(imageGeometry, imageMaterial);
-    imagePlaneRefFront.current = imagePlane;
+    const createImagePlane = (texturePath: string) => {
+      const geometry = new THREE.PlaneGeometry(0.1, 0.1);
+      const texture = new THREE.TextureLoader().load(texturePath);
+      const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, alphaTest: 0.2 });
+      return new THREE.Mesh(geometry, material);
+    };
+    //create back image plane
+    const imagePlane = createImagePlane('/modemback.png');
+    imagePlaneRefBack.current = imagePlane;
     anchor.group.add(imagePlane);
 
-    const imageGeometry2 = new THREE.PlaneGeometry(0.1, 0.1);
-    const imageTexture2 = new THREE.TextureLoader().load('/modemfrontsm.png');
-    const imageMaterial2 = new THREE.MeshBasicMaterial({ map: imageTexture2, transparent: true, alphaTest: 0.2 });
-    const imagePlane2 = new THREE.Mesh(imageGeometry2, imageMaterial2);
-    imagePlaneRefBack.current = imagePlane2;
+    //create front image plane
+    const imagePlane2 = createImagePlane('/modemfrontsm.png');
+    imagePlaneRefFront.current = imagePlane2;
     anchor2.group.add(imagePlane2);
+    initImagePlane(imagePlaneRefBack.current as PlaneRef);
+    initImagePlane2(imagePlaneRefFront.current as PlaneRef);
 
-    initPortPlane(portPlaneRef.current as PlaneRef, 0); // Initialize port plane (hidden)
-    initImagePlane(imagePlaneRefFront.current as PlaneRef);
-    initImagePlane2(imagePlaneRefBack.current as PlaneRef);
-
+    //load arrow
     const loader = new GLTFLoader();
     loader.load('/arrow.glb', (gltf: GLTF) => {
       const arrow = gltf.scene.children[0] as THREE.Mesh; // Assumes arrow is the first object in your GLTF
@@ -98,7 +94,9 @@ export const useAR = (connectionType: ConnectionType) => {
       animationAction.play(); // Start the animation
     });
 
+    //start MindAR
     mindarThree.start().then(() => {
+      //start animation loop
       renderer.setAnimationLoop(() => {
         renderer.render(scene, camera);
       });
@@ -106,6 +104,7 @@ export const useAR = (connectionType: ConnectionType) => {
     });
 
     return () => {
+      //cleanup
       if (renderer) renderer.setAnimationLoop(null);
       if (mindarThree) {
         mindarThree.stop();
@@ -120,44 +119,7 @@ export const useAR = (connectionType: ConnectionType) => {
 
   useEffect(() => {
     if (!initialized) return;
-    if (portPlaneRef.current) {
-      portPlaneRef.current.visible = step === 2 || step === 3;
-      if (portPlaneRef.current.children.length > 0) {
-        portPlaneRef.current.children[0].visible = portPlaneRef.current.visible;
-      }
-    }
-    if (imagePlaneRefFront.current) {
-      imagePlaneRefFront.current.visible = step === 0;
-    }
-    if (imagePlaneRefBack.current) {
-      imagePlaneRefBack.current.visible = step === 1;
-    }
-  }, [step, initialized]);
+  }, [initialized]);
 
-  const handlePreviousClick = () => {
-    if (step === 0) {
-      // Redirect when at step 0
-      window.location.href = `/#/connection-info?connection=${connectionType}`;
-      window.location.reload();
-    } else {
-      // Standard 'previous' behavior for other steps
-      setStep((step - 1) as Step);
-      if (step === 3 && portPlaneRef.current) {
-        initPortPlane(portPlaneRef.current as PlaneRef, step - 1);
-      }
-    }
-  };
-
-  const handleNextClick = () => {
-    if (step < 4) {
-      setStep((step + 1) as Step);
-      if (step === 2 && portPlaneRef.current) {
-        initPortPlane(portPlaneRef.current as PlaneRef, step + 1);
-      } else if (step === 3) {
-        window.location.href = `/#/fin`;
-      }
-    }
-  };
-
-  return { containerRef, step, handlePreviousClick, handleNextClick };
+  return { containerRef };
 };
