@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { Color } from '../core/theme/color';
-
-type IndicatorInfoListProps = {
+type InfoItem = {
   title: string;
   subtitle: string;
   list: string[];
 };
 
-export const IndicatorInfoList: FC<IndicatorInfoListProps> = ({ title, subtitle, list }) => {
+
+export const IndicatorInfoList: FC<InfoItem> = ({ title, subtitle, list }) => {
   const renderList = (items: string[], increment = 0): ReactNode => (
     <>
       {items.map((item, index) => (
