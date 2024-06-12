@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 import { non_max_suppression } from '../utils/nonMaxSuppression';
 import { ConnectionType } from '../types/connection';
 import { renderBoxes } from '../utils/renderBox';
-import { Webcam } from '../utils/webcam';
 import labels from '../utils/labels.json';
 import * as tf from '@tensorflow/tfjs';
 
@@ -32,13 +31,12 @@ const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) =>
 export const useAI = (connectionType: ConnectionType) => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [debugMode, setDebugMode] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const webcam = new Webcam();
-  const threshold = 0.6;
  
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   
+  const threshold = 0.6;
+  let model: tf.GraphModel | null = null;
+
   const processDetections = (detections: unknown[][]) => {
     const posLabels: PosLabel[] = detections.map(
       (det: unknown[]): PosLabel => ({
@@ -52,12 +50,10 @@ export const useAI = (connectionType: ConnectionType) => {
     console.table(posLabels);
   };
 
-  
   const updateModemStatus = (posLabels: PosLabel[]) => {
     const filterByLabelIncludes = (filterLabel: string) => posLabels.filter(({ label }) => label.includes(filterLabel));
     const filterByLabel = (filterLabel: string) => posLabels.filter(({ label }) => label === filterLabel);
 
-    // There are multiple port and ind classes, we want to count them all
     const data: Data = {
       lightOffCount: filterByLabel('lightoff').length,
       portCount: filterByLabelIncludes('port').length,
@@ -73,19 +69,23 @@ export const useAI = (connectionType: ConnectionType) => {
     };
 
     console.table(data);
-   
-  }
+  };
 
-  const detectFrame = async (model) => {
+  const captureAndDetect = async (containerRef) => {
+    if (!model) return;
+
     tf.engine().startScope();
 
-    const input = tf.tidy(() =>
-      tf.image
-        .resizeBilinear(tf.browser.fromPixels(videoRef.current), [640, 640])
+    const input = tf.tidy(() => {
+      const canvas = containerRef.current;
+      const context = canvas.getContext('2d');
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      return tf.browser.fromPixels(imageData)
+        .resizeBilinear([640, 640])
         .div(255.0)
         .transpose([2, 0, 1])
-        .expandDims(0)
-    );
+        .expandDims(0);
+    });
 
     const modelRes = await model.executeAsync(input);
     const res = modelRes.arraySync()[0];
@@ -94,42 +94,30 @@ export const useAI = (connectionType: ConnectionType) => {
     const scores = shortenedCol(detections, [4]);
     const class_detect = shortenedCol(detections, [5]);
 
-    processDetections(detections); // Always process detections for footer
-    console.log('detections');
+    processDetections(detections);
     if (debugMode) {
-      // Only render boxes if debug mode is enabled
       renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
     }
     tf.dispose(res);
-
-    requestAnimationFrame(() => detectFrame(model));
     tf.engine().endScope();
   };
 
   useEffect(() => {
     tf.loadGraphModel(`${window.location.origin}/modem_web_model/model.json`, {
       onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
-    }).then(async (yolov7) => {
-      const dummyInput = tf.ones(yolov7.inputs[0].shape);
-      await yolov7.executeAsync(dummyInput).then((warmupResult) => {
-        //use model.execute()
+    }).then(async (loadedModel) => {
+      model = loadedModel;
+      const dummyInput = tf.ones(model.inputs[0].shape);
+      await model.executeAsync(dummyInput).then((warmupResult) => {
         tf.dispose(warmupResult);
         tf.dispose(dummyInput);
-
         setLoading({ loading: false, progress: 1 });
-        webcam.open(videoRef, () => detectFrame(yolov7));
       });
     });
   }, []);
 
   return {
-    runOnce,
-    runContinuous,
-    load,
+    captureAndDetect,
     loading,
-    videoRef,
-    canvasRef,
-    webcam,
-    threshold,
   };
-}}
+};

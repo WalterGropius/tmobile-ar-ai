@@ -23,7 +23,7 @@ export const ArAi: FC = () => {
   const connectionType = useMemo(() => resolveConnectionType(connection), [connection]);
 
   const { containerRef } = useAR(connectionType);
-  // const { runOnce,runContinuous,load,loading} =  useAI(connectionType);
+  const { captureAndDetect,loading} =  useAI(connectionType);
   const [status, setStatus] = useState<Status>('ardetect');
 
   const InfoList: { FRONT: InfoItem; BACK: InfoItem } = {
@@ -38,6 +38,10 @@ export const ArAi: FC = () => {
       list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
     },
   };
+  const handleCaptureAndDetect = () => {
+    captureAndDetect(containerRef);
+  };
+
   return (
     <Box>
       <Box sx={{ m: 2 }}>
@@ -47,7 +51,9 @@ export const ArAi: FC = () => {
 
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
-          
+          <Button variant="contained" fullWidth onClick={handleCaptureAndDetect}>
+            Capture and Detect
+          </Button>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth>
