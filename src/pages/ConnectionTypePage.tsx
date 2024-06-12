@@ -19,7 +19,7 @@ export const ConnectionTypePage = () => {
           <Box sx={{ mr: 1 }}>
             <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
           </Box>
-          <Link to={`/connection-info?connection=${technology}`}>
+          <Link to={`/ar-viewer?connection=${technology}`}>
             <SelectButton>Vybrat</SelectButton>
           </Link>
         </ConnectionBox>

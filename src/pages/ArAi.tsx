@@ -23,7 +23,7 @@ export const ArAi: FC = () => {
   const connectionType = useMemo(() => resolveConnectionType(connection), [connection]);
 
   const { containerRef } = useAR(connectionType);
-  // const { runOnce,process,loading, debugMode, modemStatus, videoRef, canvasRef } =  useAI(connectionType);
+  // const { runOnce,runContinuous,load,loading} =  useAI(connectionType);
   const [status, setStatus] = useState<Status>('ardetect');
 
   const InfoList: { FRONT: InfoItem; BACK: InfoItem } = {
@@ -68,26 +68,35 @@ export const ArAi: FC = () => {
 
 /*
 AR
-0. <h1>Co je potřeba na instalaci modemu?</h1>
+0.ar starts loading... 
+<h1>Co je potřeba na instalaci modemu?</h1>
       <Box>
         <p>Položte si modem na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory.</p>
         <p>Připravte si kabel pro propojení zásuvky k modemu.</p>
         <p>Mějte po ruce také zdrojový kabel pro připojení modemu do elektřiny.</p>
       </Box>
-  1. AR info zezadu modemu || InfoModal
+  1.ar back target
+   AR info zezadu modemu || InfoModal
   <IndicatorInfoList {...InfoList['BACK']} />
-  2. ConnectionType || Modal zapojeni <- ConnectionType
-  3. Power || Modal zapojeni <- ConnectionType
-
+  2.ar show cable anim in location based on
+   ConnectionType || Modal zapojeni <- ConnectionType
+  3.ar show power cable anim in its location 
+  Power || Modal zapojeni <- ConnectionType
+--> next (pause ai)
 AI
+check if connection is correct
+if not check two more times if not say whats wrong or continue
   AI kontrola zezadu 3x bad -> AR
 
 AR
-  AR zepredu || co je co (indikatory) if(i pressedDown) -> Modal z docu
+->ar unpause
+  AR zepredu
+   || co je co (indikatory) if(i pressedDown) -> Modal z docu
   <IndicatorInfoList {...InfoList['FRONT']} />
 
 AI
-  AI kontrola zepredu 3x bad -> Fin
+check indicators  
+AI kontrola zepredu 3x bad -> Fin
 
 Fin
 

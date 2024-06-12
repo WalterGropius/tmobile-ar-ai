@@ -31,9 +31,7 @@ const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) =>
 
 export const useAI = (connectionType: ConnectionType) => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
-  const [debugMode, setDebugMode] = useState(true);
-  const [next, enableNext] = useState(false);
-  const [modemStatus, setModemStatus] = useState<ReactNode>('Analyzuji'); // State for modem status
+  const [debugMode, setDebugMode] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const webcam = new Webcam();
@@ -76,6 +74,7 @@ export const useAI = (connectionType: ConnectionType) => {
 
     console.table(data);
    
+  }
 
   const detectFrame = async (model) => {
     tf.engine().startScope();
@@ -124,18 +123,13 @@ export const useAI = (connectionType: ConnectionType) => {
   }, []);
 
   return {
+    runOnce,
+    runContinuous,
+    load,
     loading,
-    setLoading,
-    debugMode,
-    setDebugMode,
-    next,
-    enableNext,
-    modemStatus,
-    setModemStatus,
     videoRef,
     canvasRef,
     webcam,
     threshold,
-    connectionType
   };
-};
+}}
