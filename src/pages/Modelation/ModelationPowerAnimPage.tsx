@@ -12,7 +12,9 @@ export const ModelationPowerAnimPage = () => {
         <StatusBanner status="ardetect" />
       </Box>
       <Drawer open={true}>
-        <h1>Do vyznačené zdířky zapojte kabel od napájecího zdroje</h1>
+        <h1>Zapojení napájení</h1>
+        <h4>Do vyznačené zdířky zapojte kabel od napájecího zdroje</h4>
+
         <Box sx={{ my: 2 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

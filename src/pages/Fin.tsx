@@ -28,11 +28,7 @@ export const Fin = () => {
         <p>nebo přihlášením pomocí WEP údajů.</p>
       </Box>
 
-      <Footer>
-        <Link to={`/#/ArAi?connection=${connectionType || 'DSL'}`}>
-          <Button variant="contained">Zpět</Button>
-        </Link>
-      </Footer>
+    
     </Box>
   );
 };

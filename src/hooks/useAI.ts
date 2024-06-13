@@ -26,6 +26,7 @@ export const useAI = (connectionType: ConnectionType) => {
         const yolov7 = await tf.loadGraphModel(`${window.location.origin}/${modelName}_web_model/model.json`, {
           onProgress: (fractions) => {
             setLoading({ loading: true, progress: fractions });
+            console.log(`AI loading progress: ${fractions}`);
           },
         });
 
@@ -62,14 +63,14 @@ export const useAI = (connectionType: ConnectionType) => {
         .expandDims(0)
     );
 
-    await model.executeAsync(input).then((res) => {
-      res = res.arraySync()[0];
-      const detections = non_max_suppression(res);
+    const res = model.execute(input);
+    const resArray = res.arraySync()[0];
+    const detections = non_max_suppression(resArray);
 
       tf.dispose(res);
       setDetections(detections);
       setDetecting(false);
-    });
+    ;
   };
 
   const handleExecute = async () => {

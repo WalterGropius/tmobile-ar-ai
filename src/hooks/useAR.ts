@@ -23,7 +23,7 @@ export const useAR = (connectionType: ConnectionType) => {
   };
 
   const setPortPlane = (plane: PlaneRef, connectionType: ConnectionType) => {
-    //set location of power plane based on connection type
+    //set location of port plane based on connection type
     const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
     plane.position.set(position.x, position.y, position.z);
   };
@@ -33,7 +33,7 @@ export const useAR = (connectionType: ConnectionType) => {
   };
 
   const initImagePlane2 = (plane: PlaneRef) => {
-    plane.position.set(-0.05, 0.3, 0);
+    plane.position.set(-0.05, 0.2, 0);
     plane.scale.set(19, 7, 2);
   };
 
@@ -41,20 +41,24 @@ export const useAR = (connectionType: ConnectionType) => {
     return () => {
       const container = containerRef.current;
       if (!container) return;
-
+      //create mindarThree
       const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets4.mind' });
       const { renderer, scene, camera, cssRenderer } = mindarThree;
+      //creaete anchors
       const anchor = mindarThree.addAnchor(0);
       const anchor2 = mindarThree.addAnchor(1);
 
+      //create port plane
       const portGeometry = new THREE.PlaneGeometry(0.1, 0.1);
       const portMaterial = new THREE.MeshBasicMaterial({
         color: 0xea0a8e,
         transparent: true,
         opacity: 0.5,
       });
+    
       const portPlane = new THREE.Mesh(portGeometry, portMaterial);
       portPlaneRef.current = portPlane;
+    
       initPortPlane(portPlane);
       anchor.group.add(portPlane);
 
@@ -64,6 +68,7 @@ export const useAR = (connectionType: ConnectionType) => {
         const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, alphaTest: 0.2 });
         return new THREE.Mesh(geometry, material);
       };
+
       //create back image plane
       const imagePlane = createImagePlane('/modemback.png');
       imagePlaneRefBack.current = imagePlane;
@@ -73,6 +78,7 @@ export const useAR = (connectionType: ConnectionType) => {
       const imagePlane2 = createImagePlane('/modemfrontsm.png');
       imagePlaneRefFront.current = imagePlane2;
       anchor2.group.add(imagePlane2);
+    
       initImagePlane(imagePlaneRefBack.current as PlaneRef);
       initImagePlane2(imagePlaneRefFront.current as PlaneRef);
 
@@ -111,20 +117,24 @@ export const useAR = (connectionType: ConnectionType) => {
     if (mindarThree) {
       mindarThree.stop();
       renderer.dispose();
+      console.log('ARViewer cleanup: stopped rendering and MindAR.');
     }
     const elements = document.querySelectorAll('.mindar-ui-overlay');
     elements.forEach((element) => element.remove());
     setInitialized(false);
-    console.log('ARViewer cleanup: stopped rendering and MindAR.');
+    console.log('Cleanup complete.');
   }, []);
 
   const toggleAR = useCallback(() => {
     if (initialized) {
       cleanupAR(mindarThree, renderer);
+      console.log('togglear cleanup');
     } else {
       const { mindarThree, renderer } = initializeAR();
+      console.log('togglear initialize');
     }
   }, [initialized, initializeAR, cleanupAR]);
+
 
   useEffect(() => {
     const { mindarThree, renderer } = initializeAR();
@@ -138,5 +148,5 @@ export const useAR = (connectionType: ConnectionType) => {
     if (!initialized) return;
   }, [initialized]);
 
-  return { containerRef, toggleAR };
+  return { containerRef, toggleAR, setPortPlane };
 };

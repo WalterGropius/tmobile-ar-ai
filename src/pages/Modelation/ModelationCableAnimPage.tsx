@@ -20,7 +20,8 @@ export const ModelationCableAnimPage = () => {
         <StatusBanner status="ardetect" />
       </Box>
       <Drawer open={true}>
-        <h1>{instructions[connectionType]}</h1>
+        <h1>Zapojení {connectionType} kabelu</h1>
+        <h4>{instructions[connectionType]}</h4>
         <Box sx={{ my: 2 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
