@@ -29,7 +29,7 @@ export const Fin = () => {
       </Box>
 
       <Footer>
-        <Link to={`/yolo-7-modem?connection=${connectionType || 'DSL'}`}>
+        <Link to={`/#/ArAi?connection=${connectionType || 'DSL'}`}>
           <Button variant="contained">Zpět</Button>
         </Link>
       </Footer>
