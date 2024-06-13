@@ -7,6 +7,7 @@ import { MainTitle } from '../ui/MainTitle';
 import { useState } from 'react';
 import { Drawer } from '../ui/Drawer';
 import { Link } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const ConnectionTypePage = () => {
   const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
@@ -27,7 +28,15 @@ export const ConnectionTypePage = () => {
       {selectedTechnology && (
         <Modal open={true} onClose={() => setSelectedTechnology(undefined)}>
           <Drawer open={true}>
-            <img src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
+              <h1>{TECHNOLOGY_ITEMS[selectedTechnology].title}</h1>
+              <button onClick={() => setSelectedTechnology(undefined)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>
+                <CloseIcon />
+              </button>
+            </Box>
+            <Box sx={{ width: '100%', height: '100%' }}>
+              <img src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
+            </Box>
           </Drawer>
         </Modal>
       )}
