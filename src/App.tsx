@@ -3,7 +3,7 @@ import { ConnectionTypePage } from './pages/ConnectionTypePage';
 import { Documentation } from './pages/Documentation';
 import { AppWrapper } from './AppWrapper';
 import { Error404 } from './pages/Error404';
-import { ArAi } from './pages/ArAi';
+import { ArAiPage } from './pages/ArAiPage';
 import { HomePage } from './pages/HomePage';
 import { Fin } from './pages/Fin';
 import './style/App.css';
@@ -14,7 +14,7 @@ export const App = () => (
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/connection-type" element={<ConnectionTypePage />} />
-        <Route path="/ar-viewer" element={<ArAi />} />
+        <Route path="/ar-viewer" element={<ArAiPage />} />
         <Route path="/fin" element={<Fin />} />
         <Route path="/documentation" element={<Documentation />} />
         <Route path="*" element={<Error404 />} />
