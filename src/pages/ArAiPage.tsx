@@ -17,13 +17,13 @@ export const ArAiPage: FC = () => {
   const { connectionType, step } = useModelationRouter();
 
   const { containerRef } = useAR(connectionType);
-  const { videoRef } = useAI(connectionType);
+  const { videoRef, handleExecute } = useAI(connectionType);
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
     start: <ModelationStartPage />,
     arFront: <ModelationArFrontPage />,
     arBack: <ModelationArBackPage />,
-    aiFront: <ModelationAiFrontPage />,
+    aiFront: <ModelationAiFrontPage handleExecute={handleExecute} />,
     aiBack: <ModelationAiBackPage />,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
@@ -34,7 +34,7 @@ export const ArAiPage: FC = () => {
     <Box>
       {PAGE_BY_STEP[step] || PAGE_BY_STEP.start}
       <Box ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
-      <video ref={videoRef} autoPlay playsInline />
+      <video ref={videoRef} autoPlay playsInline style={{ display: 'none' }} />
     </Box>
   );
 };

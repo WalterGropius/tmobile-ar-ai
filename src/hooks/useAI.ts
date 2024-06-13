@@ -73,15 +73,14 @@ export const useAI = (connectionType: ConnectionType) => {
   };
 
   const handleExecute = async () => {
-    if (model && !detecting) {
-      await detectFrame();
-    }
+    if (model && !detecting) await detectFrame();
   };
 
   return {
     detections,
     loading,
     detectFrame,
+    handleExecute,
     videoRef, // Expose videoRef to be used in the component
   };
 };
