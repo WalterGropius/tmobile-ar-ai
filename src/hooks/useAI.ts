@@ -1,9 +1,11 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl'; // set backend to webgl
 import { non_max_suppression } from '../utils/nonMaxSuppression';
 import { ConnectionType } from '../types/connection';
 import { renderBoxes } from '../utils/renderBox';
 import labels from '../utils/labels.json';
-import * as tf from '@tensorflow/tfjs';
+import { Webcam } from '../utils/webcam';
 
 type PosLabel = {
   xPosition: number;
@@ -25,99 +27,95 @@ type Data = {
   cabPowExists: PosLabel[];
 };
 
-const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) =>
-  arrayofarray.map((array: unknown[]) => indexlist.map((idx) => array[idx]));
+const shortenedCol = (arrayofarray: unknown[][], indexlist: number[]) => {
+  return arrayofarray.map((array: unknown[]) => {
+    return indexlist.map((idx) => {
+      return array[idx];
+    });
+  });
+};
 
 export const useAI = (connectionType: ConnectionType) => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
-  const [debugMode, setDebugMode] = useState(false);
- 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-  const threshold = 0.6;
-  let model: tf.GraphModel | null = null;
+  const [detections, setDetections] = useState([]);
+  const [detecting, setDetecting] = useState(false);
+  const [model, setModel] = useState<tf.GraphModel | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const webcam = new Webcam();
 
-  const processDetections = (detections: unknown[][]) => {
-    const posLabels: PosLabel[] = detections.map(
-      (det: unknown[]): PosLabel => ({
-        xPosition: parseInt(det[0] as string),
-        label: labels[det[5] as number],
-        score: ((det[4] as number) * 100).toFixed(2),
-      })
-    );
+  const modelName = "modem";
+  const threshold = 0.8;
 
-    posLabels.sort((a: PosLabel, b: PosLabel): number => a.xPosition - b.xPosition);
-    console.table(posLabels);
-  };
+  useEffect(() => {
+    const loadModel = async () => {
+      try {
+        const yolov7 = await tf.loadGraphModel(
+          `${window.location.origin}/${modelName}_web_model/model.json`,
+          {
+            onProgress: (fractions) => {
+              setLoading({ loading: true, progress: fractions });
+            },
+          },
+        );
 
-  const updateModemStatus = (posLabels: PosLabel[]) => {
-    const filterByLabelIncludes = (filterLabel: string) => posLabels.filter(({ label }) => label.includes(filterLabel));
-    const filterByLabel = (filterLabel: string) => posLabels.filter(({ label }) => label === filterLabel);
+        const dummyInput = tf.ones(yolov7.inputs[0].shape);
+        await yolov7.executeAsync(dummyInput).then((warmupResult) => {
+          tf.dispose(warmupResult);
+          tf.dispose(dummyInput);
+        });
 
-    const data: Data = {
-      lightOffCount: filterByLabel('lightoff').length,
-      portCount: filterByLabelIncludes('port').length,
-      indCount: filterByLabelIncludes('ind').length,
-      lightonCount: filterByLabel('lightg').length,
-      lights: filterByLabelIncludes('light'),
-      portDslExists: filterByLabel('portdsl'),
-      cabDslExists: filterByLabel('cabdsl'),
-      cabWanExists: filterByLabel('cabwan'),
-      portPowExists: filterByLabel('portpow'),
-      portWanExists: filterByLabel('portwan'),
-      cabPowExists: filterByLabel('cabpow'),
+        setModel(yolov7);
+        setLoading({ loading: false, progress: 1 });
+        webcam.open(videoRef); // Open the webcam when model is ready
+      } catch (error) {
+        console.error("Error loading model:", error);
+      }
     };
 
-    console.table(data);
-  };
+    loadModel();
+  }, []);
 
-  const captureAndDetect = async (containerRef) => {
-    if (!model) return;
+  const detectFrame = async () => {
+    if (!videoRef.current || !model) {
+      return;
+    }
 
+    setDetecting(true);
+    const model_dim = [640, 640];
     tf.engine().startScope();
-
     const input = tf.tidy(() => {
-      const canvas = containerRef.current;
-      const context = canvas.getContext('2d');
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-      return tf.browser.fromPixels(imageData)
-        .resizeBilinear([640, 640])
+      const img = tf.image
+        .resizeBilinear(tf.browser.fromPixels(videoRef.current), model_dim)
         .div(255.0)
         .transpose([2, 0, 1])
         .expandDims(0);
+      return img;
     });
 
-    const modelRes = await model.executeAsync(input);
-    const res = modelRes.arraySync()[0];
-    const detections = non_max_suppression(res);
-    const boxes = shortenedCol(detections, [0, 1, 2, 3]);
-    const scores = shortenedCol(detections, [4]);
-    const class_detect = shortenedCol(detections, [5]);
+    await model.executeAsync(input).then((res) => {
+      res = res.arraySync()[0];
+      var detections = non_max_suppression(res);
 
-    processDetections(detections);
-    if (debugMode) {
-      renderBoxes(canvasRef, threshold, boxes, scores, class_detect);
-    }
-    tf.dispose(res);
-    tf.engine().endScope();
+      const boxes = shortenedCol(detections, [0, 1, 2, 3]);
+      const scores = shortenedCol(detections, [4]);
+      const classes = shortenedCol(detections, [5]);
+
+      tf.dispose(res);
+      setDetections(detections);
+      setDetecting(false);
+    });
   };
 
-  useEffect(() => {
-    tf.loadGraphModel(`${window.location.origin}/modem_web_model/model.json`, {
-      onProgress: (fractions) => setLoading({ loading: true, progress: fractions }),
-    }).then(async (loadedModel) => {
-      model = loadedModel;
-      const dummyInput = tf.ones(model.inputs[0].shape);
-      await model.executeAsync(dummyInput).then((warmupResult) => {
-        tf.dispose(warmupResult);
-        tf.dispose(dummyInput);
-        setLoading({ loading: false, progress: 1 });
-      });
-    });
-  }, []);
+  const handleExecute = async () => {
+    if (model && !detecting) {
+      await detectFrame();
+    }
+  };
 
   return {
-    captureAndDetect,
+    detections,
     loading,
+    detectFrame,
+    videoRef, // Expose videoRef to be used in the component
   };
 };

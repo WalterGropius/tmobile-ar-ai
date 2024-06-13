@@ -4,7 +4,7 @@ import { IndicatorInfoList } from '../ui/IndicatorInfoList';
 import { useSearchParams } from 'react-router-dom';
 import { StatusBanner } from '../ui/StatusBanner';
 import type { Status } from '../ui/StatusBanner';
-
+import { useEffect } from 'react';
 import { FC, useMemo, useState } from 'react';
 import { Drawer } from '../ui/Drawer';
 import { useAR } from '../hooks/useAR';
@@ -15,6 +15,7 @@ type InfoItem = {
   subtitle: string;
   list: string[];
 };
+type steps = 'start' | 'back' | 'cableanim' | 'poweranim' | 'aiback'  |"arfront" | 'aifront' | 'finish';
 
 export const ArAi: FC = () => {
   const [searchParams] = useSearchParams();
@@ -22,9 +23,16 @@ export const ArAi: FC = () => {
   const connection = searchParams.get('connection') || '';
   const connectionType = useMemo(() => resolveConnectionType(connection), [connection]);
 
-  const { containerRef } = useAR(connectionType);
-  const { captureAndDetect,loading} =  useAI(connectionType);
+  const {toggleAR, containerRef } = useAR(connectionType);
+  const { videoRef,detections,detectFrame,loading} =  useAI(connectionType);
   const [status, setStatus] = useState<Status>('ardetect');
+  const [step, setStep] = useState<steps>('start');
+
+
+  useEffect(() => {
+ 
+    console.log(`AI loading state: ${loading}`);
+  }, [loading]);
 
   const InfoList: { FRONT: InfoItem; BACK: InfoItem } = {
     FRONT: {
@@ -38,20 +46,22 @@ export const ArAi: FC = () => {
       list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
     },
   };
-  const handleCaptureAndDetect = () => {
-    captureAndDetect(containerRef);
-  };
 
+  const handleCaptureAndDetect = () => {
+    console.log('capture and detect');
+    toggleAR();
+    detectFrame();
+  };
   return (
     <Box>
       <Box sx={{ m: 2 }}>
         <StatusBanner status={status} />
       </Box>
       <Box ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
-
+ <video ref={videoRef} autoPlay playsInline />
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
-          <Button variant="contained" fullWidth onClick={handleCaptureAndDetect}>
+        <Button variant="contained" fullWidth onClick={handleCaptureAndDetect}>
             Capture and Detect
           </Button>
           <Box sx={{ display: 'flex', mt: 1 }}>
@@ -73,6 +83,31 @@ export const ArAi: FC = () => {
 };
 
 /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 AR
 0.ar starts loading... 
 <h1>Co je potřeba na instalaci modemu?</h1>
