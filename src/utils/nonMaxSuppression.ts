@@ -1,12 +1,4 @@
-const xywh2xyxy = (x) => {
-  //Convert boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
-  let y = [];
-  y[0] = x[0] - x[2] / 2; //top left x
-  y[1] = x[1] - x[3] / 2; //top left y
-  y[2] = x[0] + x[2] / 2; //bottom right x
-  y[3] = x[1] + x[3] / 2; //bottom right y
-  return y;
-};
+import { convertCoordinateSystemXywh2xyxy } from './convertCoordinateSystemXywh2xyxy';
 
 export const non_max_suppression = (res, conf_thresh = 0.5, iou_thresh = 0.2, max_det = 300) => {
   // Initialize an empty list to store the selected boxes
@@ -23,12 +15,12 @@ export const non_max_suppression = (res, conf_thresh = 0.5, iou_thresh = 0.2, ma
     let klass = cls_detections.reduce((imax, x, i, arr) => (x > arr[imax] ? i : imax), 0);
     const score = res[i][klass + 5];
 
-    let object = xywh2xyxy(box);
+    let object = convertCoordinateSystemXywh2xyxy(box);
     let addBox = true;
 
     // Check for overlap with previously selected boxes
     for (let j = 0; j < selectedDetections.length; j++) {
-      const selectedBox = xywh2xyxy(selectedDetections[j]);
+      const selectedBox = convertCoordinateSystemXywh2xyxy(selectedDetections[j]);
 
       // Calculate the intersection and union of the two boxes
       const intersectionXmin = Math.max(object[0], selectedBox[0]);
