@@ -5,10 +5,11 @@ import { Drawer } from '../../ui/Drawer';
 import { FC } from 'react';
 
 type Props = {
+  detections: unknown;
   handleExecute: () => void;
 };
 
-export const ModelationAiFrontPage: FC<Props> = ({ handleExecute }) => {
+export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) => {
   const { redirectToStep } = useModelationRouter();
 
   return (
@@ -19,6 +20,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ handleExecute }) => {
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
           <button onClick={() => handleExecute()}>Execute</button>
+          {JSON.stringify(detections)}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>

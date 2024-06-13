@@ -17,13 +17,13 @@ export const ArAiPage: FC = () => {
   const { connectionType, step } = useModelationRouter();
 
   const { containerRef } = useAR(connectionType);
-  const { videoRef, handleExecute } = useAI(connectionType);
+  const { detections, videoRef, handleExecute } = useAI(connectionType);
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
     start: <ModelationStartPage />,
     arFront: <ModelationArFrontPage />,
     arBack: <ModelationArBackPage />,
-    aiFront: <ModelationAiFrontPage handleExecute={handleExecute} />,
+    aiFront: <ModelationAiFrontPage detections={detections} handleExecute={handleExecute} />,
     aiBack: <ModelationAiBackPage />,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
