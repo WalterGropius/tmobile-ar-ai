@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect } from 'react';
 import { LightIndicator } from '../../ui/LightIndicator';
+import { FC } from 'react';
 
 type Props = {
   detections: unknown;
