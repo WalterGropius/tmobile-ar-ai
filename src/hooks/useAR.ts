@@ -19,6 +19,8 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
   const arrowRef = useRef<NullablePlaneRef>(null);
   const imagePlaneRefFront = useRef<NullablePlaneRef>(null);
   const imagePlaneRefBack = useRef<NullablePlaneRef>(null);
+  const powRef = useRef<>(null);
+  const cabRef = useRef<>(null);
 
   const initPortPlane = (plane: PlaneRef) => {
     //power location
@@ -87,13 +89,17 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
 
       //load arrow(cable placeholder)
       const loader = new GLTFLoader();
-      loader.load('/arrow.glb', (gltf: GLTF) => {
-        const arrow = gltf.scene.children[0] as THREE.Mesh; // Assumes arrow is the first object in your GLTF
-        arrow.position.set(0, 0.05, 0); // Adjust position as needed
-        arrow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
-        arrow.material = portMaterial; //
-        (portPlaneRef.current as PlaneRef).add(arrow);
-        arrowRef.current = arrow;
+      loader.load('/cables.glb', (gltf: GLTF) => {
+        const cab = gltf.scene.children[0] as THREE.Mesh;
+        const pow = gltf.scene.children[1] as THREE.Mesh;
+        cab.position.set(0, 0.05, 0); // Adjust position as needed
+        cab.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
+        pow.position.set(-0.38, -0.3, 0); // Adjust position as needed
+        pow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
+        cab.material = portMaterial; //
+        (portPlaneRef.current as PlaneRef).add(cab);
+        powRef.current = pow;
+        cabRef.current = cab;
       });
 
       //start MindAR
@@ -151,21 +157,16 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
         break;
       case 'powerAnim':
-        if (portPlaneRef.current) portPlaneRef.current.visible = true;
-        if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(-0.38, -0.3, 0);
-        }
-        if (arrowRef.current) arrowRef.current.visible = true;
+        if (powRef.current) powRef.current.visible = true;
         break;
-        case 'cableAnim':
-          if (portPlaneRef.current) portPlaneRef.current.visible = true;
+      case 'cableAnim':
           const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
           if (portPlaneRef.current) {
             portPlaneRef.current.position.set(position.x, position.y, position.z);
           }
-          if (arrowRef.current) arrowRef.current.visible = true;
+          if (cabRef.current) cabRef.current.visible = true;
           break;
-        default:
+      default:
           break;
       }
     }, [step, initialized]);
