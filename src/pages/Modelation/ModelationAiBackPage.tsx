@@ -2,9 +2,26 @@ import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
+import { useState, useEffect } from 'react';
 
 export const ModelationAiBackPage = () => {
   const { redirectToStep } = useModelationRouter();
+  const [buttonText, setButtonText] = useState('Zkontrolovat');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleExecute = () => {
+    setIsButtonDisabled(true);
+    setTimeout(() => {
+      setButtonText('Pokračovat');
+      setIsButtonDisabled(false);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (buttonText === 'Pokračovat') {
+      redirectToStep('arFront');
+    }
+  }, [buttonText, redirectToStep]);
 
   return (
     <Box>
@@ -22,8 +39,13 @@ export const ModelationAiBackPage = () => {
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={() => redirectToStep('arFront')}>
-                Pokračovat
+              <Button 
+                variant="contained" 
+                fullWidth 
+                onClick={handleExecute} 
+                disabled={isButtonDisabled}
+              >
+                {buttonText}
               </Button>
             </Box>
           </Box>

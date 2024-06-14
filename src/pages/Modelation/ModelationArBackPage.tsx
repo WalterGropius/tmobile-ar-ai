@@ -26,7 +26,7 @@ export const ModelationArBackPage = () => {
      
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
-        <button onClick={() => handleExecute()}>Execute</button>
+       
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

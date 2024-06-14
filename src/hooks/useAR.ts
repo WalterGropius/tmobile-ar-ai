@@ -18,6 +18,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
   const [initialized, setInitialized] = useState(false);
 
   const portPlaneRef = useRef<NullablePlaneRef>(null);
+  const arrowRef = useRef<NullablePlaneRef>(null);
   const imagePlaneRefFront = useRef<NullablePlaneRef>(null);
   const imagePlaneRefBack = useRef<NullablePlaneRef>(null);
 
@@ -94,6 +95,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         arrow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
         arrow.material = portMaterial; //
         (portPlaneRef.current as PlaneRef).add(arrow);
+        arrowRef.current = arrow;
       });
 
       //start MindAR
@@ -135,7 +137,40 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
 
   useEffect(() => {
     if (!initialized) return;
-  }, [initialized]);
+  
+    // Hide all elements initially
+    if (portPlaneRef.current) portPlaneRef.current.visible = false;
+    if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = false;
+    if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = false;
+    if (arrowRef.current) arrowRef.current.visible = false;
+  
+    // Show elements based on the current step
+    switch (step) {
+      case 'arBack':
+        if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = true;
+        break;
+      case 'arFront':
+        if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
+        break;
+      case 'powerAnim':
+        if (portPlaneRef.current) portPlaneRef.current.visible = true;
+        if (portPlaneRef.current) {
+          portPlaneRef.current.position.set(-0.38, -0.3, 0);
+        }
+        if (arrowRef.current) arrowRef.current.visible = true;
+        break;
+        case 'cableAnim':
+          if (portPlaneRef.current) portPlaneRef.current.visible = true;
+          const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
+          if (portPlaneRef.current) {
+            portPlaneRef.current.position.set(position.x, position.y, position.z);
+          }
+          if (arrowRef.current) arrowRef.current.visible = true;
+          break;
+        default:
+          break;
+      }
+    }, [step, initialized]);
 
   return { containerRef, setPortPlane };
 };

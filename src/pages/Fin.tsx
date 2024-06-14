@@ -16,7 +16,7 @@ export const Fin = () => {
 
   return (
     <Box>
-      <Box sx={{ color: Color.white, background: Color.magenta, p: 4, borderRadius: 4, my: 4, textAlign: 'center' }}>
+      <Box sx={{ color: Color.white, background: Color.magenta,  textAlign: 'center',height: '100vh',overflow: 'hidden' }}>
         <h6>Zapojení bylo úspěšné ✓</h6>
         <h2>A je to!</h2>
         <h2>Váš modem Zyxel máte úspěšně zapojený.</h2>
