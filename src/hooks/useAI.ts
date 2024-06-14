@@ -16,7 +16,6 @@ export const useAI = (connectionType: ConnectionType) => {
   const modelName = 'modem';
   const threshold = 0.8;
 
-
   useEffect(() => {
     const loadModel = async () => {
       try {
@@ -64,11 +63,10 @@ export const useAI = (connectionType: ConnectionType) => {
     const resArray = res.arraySync()[0];
     const detections = non_max_suppression(resArray);
 
-      tf.dispose(res);
-      setDetections(detections);
-      console.table(detections);
-      setDetecting(false);
-    ;
+    tf.dispose(res);
+    setDetections(detections);
+    console.table(detections);
+    setDetecting(false);
   };
 
   const handleExecute = async () => {

@@ -6,18 +6,24 @@ import { useState, useEffect } from 'react';
 
 export const ModelationAiBackPage = () => {
   const { redirectToStep } = useModelationRouter();
+
+  // TODO: Stejna chyba, race condition
   const [buttonText, setButtonText] = useState('Zkontrolovat');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleExecute = () => {
     setIsButtonDisabled(true);
     setTimeout(() => {
+      // TODO: Proc to neni tady? redirectToStep('arFront');
       setButtonText('Pokračovat');
       setIsButtonDisabled(false);
     }, 5000);
   };
 
+  // TODO: Smazat, tento useEffect je dalsi pripad race-condition
   useEffect(() => {
+    // TODO: Proc tato logika neni primo ve fci, ale je tady?
+    // TODO: Toto zpusobi automaticky magic refresh.
     if (buttonText === 'Pokračovat') {
       redirectToStep('arFront');
     }

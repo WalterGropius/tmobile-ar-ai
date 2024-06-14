@@ -15,6 +15,7 @@ function shortenedCol(arrayofarray, indexlist) {
   });
 }
 
+// TODO: Pokud tento kod nepouzivas, tak ho vymaz
 const App = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [detections, setDetections] = useState([]);

@@ -11,12 +11,17 @@ type Props = {
   handleExecute: () => void;
 };
 
-
 export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
+  // TODO: Udelej jako jeden state, nepouzivej race-condition (opet chyba), pojmenuj veci podle toho, co skutecne delaji.
+  // TODO: Nazev buttonText prejmenuj na to, co to znamena dle byznys logiky, napr. isLoading, isProcessing, ...
+  // TODO: isButtonDisabled je pravdepodnbe race-condition s prvnim stavem.
+  // TODO: Mozna pujde udelat jako tri-stavovy storage useState<'init' | 'loading' | 'done'>('init');
   const [buttonText, setButtonText] = useState('Zkontrolovat');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  
+
+  // TODO: Tento kod patri do hooku! Pokud se nehodi do existujiciho (tento pripad), zaloz pro to novy hook.
+  // TODO: Komponenty obsahuji jen design, ne aplikacni logiku.
   /* 
   const filterByLabelIncludes = (filterLabel) =>
     posLabels.filter(({ label }) => label.includes(filterLabel));
@@ -73,9 +78,6 @@ const processDetections = (detections) => {
   return posLabels;
 };
 
-
-
-
 const processFrontSide = ({
   lightoffCount,
   portCount,
@@ -100,7 +102,6 @@ const processFrontSide = ({
 };
  */
 
-
   const handleButtonClick = () => {
     setIsButtonDisabled(true);
     handleExecute();
@@ -121,7 +122,6 @@ const processFrontSide = ({
     return [false, false, false, false, false, false];
   };
 
-
   return (
     <Box>
       <Box sx={{ m: 2 }}>
@@ -139,12 +139,7 @@ const processFrontSide = ({
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button 
-                variant="contained" 
-                fullWidth 
-                onClick={handleButtonClick} 
-                disabled={isButtonDisabled}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={isButtonDisabled}>
                 {buttonText}
               </Button>
             </Box>
