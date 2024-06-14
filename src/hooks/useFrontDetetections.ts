@@ -6,16 +6,14 @@ const useFrontDetections = (detections: Detection[]) => {
 
   useEffect(() => {
     const processDetections = (detections: Detection[]) => {
-      const posLabels = detections.map((det) => {
-        return {
-          xPosition: det.xPosition,
-          label: det.label,
-        };
-      });
+      const posLabels = detections.map((det) => ({
+        xPosition: det.xPosition,
+        label: det.label,
+      }));
 
       posLabels.sort((a, b) => a.xPosition - b.xPosition);
 
-      const lights = posLabels.filter(({ label }) => label.includes('light'));
+      const lights = posLabels.filter(({ label }) => label && label.includes('light'));
       const lightStatusArray = Array(6).fill(false);
 
       lights.forEach((light, index) => {
