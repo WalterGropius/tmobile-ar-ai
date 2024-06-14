@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ConnectionTypePage } from './pages/ConnectionTypePage';
+import { ConnectionInfoPage } from './pages/ConnectionInfoPage';
 import { Documentation } from './pages/Documentation';
 import { AppWrapper } from './AppWrapper';
 import { Error404 } from './pages/Error404';
@@ -14,6 +15,7 @@ export const App = () => (
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/connection-type" element={<ConnectionTypePage />} />
+        <Route path="/connection-info" element={<ConnectionInfoPage />} />
         <Route path="/ar-viewer" element={<ArAiPage />} />
         <Route path="/fin" element={<Fin />} />
         <Route path="/documentation" element={<Documentation />} />

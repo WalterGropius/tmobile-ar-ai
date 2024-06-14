@@ -15,7 +15,7 @@ export const HomePage = () => (
       </Box>
     </Box>
     <Footer>
-      <Link to="/connection-type">
+      <Link to="/connection-info">
         <Button variant="contained" sx={{ width: '100%' }}>
           Jdu na to
         </Button>

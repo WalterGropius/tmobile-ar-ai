@@ -31,7 +31,7 @@ export const ArAiPage: FC = () => {
 
   return (
     <Box>
-      {PAGE_BY_STEP[step] || PAGE_BY_STEP.start}
+      {PAGE_BY_STEP[step] || PAGE_BY_STEP.arFront}
       <Box ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
       <video ref={videoRef} autoPlay playsInline style={{ display: 'none' }} />
     </Box>

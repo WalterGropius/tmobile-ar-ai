@@ -7,7 +7,7 @@ import { Drawer } from '../../ui/Drawer';
 import { IndicatorInfoList } from '../../ui/IndicatorInfoList';
 
 export const ModelationArFrontPage = () => {
-  const { redirectToStep } = useModelationRouter();
+  const { redirectToStep,redirectToPage } = useModelationRouter();
 
   const indicatorInfoList: StepInfoItem = {
     title: 'Namiřte na přední stranu modemu.',
@@ -25,12 +25,12 @@ export const ModelationArFrontPage = () => {
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBack')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToPage('connection-info')}>
                 Zpět
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={() => redirectToStep('aiFront')}>
+              <Button variant="contained" fullWidth onClick={() => redirectToStep('arBack')}>
                 Pokračovat
               </Button>
             </Box>

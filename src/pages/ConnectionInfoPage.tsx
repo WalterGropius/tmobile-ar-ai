@@ -6,6 +6,7 @@ export const ConnectionInfoPage = () => {
   const [searchParams] = useSearchParams();
 
   return (
+    <Box sx={{ background: 'rgba(0, 0, 0, 0.5)', width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
     <Drawer open={true}>
       <h1>Co je potřeba na instalaci modemu?</h1>
       <Box>
@@ -13,11 +14,11 @@ export const ConnectionInfoPage = () => {
         <p>Připravte si kabel pro propojení zásuvky k modemu.</p>
         <p>Mějte po ruce také zdrojový kabel pro připojení modemu do elektřiny.</p>
       </Box>
-      <Link to={`/ar-viewer?connection=${searchParams.get('connection')}`}>
-        <Button sx={{ width: '100%' }} variant="contained">
+      <Link to={`/connection-type`}>
+        <Button sx={{ width: '100%',my:2 }} variant="contained">
           Pokračovat
         </Button>
       </Link>
-    </Drawer>
+    </Drawer></Box>
   );
 };
