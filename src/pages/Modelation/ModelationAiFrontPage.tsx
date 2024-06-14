@@ -16,7 +16,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) 
   const [buttonText, setButtonText] = useState('Zkontrolovat');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   
-  
+  /* 
   const filterByLabelIncludes = (filterLabel) =>
     posLabels.filter(({ label }) => label.includes(filterLabel));
   
@@ -97,7 +97,7 @@ const processFrontSide = ({
     console.log("Correct");
   }
 };
-
+ */
 
 
   const handleButtonClick = () => {
