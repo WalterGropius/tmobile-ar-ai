@@ -1,3 +1,4 @@
+//done
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { StepInfoItem } from '../../types/modelation';
@@ -14,9 +15,6 @@ export const ModelationArBackPage = () => {
     list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
   };
 
-  const handleExecute = () => {
-   console.log('execute');
-  };
 
   return (
     <Box>

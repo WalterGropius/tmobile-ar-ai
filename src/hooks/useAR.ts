@@ -10,8 +10,6 @@ type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[
 
 type NullablePlaneRef = PlaneRef | null;
 
-//TODO: add step to the useAR hook
-//arback,cableanim,poweranim,arFront
 
 export const useAR = (connectionType: ConnectionType, step: Step) => {
   const containerRef = useRef<HTMLDivElement | null>(null);

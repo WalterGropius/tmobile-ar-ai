@@ -130,7 +130,7 @@ const processFrontSide = ({
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
           <h1>Zapojení AI</h1>
-          <h4>Vsledn stav (proces může trvat až 2 minuty)</h4>
+          <h4>Výsledný stav (proces může trvat až 2 minuty)</h4>
           <LightIndicator statusList={processDetections()} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
