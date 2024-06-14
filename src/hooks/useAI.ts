@@ -4,10 +4,13 @@ import '@tensorflow/tfjs-backend-webgl';
 import { non_max_suppression } from '../utils/nonMaxSuppression';
 import { ConnectionType } from '../types/connection';
 import { Webcam } from '../utils/webcam';
+import { Detection } from '../types/modelation';
+import labels from '../utils/labels.json';
 
 export const useAI = (connectionType: ConnectionType) => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [detections, setDetections] = useState([]);
+  const [labeledDetections, setLabeledDetections] = useState<Detection[]>([]);
   const [detecting, setDetecting] = useState(false);
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -65,19 +68,33 @@ export const useAI = (connectionType: ConnectionType) => {
 
     tf.dispose(res);
     setDetections(detections);
-    console.table(detections);
+
+    const labeledDetections: Detection[] = detections.map((det: unknown[]): Detection => ({
+        xPos: parseInt(det[0] as string),
+        label: labels[det[5] as number],
+        score: ((det[4] as number) * 100),
+      })
+    );
+
+    setLabeledDetections(labeledDetections);
+    console.table(labeledDetections);
+
     setDetecting(false);
   };
 
   const handleExecute = async () => {
-    if (model && !detecting) await detectFrame();
+    if (model && !detecting) {
+      await detectFrame();
+      console.log('Detections:', labeledDetections); // Debugging line
+    }
   };
 
   return {
-    detections,
+    labeledDetections,
     loading,
     detectFrame,
     handleExecute,
-    videoRef, // Expose videoRef to be used in the component
+    videoRef,
+    detections,
   };
 };

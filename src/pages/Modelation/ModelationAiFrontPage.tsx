@@ -9,14 +9,14 @@ import useFrontDetections from '../../hooks/useFrontDetetections';
 import { Detection } from '../../types/modelation';
 
 type Props = {
-  detections: Detection[];
+  labeledDetections: Detection[];
   handleExecute: () => void;
 };
 
-export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) => {
+export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
-  const lightStatus = useFrontDetections(detections);
+  const lightStatus = useFrontDetections(labeledDetections);
 
   const handleButtonClick = () => {
     setButtonState('loading');
@@ -30,10 +30,6 @@ export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) 
     }
   }, [buttonState]);
 
-  useEffect(() => {
- 
-    console.log(lightStatus);
-  }, [lightStatus]);
 
   return (
     <Box>
