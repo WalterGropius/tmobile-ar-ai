@@ -19,12 +19,12 @@ export const ModelationPowerAnimPage = () => {
         <Box sx={{ my: 2 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>
                 Zpět
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={() => redirectToStep('aiBack')}>
+              <Button variant="contained" fullWidth onClick={() => redirectToStep('aiBackPow')}>
                 Pokračovat
               </Button>
             </Box>

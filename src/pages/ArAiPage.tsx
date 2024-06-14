@@ -3,7 +3,8 @@ import { ModelationPowerAnimPage } from './Modelation/ModelationPowerAnimPage';
 import { ModelationAiFrontPage } from './Modelation/ModelationAiFrontPage';
 import { ModelationArFrontPage } from './Modelation/ModelationArFrontPage';
 import { ModelationArBackPage } from './Modelation/ModelationArBackPage';
-import { ModelationAiBackPage } from './Modelation/ModelationAiBackPage';
+import { ModelationAiBackCabPage } from './Modelation/ModelationAiBackCab';
+import { ModelationAiBackPowPage } from './Modelation/ModelationAiBackPow';
 import { ModelationFinishPage } from './Modelation/ModelationFinishPage';
 import { ModelationStartPage } from './Modelation/ModelationStartPage';
 import { useModelationRouter } from '../hooks/useModelationRouter';
@@ -23,7 +24,8 @@ export const ArAiPage: FC = () => {
     arFront: <ModelationArFrontPage />,
     arBack: <ModelationArBackPage />,
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBack: <ModelationAiBackPage />,
+    aiBackCab: <ModelationAiBackCabPage />,
+    aiBackPow:<ModelationAiBackPowPage/>,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
     finish: <ModelationFinishPage />,

@@ -31,7 +31,7 @@ export const ModelationCableAnimPage = () => {
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={() => redirectToStep('powerAnim')}>
+              <Button variant="contained" fullWidth onClick={() => redirectToStep('aiBackCab')}>
                 Pokračovat
               </Button>
             </Box>

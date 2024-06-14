@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect } from 'react';
 
-export const ModelationAiBackPage = () => {
+export const ModelationAiBackCabPage = () => {
   const { redirectToStep } = useModelationRouter();
 
   // TODO: Stejna chyba, race condition
@@ -17,7 +17,7 @@ export const ModelationAiBackPage = () => {
     setTimeout(() => {
       // TODO: Proc to neni tady? redirectToStep('arFront');
       setButtonText('Pokračovat');
-      redirectToStep('arFront');
+      redirectToStep('powerAnim');
       setIsButtonDisabled(false);
     }, 5000);
   };
@@ -33,7 +33,7 @@ export const ModelationAiBackPage = () => {
          <h4>Výsledný stav (proces může trvat až 2 minuty)</h4>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powerAnim')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
                 Zpět
               </Button>
             </Box>

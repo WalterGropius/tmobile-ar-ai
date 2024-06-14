@@ -20,7 +20,7 @@ export const ConnectionTypePage = () => {
           <Box sx={{ mr: 1 }}>
             <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
           </Box>
-          <Link to={`/ar-viewer?connection=${technology}`}>
+          <Link to={`/ar-viewer?connection=${technology}&step=arFront`}>
             <SelectButton>Vybrat</SelectButton>
           </Link>
         </ConnectionBox>
@@ -34,7 +34,7 @@ export const ConnectionTypePage = () => {
                 <CloseIcon />
               </button>
             </Box>
-            <Box sx={{ width: '100vw' }}>
+            <Box sx={{  maxHeight:"70vh" }}>
               <img style={{ width: '100%' }} src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
             </Box>
           </Drawer>

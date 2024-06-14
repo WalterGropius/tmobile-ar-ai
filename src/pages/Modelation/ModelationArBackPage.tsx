@@ -28,7 +28,7 @@ export const ModelationArBackPage = () => {
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('start')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>
                 Zpět
               </Button>
             </Box>
