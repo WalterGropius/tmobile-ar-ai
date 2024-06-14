@@ -22,6 +22,9 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
   const powRef = useRef<NullablePlaneRef>(null);
   const cabRef = useRef<NullablePlaneRef>(null);
 
+  const clock = useMemo(() => new THREE.Clock(), []);
+  const mixer = useMemo(() => new THREE.AnimationMixer(null), []);
+
   const initPortPlane = (plane: PlaneRef) => {
     //power location
     plane.position.set(-0.38, -0.3, 0);
@@ -92,10 +95,10 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       loader.load('/cables.glb', (gltf: GLTF) => {
         const cab = gltf.scene.children[0] as THREE.Mesh;
         const pow = gltf.scene.children[1] as THREE.Mesh;
-        cab.position.set(0, 0.05, 0); // Adjust position as needed
-        cab.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
-        pow.position.set(-0.38, -0.3, 0); // Adjust position as needed
-        pow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
+        cab.position.set(0, -0.01, 0); // Adjust position as needed
+        cab.scale.set(0.013, 0.013, 0.013); // Adjust scale as needed
+        pow.position.set(-0, -0, 0); // Adjust position as needed
+        pow.scale.set(0.013, 0.013, 0.013); // Adjust scale as needed
         cab.material = portMaterial; // Ensure material is set
         pow.material = portMaterial; // Ensure material is set
         powRef.current = pow as PlaneRef;
@@ -104,12 +107,25 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         (portPlaneRef.current as PlaneRef).add(pow);
         cab.visible = false; // Initially hide cables
         pow.visible = false; // Initially hide cables
+
+        // Create animation for cables
+        const cabClip = new THREE.AnimationClip('cabAnimation', -1, [
+          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 0.1, 0]),
+        ]);
+        const powClip = new THREE.AnimationClip('powAnimation', -1, [
+          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 0.3, 0]),
+        ]);
+
+        mixer.clipAction(cabClip, cab).play();
+        mixer.clipAction(powClip, pow).play();
       });
 
       //start MindAR
       mindarThree.start().then(() => {
         //start animation loop
         renderer.setAnimationLoop(() => {
+          const delta = clock.getDelta();
+          mixer.update(delta);
           renderer.render(scene, camera);
         });
         setInitialized(true);
@@ -117,9 +133,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
 
       return { mindarThree, renderer };
     };
-  }, []);
-
-
+  }, [clock, mixer]);
 
   const cleanupAR = useCallback((mindarThree, renderer) => {
     if (renderer) renderer.setAnimationLoop(null);
