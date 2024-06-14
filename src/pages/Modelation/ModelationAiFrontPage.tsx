@@ -9,33 +9,26 @@ import useFrontDetections from '../../hooks/useFrontDetetections';
 import { Detection } from '../../types/modelation';
 
 type Props = {
-  detections: unknown;
+  detections: Detection[];
   handleExecute: () => void;
 };
 
 export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) => {
-  const { redirectToStep, redirectToPage } = useModelationRouter();
-  // TODO: Udelej jako jeden state, nepouzivej race-condition (opet chyba), pojmenuj veci podle toho, co skutecne delaji.
-  // TODO: Nazev buttonText prejmenuj na to, co to znamena dle byznys logiky, napr. isLoading, isProcessing, ...
-  // TODO: isButtonDisabled je pravdepodnbe race-condition s prvnim stavem.
-  // TODO: Mozna pujde udelat jako tri-stavovy storage useState<'init' | 'loading' | 'done'>('init');
-  const [buttonText, setButtonText] = useState('Zkontrolovat');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const lightStatus = useFrontDetections(detections as Detection[]);
-
+  const { redirectToStep } = useModelationRouter();
+  const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
+  const lightStatus = useFrontDetections(detections);
 
   const handleButtonClick = () => {
-    
+    setButtonState('loading');
     handleExecute();
-    setButtonText('Kontrola');
+    setButtonState('done');
   };
 
   useEffect(() => {
-    if (buttonText === 'Pokračovat') {
-      redirectToPage('fin');
+    if (buttonState === 'done') {
+      setButtonState('init');
     }
-  }, [buttonText, redirectToPage]);
-
+  }, [buttonState]);
 
   return (
     <Box>
@@ -54,8 +47,13 @@ export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) 
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={isButtonDisabled}>
-                {buttonText}
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={buttonState === 'loading'}
+              >
+                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>

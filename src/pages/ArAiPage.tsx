@@ -15,8 +15,7 @@ import { Box } from '@mui/material';
 
 export const ArAiPage: FC = () => {
   const { connectionType, step } = useModelationRouter();
-
-  const { containerRef } = useAR(connectionType,step);
+  const { containerRef } = useAR(connectionType, step);
   const { detections, videoRef, handleExecute } = useAI(connectionType);
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
