@@ -12,7 +12,7 @@ const useFrontDetections = (detections: Detection[]) => {
       }));
 
       posLabels.sort((a, b) => a.xPosition - b.xPosition);
-
+      console.log(posLabels);
       const lights = posLabels.filter(({ label }) => label && label.includes('light'));
       const lightStatusArray = Array(6).fill(false);
 
