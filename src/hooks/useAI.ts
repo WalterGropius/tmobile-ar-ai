@@ -53,33 +53,29 @@ export const useAI = (connectionType: ConnectionType) => {
 
     setDetecting(true);
     const model_dim = [640, 640];
-    tf.engine().startScope();
-    const input = tf.tidy(() =>
-      tf.image
-        .resizeBilinear(tf.browser.fromPixels(videoRef.current), model_dim)
-        .div(255.0)
-        .transpose([2, 0, 1])
-        .expandDims(0)
-    );
 
-    const res = model.execute(input);
-    const resArray = res.arraySync()[0];
-    const detections = non_max_suppression(resArray);
+    try {
+      const detections = await tf.tidy(() => {
+        const input = tf.image
+          .resizeBilinear(tf.browser.fromPixels(videoRef.current), model_dim)
+          .div(255.0)
+          .transpose([2, 0, 1])
+          .expandDims(0);
 
-    tf.dispose(res);
-    setDetections(detections);
+        const res = model.execute(input) as tf.Tensor;
+        const resArray = res.arraySync()[0];
+        const detections = non_max_suppression(resArray);
+        tf.dispose(res);
+        return detections;
+      });
 
-    const labeledDetections: Detection[] = detections.map((det: unknown[]): Detection => ({
-        xPos: parseInt(det[0] as string),
-        label: labels[det[5] as number],
-        score: ((det[4] as number) * 100),
-      })
-    );
-
-    setLabeledDetections(labeledDetections);
-    console.table(labeledDetections);
-
-    setDetecting(false);
+      setDetections(detections);
+      console.table(detections);
+    } catch (error) {
+      console.error('Error during detection:', error);
+    } finally {
+      setDetecting(false);
+    }
   };
 
   const handleExecute = async () => {
