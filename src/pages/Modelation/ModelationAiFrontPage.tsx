@@ -153,4 +153,4 @@ const processFrontSide = ({
       </Drawer>
     </Box>
   );
-}};
+};
