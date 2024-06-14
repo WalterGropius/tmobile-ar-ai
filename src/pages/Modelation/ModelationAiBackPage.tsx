@@ -1,3 +1,4 @@
+
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button } from '@mui/material';
@@ -16,18 +17,10 @@ export const ModelationAiBackPage = () => {
     setTimeout(() => {
       // TODO: Proc to neni tady? redirectToStep('arFront');
       setButtonText('Pokračovat');
+      redirectToStep('arFront');
       setIsButtonDisabled(false);
     }, 5000);
   };
-
-  // TODO: Smazat, tento useEffect je dalsi pripad race-condition
-  useEffect(() => {
-    // TODO: Proc tato logika neni primo ve fci, ale je tady?
-    // TODO: Toto zpusobi automaticky magic refresh.
-    if (buttonText === 'Pokračovat') {
-      redirectToStep('arFront');
-    }
-  }, [buttonText, redirectToStep]);
 
   return (
     <Box>

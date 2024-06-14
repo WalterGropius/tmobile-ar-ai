@@ -3,10 +3,15 @@
     src: url(/teleneo-office-cufonfonts/Tele_Neo.otf);
 }
 
+
+
+
 body, html {
     margin: 0;
     padding: 0;
     font-family: "Tele Neo", sans-serif;
+    overflow: hidden;
+
 }
 
 .no-scroll {
@@ -46,6 +51,7 @@ video {
 canvas {
     position: relative;
     z-index: 1;
+    overflow: hidden;
 }
 
 #frame {

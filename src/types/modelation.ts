@@ -24,6 +24,11 @@ export type StepInfoItem = {
   list: string[];
 };
 
+export type Detection = {
+  xPosition: number;
+  label: string;
+};
+
 /*
 AR
 

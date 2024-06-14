@@ -19,8 +19,8 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
   const arrowRef = useRef<NullablePlaneRef>(null);
   const imagePlaneRefFront = useRef<NullablePlaneRef>(null);
   const imagePlaneRefBack = useRef<NullablePlaneRef>(null);
-  const powRef = useRef<>(null);
-  const cabRef = useRef<>(null);
+  const powRef = useRef<NullablePlaneRef>(null);
+  const cabRef = useRef<NullablePlaneRef>(null);
 
   const initPortPlane = (plane: PlaneRef) => {
     //power location
@@ -87,7 +87,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       initImagePlane(imagePlaneRefBack.current as PlaneRef);
       initImagePlane2(imagePlaneRefFront.current as PlaneRef);
 
-      //load arrow(cable placeholder)
+      //load cables
       const loader = new GLTFLoader();
       loader.load('/cables.glb', (gltf: GLTF) => {
         const cab = gltf.scene.children[0] as THREE.Mesh;
@@ -96,10 +96,14 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         cab.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
         pow.position.set(-0.38, -0.3, 0); // Adjust position as needed
         pow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
-        cab.material = portMaterial; //
+        cab.material = portMaterial; // Ensure material is set
+        pow.material = portMaterial; // Ensure material is set
+        powRef.current = pow as PlaneRef;
+        cabRef.current = cab as PlaneRef;
         (portPlaneRef.current as PlaneRef).add(cab);
-        powRef.current = pow;
-        cabRef.current = cab;
+        (portPlaneRef.current as PlaneRef).add(pow);
+        cab.visible = false; // Initially hide cables
+        pow.visible = false; // Initially hide cables
       });
 
       //start MindAR
@@ -147,6 +151,8 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
     if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = false;
     if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = false;
     if (arrowRef.current) arrowRef.current.visible = false;
+    if (powRef.current) powRef.current.visible = false;
+    if (cabRef.current) cabRef.current.visible = false;
   
     // Show elements based on the current step
     switch (step) {
@@ -157,19 +163,26 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
         break;
       case 'powerAnim':
+        if (portPlaneRef.current) {
+          portPlaneRef.current.position.set(-0.38, -0.3, 0);  
+          portPlaneRef.current.visible = true;
+        }
         if (powRef.current) powRef.current.visible = true;
         break;
       case 'cableAnim':
-          const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
-          if (portPlaneRef.current) {
-            portPlaneRef.current.position.set(position.x, position.y, position.z);
-          }
-          if (cabRef.current) cabRef.current.visible = true;
-          break;
+        const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
+        if (portPlaneRef.current) {
+          portPlaneRef.current.position.set(position.x, position.y, position.z);
+          portPlaneRef.current.visible = true; // Ensure port plane is visible
+        }
+        if (cabRef.current) cabRef.current.visible = true;
+        break;
       default:
-          break;
-      }
-    }, [step, initialized]);
+        break;
+    }
+  }, [step, initialized]);
+
+
 
   return { containerRef, setPortPlane };
 };
