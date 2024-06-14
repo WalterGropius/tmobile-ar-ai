@@ -30,6 +30,11 @@ export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) 
     }
   }, [buttonState]);
 
+  useEffect(() => {
+ 
+    console.log(lightStatus);
+  }, [lightStatus]);
+
   return (
     <Box>
       <Box sx={{ m: 2 }}>
