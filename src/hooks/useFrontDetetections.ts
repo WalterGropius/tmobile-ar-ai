@@ -14,13 +14,12 @@ const useFrontDetections = (labeledDetections: Detection[]): boolean[] => {
     const [lightStatus, setLightStatus] = useState<boolean[]>([]);
 
     useEffect(() => {
-        
+        if (labeledDetections.length === 6) {
             const sortedDetections = sortDetections(labeledDetections);
             const lights = filterLights(sortedDetections);
             console.log('Light Status:', lights); // Debugging line
             setLightStatus(lights);
-            
-        
+        }
     }, [labeledDetections]);
 
     return lightStatus;
