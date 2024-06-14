@@ -16,9 +16,6 @@ export const useAI = (connectionType: ConnectionType) => {
   const modelName = 'modem';
   const threshold = 0.8;
 
-  useEffect(() => {
-    console.log(`AI loading state: ${loading}`);
-  }, [loading]);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -69,6 +66,7 @@ export const useAI = (connectionType: ConnectionType) => {
 
       tf.dispose(res);
       setDetections(detections);
+      console.table(detections);
       setDetecting(false);
     ;
   };

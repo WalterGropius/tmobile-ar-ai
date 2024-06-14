@@ -25,7 +25,7 @@ export const ModelationCableAnimPage = () => {
         <Box sx={{ my: 2 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBack')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('arBack')}>
                 Zpět
               </Button>
             </Box>

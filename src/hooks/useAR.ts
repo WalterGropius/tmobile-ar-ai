@@ -4,12 +4,16 @@ import { ConnectionType } from '../types/connection';
 // @ts-ignore
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import * as THREE from 'three';
+import { Step } from '@/types/modelation';
 
 type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[]>;
 
 type NullablePlaneRef = PlaneRef | null;
 
-export const useAR = (connectionType: ConnectionType) => {
+//TODO: add step to the useAR hook
+//arback,cableanim,poweranim,arFront
+
+export const useAR = (connectionType: ConnectionType, step: Step) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [initialized, setInitialized] = useState(false);
 
@@ -82,7 +86,7 @@ export const useAR = (connectionType: ConnectionType) => {
       initImagePlane(imagePlaneRefBack.current as PlaneRef);
       initImagePlane2(imagePlaneRefFront.current as PlaneRef);
 
-      //load arrow
+      //load arrow(cable placeholder)
       const loader = new GLTFLoader();
       loader.load('/arrow.glb', (gltf: GLTF) => {
         const arrow = gltf.scene.children[0] as THREE.Mesh; // Assumes arrow is the first object in your GLTF
@@ -90,13 +94,6 @@ export const useAR = (connectionType: ConnectionType) => {
         arrow.scale.set(0.05, 0.05, 0.05); // Adjust scale as needed
         arrow.material = portMaterial; //
         (portPlaneRef.current as PlaneRef).add(arrow);
-
-        const animationClip = gltf.animations[0];
-
-        // Create a mixer
-        const mixer = new THREE.AnimationMixer(arrow);
-        const animationAction = mixer.clipAction(animationClip);
-        animationAction.play(); // Start the animation
       });
 
       //start MindAR
@@ -112,6 +109,8 @@ export const useAR = (connectionType: ConnectionType) => {
     };
   }, []);
 
+
+
   const cleanupAR = useCallback((mindarThree, renderer) => {
     if (renderer) renderer.setAnimationLoop(null);
     if (mindarThree) {
@@ -124,16 +123,6 @@ export const useAR = (connectionType: ConnectionType) => {
     setInitialized(false);
     console.log('Cleanup complete.');
   }, []);
-
-  const toggleAR = useCallback(() => {
-    if (initialized) {
-      cleanupAR(mindarThree, renderer);
-      console.log('togglear cleanup');
-    } else {
-      const { mindarThree, renderer } = initializeAR();
-      console.log('togglear initialize');
-    }
-  }, [initialized, initializeAR, cleanupAR]);
 
 
   useEffect(() => {
@@ -148,5 +137,5 @@ export const useAR = (connectionType: ConnectionType) => {
     if (!initialized) return;
   }, [initialized]);
 
-  return { containerRef, toggleAR, setPortPlane };
+  return { containerRef, setPortPlane };
 };

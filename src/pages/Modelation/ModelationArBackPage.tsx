@@ -14,13 +14,19 @@ export const ModelationArBackPage = () => {
     list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
   };
 
+  const handleExecute = () => {
+   console.log('execute');
+  };
+
   return (
     <Box>
       <Box sx={{ m: 2 }}>
         <StatusBanner status="ardetect" />
       </Box>
+     
       <Drawer open={true}>
         <Box sx={{ my: 2 }}>
+        <button onClick={() => handleExecute()}>Execute</button>
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

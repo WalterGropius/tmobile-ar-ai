@@ -10,6 +10,7 @@ export const Circle: FC<Props> = ({ color, size }) => (
   <Box
     sx={{
       flexShrink: 0,
+      m:0.5,
       display: 'inline-block',
       width: `${size || 10}px`,
       height: `${size || 10}px`,

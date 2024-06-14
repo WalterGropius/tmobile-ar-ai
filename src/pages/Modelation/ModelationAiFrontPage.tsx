@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { FC } from 'react';
 import labels from "../../utils/labels.json";
+import { LightIndicator } from '../../ui/LightIndicator';
 
 type Props = {
   detections: unknown;
@@ -23,16 +24,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ detections, handleExecute }) 
           <h1>Zapojení AI</h1>
           <h4>Výsledný stav (proces může trvat až 2 minuty)</h4>
           <button onClick={() => handleExecute()}>Execute</button>
-         {detections && detections.map((detection, index) => (
-                <li key={index}>
-                  Box: {detection[0].toFixed(2)}, {detection[1].toFixed(2)},{" "}
-                  {detection[2].toFixed(2)}, {detection[3].toFixed(2)}
-                  <br />
-                  Score: {detection[4].toFixed(2)}
-                  <br />
-                  Class: {labels[detection[5]]}
-                </li>
-              ))}
+          <LightIndicator statusList={[true,true,true,true,true,true]} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>
