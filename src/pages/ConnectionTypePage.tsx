@@ -34,8 +34,8 @@ export const ConnectionTypePage = () => {
                 <CloseIcon />
               </button>
             </Box>
-            <Box sx={{ width: '100%', height: '100%' }}>
-              <img src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
+            <Box sx={{ width: '100vw' }}>
+              <img style={{ width: '100%' }} src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
             </Box>
           </Drawer>
         </Modal>

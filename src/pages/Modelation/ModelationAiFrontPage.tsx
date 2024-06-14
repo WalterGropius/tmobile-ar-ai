@@ -14,15 +14,25 @@ type Props = {
 };
 
 export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
-  const { redirectToStep } = useModelationRouter();
+  const { redirectToStep,redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
+  const [buttonClickCount, setButtonClickCount] = useState(0);
   const lightStatus = useFrontDetections(labeledDetections);
 
-  const handleButtonClick = () => {
+  const executeDetect = () => {
     setButtonState('loading');
     handleExecute();
     setButtonState('done');
   };
+
+  const handleButtonClick = () => {
+    setButtonClickCount(prevCount => prevCount + 1);
+    executeDetect();
+  };
+
+  useEffect(() => {
+    executeDetect();
+  }, []);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -30,6 +40,14 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     }
   }, [buttonState]);
 
+  useEffect(() => {
+    if (buttonClickCount >= 5 || JSON.stringify(lightStatus) === JSON.stringify([true, false, false, false, true, true])) {
+     
+     setTimeout(() => {
+       redirectToPage("fin");
+     }, 1000);
+    }
+  }, [buttonClickCount, lightStatus]);
 
   return (
     <Box>
