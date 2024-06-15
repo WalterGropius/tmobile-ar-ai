@@ -13,7 +13,8 @@ export const ConnectionTypePage = () => {
   const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
 
   return (
-    <Container sx={{ py: 3,overflowY: 'scroll' }} >
+    <Container sx={{ py: 3 }} >
+      <Box sx={{ overflowY: 'auto', height: '100vh',touchAction:"pan-y" }}>
       <MainTitle>Vyberte svůj typ online připojení</MainTitle>
       {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
         <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
@@ -23,8 +24,9 @@ export const ConnectionTypePage = () => {
           <Link to={`/ar-viewer?connection=${technology}&step=arFront`}>
             <SelectButton>Vybrat</SelectButton>
           </Link>
-        </ConnectionBox>
-      ))}
+        </ConnectionBox>    
+))}
+</Box>
       {selectedTechnology && (
         <Modal open={true} onClose={() => setSelectedTechnology(undefined)}>
           <Drawer open={true}>
