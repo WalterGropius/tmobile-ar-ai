@@ -13,7 +13,7 @@ export const ConnectionTypePage = () => {
   const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
 
   return (
-    <Container sx={{ py: 3 }}>
+    <Container sx={{ py: 3,overflowY: 'scroll' }} >
       <MainTitle>Vyberte svůj typ online připojení</MainTitle>
       {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
         <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
