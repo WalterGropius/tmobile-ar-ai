@@ -23,7 +23,7 @@ export const ModelationArBackPage = () => {
       </Box>
      
       <Drawer open={true}>
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ my: 0 }}>
        
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>

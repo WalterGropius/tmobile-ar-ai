@@ -16,16 +16,15 @@ export const Fin = () => {
 
   return (
     <Box>
-      <Box sx={{ color: Color.white, background: Color.magenta,  textAlign: 'center',height: '100vh',overflow: 'hidden' }}>
+      <Box sx={{display:'flex',flexDirection:'column', color: Color.white, background: Color.magenta,justifyContent:'space-around', textAlign: 'center',height: '100vh',overflow: 'hidden' }}>
         <h6>Zapojení bylo úspěšné ✓</h6>
-        <h2>A je to!</h2>
-        <h2>Váš modem Zyxel máte úspěšně zapojený.</h2>
+       <Box> <h2 style={{fontSize: '48px',padding:0,margin:0}}>A je to!</h2>
+        <h2 style={{fontSize: '48px',padding:0,margin:0}}>Váš modem Zyxel máte spěšně zapojen.</h2>
+        </Box>
         <Box sx={{ textAlign: 'center' }}>
           <Box component="img" src="/ui/fromfigma/modem.png" alt="modem" sx={{ width: '80%', my: 6 }} />
         </Box>
-        <p>pro připojení zapojte LAN kabel anebo stiskněte WIFI tlačítko</p>
-        <p>pro zapnutí WIFI sítě a připojte se pomocí QR kodu na zadní straně modemu</p>
-        <p>nebo přihlášením pomocí WEP údajů.</p>
+      
       </Box>
 
     

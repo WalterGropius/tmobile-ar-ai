@@ -5,8 +5,6 @@ import { ModelationArFrontPage } from './Modelation/ModelationArFrontPage';
 import { ModelationArBackPage } from './Modelation/ModelationArBackPage';
 import { ModelationAiBackCabPage } from './Modelation/ModelationAiBackCab';
 import { ModelationAiBackPowPage } from './Modelation/ModelationAiBackPow';
-import { ModelationFinishPage } from './Modelation/ModelationFinishPage';
-import { ModelationStartPage } from './Modelation/ModelationStartPage';
 import { useModelationRouter } from '../hooks/useModelationRouter';
 import { FC, ReactNode } from 'react';
 import { useAR } from '../hooks/useAR';
@@ -20,7 +18,7 @@ export const ArAiPage: FC = () => {
   const { detections, videoRef, handleExecute, labeledDetections } = useAI(connectionType);
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
-    start: <ModelationStartPage />,
+    start:<> </>,
     arFront: <ModelationArFrontPage />,
     arBack: <ModelationArBackPage />,
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
@@ -28,7 +26,7 @@ export const ArAiPage: FC = () => {
     aiBackPow:<ModelationAiBackPowPage/>,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
-    finish: <ModelationFinishPage />,
+    finish:<> </>,
   };
 
   return (

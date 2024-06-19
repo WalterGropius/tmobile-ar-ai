@@ -39,10 +39,10 @@ export const IndicatorInfoList: FC<InfoItem> = ({ title, subtitle, list }) => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ color: Color.black }}>
+      <Typography variant="h2" sx={{ color: Color.black }}>
         {title}
       </Typography>
-      <Typography variant="subtitle1" sx={{ color: Color.black }}>
+      <Typography variant="h2" sx={{ color: Color.black }}>
         {subtitle}
       </Typography>
       <Box sx={{ display: 'flex', mt: 1 }}>

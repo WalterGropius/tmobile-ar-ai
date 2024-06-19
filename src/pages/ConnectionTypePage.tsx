@@ -13,7 +13,7 @@ export const ConnectionTypePage = () => {
   const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
 
   return (
-    <Container sx={{ py: 3 }} >
+    <Container sx={{ py: 0 }} >
       <Box sx={{ overflowY: 'auto',height:"100vh",touchAction:"pan-y" }}>
       <MainTitle>Vyberte svůj typ online připojení</MainTitle>
       {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (

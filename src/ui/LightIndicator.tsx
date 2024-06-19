@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const LightIndicator: FC<Props> = ({ statusList }) => (
-  <Box sx={{ display: 'flex', width: '100%' }}>
+  <Box sx={{ display: 'flex', width: '100%',marginBottom:'38px' }}>
     {statusList.map((status, key) => (
       <Circle key={key} color={status ? Color.green : Color.black} size={48} />
     ))}

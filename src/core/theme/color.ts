@@ -1,5 +1,8 @@
 export const Color = {
-  magenta: '#ea0a8e',
+  magenta: '#e20074',
+  magentaLight: '#f90984',
+  magenta40: 'rgba(249, 9, 132, 0.4)',
+  magenta10: 'rgba(249, 9, 132, 0.1)',
   grey: '#808080',
   orange: '#ffa726',
   orangeLight:  '#fff3e0',

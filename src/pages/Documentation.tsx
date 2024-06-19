@@ -1,4 +1,4 @@
-import { Box, Button, Container } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { LightIndicator } from '../ui/LightIndicator';
 import { ColorGrid } from '../documentation/ColorGrid';
 import { Card } from '../ui/Card';
@@ -97,8 +97,8 @@ export const Documentation = () => {
           <PhoneScreen>
             <h2>Instalace modemu v rozšířené realitě</h2>
             <Box sx={{ background: Color.lightGrey, p: 4, borderRadius: 4, my: 4 }}>
-              <h2>Zyxel</h2>
-              <h4>VMG3625-T509</h4>
+              <Typography variant="h2">Zyxel</Typography>
+              <Typography variant="h4">VMG3625-T509</Typography>
               <Box sx={{ textAlign: 'center' }}>
                 <Box component="img" src="/ui/fromfigma/modem.png" alt="modem" sx={{ width: '80%' }} />
               </Box>
@@ -112,7 +112,7 @@ export const Documentation = () => {
             <h2>Co je potřeba na instalaci modemu?</h2>
             <Box>
               <Box>
-                <h5>Položte si modem na prázdn tmav stůl tak, abyste viděli v dolní části na konektory.</h5>
+                <h5>Položte si modem na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory.</h5>
                 <h5>Připravte si kabel pro propojení zásuvky k modemu.</h5>
                 <h5>Mějte po ruce také zdrojový kabel pro připojení modemu do elektřiny.</h5>
               </Box>

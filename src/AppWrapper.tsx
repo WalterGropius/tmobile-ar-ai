@@ -16,9 +16,9 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"Tele Neo", sans-serif',
-    h2: { fontWeight: 700, color: Color.black },
-    h1: { fontWeight: 700, fontSize: '1.5rem' },
-    h4: { fontWeight: 700, fontSize: '1.2rem' },
+    h2: { fontWeight: 700, color: Color.black, fontSize: '16px' },
+    h1: { fontWeight: 700, fontSize: '32px' },
+    h4: { fontWeight: 700, fontSize: '12px' },
     subtitle1: { fontSize: '1.2rem' },
     button: { textTransform: 'none' },
   },
@@ -32,21 +32,26 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: '1rem',
+          
           color: Color.black,
           borderColor: Color.magenta,
           textTransform: 'none',
-          border: `1px solid transparent`,
-          ':hover': { background: Color.white, color: Color.magenta, border: `1px solid ${Color.magenta}` },
+          borderRadius: '4px',
         },
         contained: {
           background: Color.magenta,
           color: Color.white,
-          ':hover': { background: Color.white, color: Color.magenta },
+          ':hover': { background: Color.magentaLight, color: Color.white },
+          ':active': { background: Color.magenta, color: Color.white },
+          ':disabled': { background: Color.magenta40, color: Color.white },
         },
         outlined: {
           color: Color.magenta,
+
           borderColor: Color.magenta,
-          ':hover': { background: Color.magenta, color: Color.white, border: `1px solid ${Color.magenta}` },
+          ':hover': { background: Color.white, color: Color.magenta, border: `1px solid ${Color.magenta}` },
+          ':active': { background: Color.magenta10, color: Color.magenta, border: `1px solid ${Color.magenta}` },
+          ':disabled': { background: 'transparent', color: Color.magenta, border: `1px solid ${Color.magenta}` },
         },
       },
     },

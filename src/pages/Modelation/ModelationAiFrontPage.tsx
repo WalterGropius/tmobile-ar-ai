@@ -1,6 +1,6 @@
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect } from 'react';
 import { LightIndicator } from '../../ui/LightIndicator';
@@ -21,8 +21,10 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
 
   const executeDetect = () => {
     setButtonState('loading');
-    handleExecute();
-    setButtonState('done');
+    setTimeout(() => {
+      handleExecute();
+      setButtonState('done');
+    }, 1000);
   };
 
   const handleButtonClick = () => {
@@ -51,13 +53,13 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
 
   return (
     <Box>
-      <Box sx={{ m: 2 }}>
+      <Box sx={{ m:2 }}>
         <StatusBanner status="aicontrol" />
       </Box>
       <Drawer open={true}>
-        <Box sx={{ my: 2 }}>
-          <h1>Namiřte na přední stranu modemu</h1>
-          <h4>Výsledný stav (proces může trvat až 2 minuty)</h4>
+        <Box sx={{ my: 0 }}>
+          <Typography sx={{marginBottom:'38px'}} variant="h2">Namiřte na přední stranu modemu</Typography>
+          <Typography  variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

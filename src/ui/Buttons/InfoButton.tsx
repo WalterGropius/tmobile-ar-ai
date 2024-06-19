@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from '../InfoIcon';
 import { FC } from 'react';
 import { Color } from '../../core/theme/color';
 
@@ -13,8 +13,9 @@ export const InfoButton: FC<InfoButtonProps> = ({ onClick }) => (
     sx={{
       width: '40px',
       height: '40px',
+      backgroundColor: Color.white,
     }}
   >
-    <InfoIcon sx={{ color: Color.grey, p: 1, borderRadius: '50%', backgroundColor: Color.white }} />
+    <InfoIcon />
   </IconButton>
 );

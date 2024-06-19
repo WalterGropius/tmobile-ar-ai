@@ -13,6 +13,7 @@ export const Drawer: FC<DrawerProps> = ({ open, children }) => (
       display: open ? 'block' : 'none',
       position: 'fixed',
       left: 0,
+      color: Color.black,
       bottom: 0,
       width: '100%',
       background: Color.white,
@@ -21,6 +22,6 @@ export const Drawer: FC<DrawerProps> = ({ open, children }) => (
       zIndex: 9999,
     }}
   >
-    <Container>{children}</Container>
+    <Container sx={{ p: 2 }}>{children}</Container>
   </Box>
 );

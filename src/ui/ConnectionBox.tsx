@@ -19,13 +19,12 @@ export const ConnectionBox: FC<ConnectionBoxProps> = ({ title, subtitle, imageSr
       backgroundRepeat: 'no-repeat',
       color: Color.black,
       borderRadius: '.8em',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, .1)',
-      padding: 3,
+      padding: '32px',
       my: 3,
     }}
   >
-    <Typography variant="h4">{title}</Typography>
-    {subtitle && <Box sx={{ my: 2 }}>{subtitle}</Box>}
+    <Typography variant="h1">{title}</Typography>
+    {subtitle && <Box sx={{ my: '4px' }}>{subtitle}</Box>}
     <Box sx={{ display: 'flex', height: '8em' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex' }}>{children}</Box>

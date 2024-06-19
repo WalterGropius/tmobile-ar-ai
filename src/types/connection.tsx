@@ -1,7 +1,7 @@
 export const TECHNOLOGY_ITEMS = {
   DSL: {
     title: 'DSL',
-    subTitle: <>Jde o připojení modemu do telefonní zásuvkyv rámci tarifů xDSL.</>,
+    subTitle: <>Jde o připojení modemu do telefonní zásuvky v rámci tarifů xDSL.</>,
     imgSrc: '/ui/fromfigma/dsl.png',
   },
   OPTIC: {
