@@ -14,7 +14,7 @@ export const ConnectionTypePage = () => {
 
   return (
     <Container sx={{ py: 0 }} >
-      <Box sx={{ overflowY: 'auto',height:"100vh",touchAction:"pan-y" }}>
+      <Box sx={{ overflow: 'auto',height:"100svh",touchAction:'auto' }}>
       <MainTitle>Vyberte svůj typ online připojení</MainTitle>
       {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
         <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>

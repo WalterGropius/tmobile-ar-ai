@@ -11,9 +11,9 @@ export const Circle: FC<Props> = ({ color, size }) => (
     sx={{
       flexShrink: 0,
       m:0.5,
+      width: '42px',
+      height: '42px',
       display: 'inline-block',
-      width: `${size || 10}px`,
-      height: `${size || 10}px`,
       borderRadius: '100%',
       backgroundColor: color,
     }}

@@ -8,14 +8,12 @@ import { useState, useEffect } from 'react';
 export const ModelationAiBackCabPage = () => {
   const { redirectToStep } = useModelationRouter();
 
-  // TODO: Stejna chyba, race condition
   const [buttonText, setButtonText] = useState('Zkontrolovat');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleExecute = () => {
     setIsButtonDisabled(true);
     setTimeout(() => {
-      // TODO: Proc to neni tady? redirectToStep('arFront');
       setButtonText('Pokračovat');
       redirectToStep('powerAnim');
       setIsButtonDisabled(false);
