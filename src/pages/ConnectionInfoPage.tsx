@@ -8,7 +8,7 @@ export const ConnectionInfoPage = () => {
   return (
     <Box sx={{ background: 'rgba(0, 0, 0, 0.5)', width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
     <Drawer open={true}>
-      <Typography variant="h2">Co je potřeba na instalaci modemu?</Typography>
+      <Typography variant="h1">Co je potřeba na instalaci modemu?</Typography>
       <Box>
         <p>Položte si modem na prázdný tmavý stůl tak, abyste viděli v dolní části na konektory.</p>
         <p>Připravte si kabel pro propojení zásuvky k modemu.</p>

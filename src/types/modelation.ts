@@ -31,6 +31,11 @@ export type Detection = {
   score: number;
 };
 
+
+export type ModelationArFrontPageProps = {
+  loaded: boolean;
+}
+
 /*
 AR
 

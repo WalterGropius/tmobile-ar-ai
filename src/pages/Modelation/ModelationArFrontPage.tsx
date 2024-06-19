@@ -1,13 +1,13 @@
 //done
-import { StepInfoItem } from '../../types/modelation';
+import { StepInfoItem,ModelationArFrontPageProps } from '../../types/modelation';
 import { Box, Button } from '@mui/material';
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Drawer } from '../../ui/Drawer';
 import { IndicatorInfoList } from '../../ui/IndicatorInfoList';
 
-export const ModelationArFrontPage = () => {
-  const { redirectToStep,redirectToPage } = useModelationRouter();
+export const ModelationArFrontPage = ({ loaded }: ModelationArFrontPageProps) => {
+  const { redirectToStep, redirectToPage } = useModelationRouter();
 
   const indicatorInfoList: StepInfoItem = {
     title: 'Namiřte na přední stranu modemu.',
@@ -25,7 +25,12 @@ export const ModelationArFrontPage = () => {
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToPage('connection-info')}>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => redirectToPage('connection-info')}
+                disabled={!loaded}
+              >
                 Zpět
               </Button>
             </Box>

@@ -39,13 +39,13 @@ export const IndicatorInfoList: FC<InfoItem> = ({ title, subtitle, list }) => {
 
   return (
     <Box>
-      <Typography variant="h2" sx={{ color: Color.black }}>
+      <Typography variant="h2" sx={{ color: Color.black, mb: 2 }}>
         {title}
       </Typography>
-      <Typography variant="h2" sx={{ color: Color.black }}>
+      <Typography sx={{ color: Color.black }}>
         {subtitle}
       </Typography>
-      <Box sx={{ display: 'flex', mt: 1 }}>
+      <Box sx={{ display: 'flex', mt: 0 }}>
         {columns.map((column, index) => (
           <Box sx={{ mr: index < columns.length - 1 ? 2 : 0 }} key={index}>
             {column}

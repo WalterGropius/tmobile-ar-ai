@@ -51,7 +51,7 @@ const theme = createTheme({
           borderColor: Color.magenta,
           ':hover': { background: Color.white, color: Color.magenta, border: `1px solid ${Color.magenta}` },
           ':active': { background: Color.magenta10, color: Color.magenta, border: `1px solid ${Color.magenta}` },
-          ':disabled': { background: 'transparent', color: Color.magenta, border: `1px solid ${Color.magenta}` },
+          ':disabled': { background: 'transparent', color: Color.magenta10, border: `1px solid ${Color.magenta10}` },
         },
       },
     },

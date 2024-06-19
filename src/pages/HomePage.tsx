@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export const HomePage = () => (
   <Container sx={{ py: 3 }}>
-    <MainTitle>Instalace modemu v&nbsp;rozšířené realitě</MainTitle>
+    <MainTitle>Instalace modemu<br />v rozšířené realitě</MainTitle>
     <Box sx={{ background: Color.lightGrey, p: 3, borderRadius: 4, my: 4 }}>
       <h2 style={{ fontSize: '28px', fontWeight: 600, margin: '0 0 4px 0' }}>Zyxel</h2>
       <h4 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 16px 0' }}>VMG3625-T509</h4>

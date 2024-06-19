@@ -198,5 +198,5 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
 
 
 
-  return { containerRef, setPortPlane };
+  return { containerRef, setPortPlane, initialized };
 };
