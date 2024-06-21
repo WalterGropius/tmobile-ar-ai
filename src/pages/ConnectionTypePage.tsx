@@ -13,20 +13,25 @@ export const ConnectionTypePage = () => {
   const [selectedTechnology, setSelectedTechnology] = useState<ConnectionType | undefined>(undefined);
 
   return (
-    <Container sx={{ py: 0 }} >
-      <Box sx={{ overflow: 'auto',height:"100svh",touchAction:'auto' }}>
-      <MainTitle>Vyberte svůj typ online připojení</MainTitle>
-      {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
-        <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
-          <Box sx={{ mr: 1 }}>
-            <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
-          </Box>
-          <Link to={`/ar-viewer?connection=${technology}&step=arFront`}>
-            <SelectButton>Vybrat</SelectButton>
-          </Link>
-        </ConnectionBox>    
-))}
-</Box>
+    <Container sx={{ py: 0 }}>
+      <Box sx={{ overflow: 'auto', height: "100svh", touchAction: 'auto' }}>
+        <MainTitle>Vyberte svůj typ online připojení</MainTitle>
+        {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
+          <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
+            <Box sx={{ mr: 1 }}>
+              <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
+            </Box>
+            <Link to={`/ar-viewer?connection=${technology}&step=arFront`} onClick={() => {
+              window.gtag('event', 'click', {
+                event_category: 'Button',
+                event_label:`zvoleno ${technology}`,
+              });
+            }}>
+              <SelectButton>Vybrat</SelectButton>
+            </Link>
+          </ConnectionBox>
+        ))}
+      </Box>
       {selectedTechnology && (
         <Modal open={true} onClose={() => setSelectedTechnology(undefined)}>
           <Drawer open={true}>
@@ -36,7 +41,7 @@ export const ConnectionTypePage = () => {
                 <CloseIcon />
               </button>
             </Box>
-            <Box sx={{  maxHeight:"70vh" }}>
+            <Box sx={{ maxHeight: "70vh" }}>
               <img style={{ width: '100%' }} src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
             </Box>
           </Drawer>
