@@ -1,10 +1,8 @@
 //done
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
-import { StepInfoItem } from '../../types/modelation';
 import { Box, Button } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
-import { IndicatorInfoList } from '../../ui/IndicatorInfoList';
 
 export const ModelationArPowButtPage = () => {
   const { redirectToStep } = useModelationRouter();
