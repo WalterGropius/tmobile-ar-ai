@@ -5,6 +5,7 @@ export const STEP = {
   aiFront: 'aiFront',
   aiBackCab: 'aiBackCab',
   aiBackPow:"aiBackPow",
+  powButt: "powButt",
   cableAnim: 'cableAnim',
   powerAnim: 'powerAnim',
   finish: 'finish',

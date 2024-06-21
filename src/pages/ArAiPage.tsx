@@ -6,6 +6,7 @@ import { ModelationArBackPage } from './Modelation/ModelationArBackPage';
 import { ModelationAiBackCabPage } from './Modelation/ModelationAiBackCab';
 import { ModelationAiBackPowPage } from './Modelation/ModelationAiBackPow';
 import { useModelationRouter } from '../hooks/useModelationRouter';
+import { ModelationArPowButtPage } from './Modelation/ModelationArPowButt';
 import { FC, ReactNode } from 'react';
 import { useAR } from '../hooks/useAR';
 import { useAI } from '../hooks/useAI';
@@ -19,6 +20,7 @@ export const ArAiPage: FC = () => {
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
     start:<> </>,
+    powButt: <ModelationArPowButtPage />,
     arFront: <ModelationArFrontPage loaded={initialized} />,
     arBack: <ModelationArBackPage />,
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,

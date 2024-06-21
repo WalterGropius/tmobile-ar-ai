@@ -17,7 +17,7 @@ export const ModelationAiBackPowPage = () => {
     setTimeout(() => {
       // TODO: Proc to neni tady? redirectToStep('arFront');
       setButtonText('Pokračovat');
-      redirectToStep('aiFront');
+      redirectToStep('powButt');
       setIsButtonDisabled(false);
     }, 5000);
   };
