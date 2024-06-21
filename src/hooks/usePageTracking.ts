@@ -12,9 +12,13 @@ const usePageTracking = () => {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      window.gtag('config', 'G-XRTSPE4PDR', {
-        page_path: url,
-      });
+      if (typeof window.gtag === 'function') {
+        window.gtag('config', 'G-XRTSPE4PDR', {
+          page_path: url,
+        });
+      } else {
+        console.error('gtag function is not available');
+      }
     };
 
     handleRouteChange(location.pathname);
