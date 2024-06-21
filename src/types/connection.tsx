@@ -7,12 +7,12 @@ export const TECHNOLOGY_ITEMS = {
   OPTIC: {
     title: 'Optic',
     subTitle: <>Případ, kdy je modem připojen do optického převodníku v rámci tarifů FTTx.</>,
-    imgSrc: '/ui/fromfigma/optic.png',
+    imgSrc: '/ui/fromfigma/optic.jpg',
   },
   WAN: {
     title: 'DSL přes terminátor',
     subTitle: <>Připojení modemu přes takzvaný Terminátor.</>,
-    imgSrc: '/ui/fromfigma/wan.jpg',
+    imgSrc: '/ui/fromfigma/wan.png',
   },
 } as const;
 
