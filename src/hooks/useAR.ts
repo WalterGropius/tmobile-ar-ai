@@ -176,6 +176,12 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       case 'arFront':
         if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
         break;
+      case 'powButt':
+        if (portPlaneRef.current) {
+          portPlaneRef.current.position.set(-0.28, -0.3, 0);  
+          portPlaneRef.current.visible = true;
+        }
+        break;
       case 'powerAnim':
         if (portPlaneRef.current) {
           portPlaneRef.current.position.set(-0.38, -0.3, 0);  
