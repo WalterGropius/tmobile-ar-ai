@@ -24,7 +24,7 @@ export const ArAiPage: FC = () => {
     arFront: <ModelationArFrontPage loaded={initialized} />,
     arBack: <ModelationArBackPage />,
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBackCab: <ModelationAiBackCabPage />,
+    aiBackCab: <ModelationAiBackCabPage connectionType={connectionType} labeledDetections={labeledDetections}  handleExecute={handleExecute} />,
     aiBackPow:<ModelationAiBackPowPage labeledDetections={labeledDetections}  handleExecute={handleExecute}/>,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
