@@ -61,18 +61,17 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
 
-          {cabStatus &&
-            (cabStatus === 'correct' ? (
-              <Typography variant="h2">Spravné zapojení ✓</Typography>
-            ) : cabStatus === 'error' ? (
-              <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />
-            ) : cabStatus === 'wrong-cab' ? (
-              <Notification title="Nespravné zapojení" message="Vypadá, že jste zapojili jiný kabel." />
-            ) : cabStatus === 'no-cab' ? (
-              <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
-            ) : (
-              <Typography variant="h4">Probihá AI kontrola...</Typography>
-            ))}
+          {cabStatus === 'correct' ? (
+            <Typography variant="h2">Správné zapojení ✓</Typography>
+          ) : cabStatus === 'error' ? (
+            <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />
+          ) : cabStatus === 'wrong-cab' ? (
+            <Notification title="Nesprávné zapojení" message="Vypadá, že jste zapojili jiný kabel." />
+          ) : cabStatus === 'no-cab' ? (
+            <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
+          ) : (
+            <Typography variant="h4">Probíhá AI kontrola...</Typography>
+          )}
 
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
