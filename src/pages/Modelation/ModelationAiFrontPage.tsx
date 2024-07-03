@@ -33,9 +33,6 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     executeDetect();
   }, [executeDetect]);
 
-  useEffect(() => {
-    executeDetect();
-  }, [executeDetect]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -48,7 +45,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     if (buttonClickCount >= 5 || allLightsOn) {
       setTimeout(() => {
         redirectToPage("fin");
-      }, 1000);
+      }, 3000);
     }
   }, [buttonClickCount, lightStatus, redirectToPage]);
 
