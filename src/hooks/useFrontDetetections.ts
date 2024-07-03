@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Detection } from '../types/modelation';
 
 const sortDetections = (detections: Detection[]): Detection[] =>
-  detections.sort((a, b) => a.xPos - b.xPos);
+  [...detections].sort((a, b) => a.xPos - b.xPos);
 
 const filterLights = (detections: Detection[]): boolean[] => {
-  const lights = detections.filter(({ label }) => label && label.includes('light'));
-  return lights.length === 6
-    ? lights.map(light => light.label === 'lightg')
-    : Array(6).fill(false);
+  const lights = detections.filter(({ label }) => label?.includes('light'));
+  return lights.map(light => light.label === 'lightg');
 };
 
+const countPorts = (detections: Detection[]): number =>
+  detections.filter(({ label }) => label === 'port').length;
+
 const useFrontDetections = (labeledDetections: Detection[]): { lightStatus: boolean[], isFlipped: boolean } => {
+  const sortedDetections = useMemo(() => sortDetections(labeledDetections), [labeledDetections]);
+  const lights = useMemo(() => filterLights(sortedDetections), [sortedDetections]);
+  const portCount = useMemo(() => countPorts(labeledDetections), [labeledDetections]);
+
   const [lightStatus, setLightStatus] = useState<boolean[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
 
   useEffect(() => {
-    const hasMultiplePorts = labeledDetections.filter(({ label }) => label === 'port').length > 3;
-    const sortedDetections = sortDetections(labeledDetections);
-    const lights = filterLights(sortedDetections);
-
-    setIsFlipped(hasMultiplePorts);
     setLightStatus(lights);
-  }, [labeledDetections]);
+    setIsFlipped(portCount > 2);
+  }, [lights, portCount]);
 
   return { lightStatus, isFlipped };
 };

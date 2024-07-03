@@ -11,19 +11,15 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     const hasLabel = (label: string) => labeledDetections.some(detection => detection.label === label);
     const countLabel = (label: string) => labeledDetections.filter(detection => detection.label === label).length;
 
-    const hasCabDSL = hasLabel('cabdsl');
-    const hasPortDSL = hasLabel('portdsl');
-    const hasCabWAN = hasLabel('cabwan');
-    const hasPortWAN = hasLabel('portwan');
     const hasMultipleIndicators = countLabel('ind') > 1;
     const hasMultipleLights = countLabel('light') > 1;
 
-    const checkCabStatus = (expectedCab: string, expectedPort: string) => {
-      if (hasLabel(expectedCab)) {
-        setCabStatus(hasLabel(expectedPort) ? 'error' : 'correct');
-      } else if (hasLabel(expectedCab === 'cabdsl' ? 'cabwan' : 'cabdsl')) {
+    const checkCabStatus = (correctCab: string, vacantPort: string,wrongCab:string,occupiedPort:string) => {
+      if (hasLabel(correctCab)) {
+        setCabStatus(hasLabel(vacantPort) ? 'correct' : 'error');
+      } else if (hasLabel(wrongCab) || hasLabel(occupiedPort)) {
         setCabStatus('wrong-cab');
-      } else if (hasMultipleIndicators || hasMultipleLights) {
+      } else if (hasLabel('light') || hasLabel('ind')) {
         setCabStatus('flip');
       } else {
         setCabStatus('no-cab');
@@ -31,9 +27,9 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     };
 
     if (connectionType === 'DSL') {
-      checkCabStatus('cabdsl', 'portdsl');
+      checkCabStatus('cabdsl', 'portwan','cabwan','portdsl');
     } else if (connectionType === 'OPTIC' || connectionType === 'WAN') {
-      checkCabStatus('cabwan', 'portwan');
+      checkCabStatus('cabwan', 'portdsl','cabdsl','portwan');
     }
   }, [labeledDetections, connectionType]);
 

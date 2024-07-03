@@ -3,10 +3,9 @@ import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { Notification } from '../../ui/Notification';
-import { useState, useEffect, useCallback,FC } from 'react';
+import { useState, useEffect, useCallback, FC } from 'react';
 import useBackCabDetect from '../../hooks/useBackCabDetect';
 import { ModelationAiBackCabPageProps } from '../../types/modelation';
-
 
 export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   labeledDetections,
@@ -55,19 +54,21 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
         return <Typography variant="h2">Správné zapojení ✓</Typography>;
       case 'error':
         return (
-          <Notification
-            title="Chyba Analýzy"
-            message="Ujistěte se, že je modem správně otočen a dobře viditelný."
-          />
+          <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />
         );
       case 'wrong-cab':
-        return <Notification title="Nesprávné zapojení" message="Vypadá, že jste zapojili jiný kabel." />;
+        return (
+          <Notification
+            title="Nesprávné zapojení"
+            message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${
+              connectionType === 'DSL' ? 'DSL' : 'WAN'
+            }.`}
+          />
+        );
       case 'no-cab':
         return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
       case 'flip':
-        return (
-          <Notification title="Otočte modem" message={`Je potřeba zkontrolovat ${connectionType} kabel.`} />
-        );
+        return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
       default:
         return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
     }
@@ -94,12 +95,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleButtonClick}
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
