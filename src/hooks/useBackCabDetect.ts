@@ -3,37 +3,48 @@ import { Detection } from '../types/modelation';
 import { ConnectionType } from '../types/connection';
 
 const useBackCabDetect = (labeledDetections: Detection[], ConnectionType: ConnectionType) => {
-  const [cabStatus, setCabStatus] = useState<'correct' | 'incorrect' | null>(null);
+  const [cabStatus, setCabStatus] = useState<'correct' | 'error' | 'wrong-cab' | 'no-cab' | null>(null);
 
   useEffect(() => {
+    const hasCabDSL = labeledDetections.some(({ label }) => label === 'cabdsl');
+    const hasPortDSL = labeledDetections.some(({ label }) => label === 'portdsl');
+    const hasCabWAN = labeledDetections.some(({ label }) => label === 'cabwan');
+    const hasPortWAN = labeledDetections.some(({ label }) => label === 'portwan');
+
     const checkCabStatus = () => {
       if (ConnectionType === 'DSL') {
-        const hasCabDSL = labeledDetections.some(({ label }) => label === 'cabdsl');
-        const hasPortDSL = labeledDetections.some(({ label }) => label === 'portdsl');
-
         if (hasCabDSL) {
           console.log('hasCabDSL');
           if (!hasPortDSL) {
+            console.log('correct-!hasPortDSL');
             setCabStatus('correct');
-            console.log('!hasPortDSL');
           } else {
-            console.log('Detections:', labeledDetections);
-            setCabStatus('incorrect');
+            console.log('Error', labeledDetections);
+            setCabStatus('error');
           }
+        } else if (hasCabWAN) {
+          console.log('Wrong cab', labeledDetections);
+          setCabStatus('wrong-cab');
+        } else {
+          console.log('No cab', labeledDetections);
+          setCabStatus('no-cab');
         }
       } else if (ConnectionType === 'OPTIC' || ConnectionType === 'WAN') {
-        const hasCabWAN = labeledDetections.some(({ label }) => label === 'cabwan');
-        const hasPortWAN = labeledDetections.some(({ label }) => label === 'portwan');
-
         if (hasCabWAN) {
           console.log('hasCabWAN');
           if (!hasPortWAN) {
+            console.log('correct-!hasPortWAN');
             setCabStatus('correct');
-            console.log('!hasPortWAN');
           } else {
-            console.log('Detections:', labeledDetections);
-            setCabStatus('incorrect');
+            console.log('Error', labeledDetections);
+            setCabStatus('error');
           }
+        } else if (hasCabDSL) {
+          console.log('Wrong cab', labeledDetections);
+          setCabStatus('wrong-cab');
+        } else {
+          console.log('No cab', labeledDetections);
+          setCabStatus('no-cab');
         }
       }
     };
