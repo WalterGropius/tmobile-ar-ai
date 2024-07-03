@@ -2,7 +2,7 @@ import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { LightIndicator } from '../../ui/LightIndicator';
 import { FC } from 'react';
 import useFrontDetections from '../../hooks/useFrontDetetections';
@@ -15,27 +15,27 @@ type Props = {
 };
 
 export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
-  const {redirectToStep,redirectToPage } = useModelationRouter();
+  const { redirectToStep, redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
-  const {lightStatus, isFlipped} = useFrontDetections(labeledDetections);
+  const { lightStatus, isFlipped } = useFrontDetections(labeledDetections);
 
-  const executeDetect = () => {
+  const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
       handleExecute();
       setButtonState('done');
     }, 1000);
-  };
+  }, [handleExecute]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = useCallback(() => {
     setButtonClickCount(prevCount => prevCount + 1);
     executeDetect();
-  };
+  }, [executeDetect]);
 
   useEffect(() => {
     executeDetect();
-  }, []);
+  }, [executeDetect]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -44,23 +44,23 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 5 || (lightStatus[0] && lightStatus[1] && lightStatus[2])) {
-     
-     setTimeout(() => {
-       redirectToPage("fin");
-     }, 1000);
+    const allLightsOn = lightStatus.slice(0, 3).every(Boolean);
+    if (buttonClickCount >= 5 || allLightsOn) {
+      setTimeout(() => {
+        redirectToPage("fin");
+      }, 1000);
     }
-  }, [buttonClickCount, lightStatus]);
+  }, [buttonClickCount, lightStatus, redirectToPage]);
 
   return (
     <Box>
-      <Box sx={{ m:2 }}>
+      <Box sx={{ m: 2 }}>
         <StatusBanner status="aicontrol" />
       </Box>
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
-          <Typography sx={{marginBottom:'38px'}} variant="h2">Namiřte na přední stranu modemu</Typography>
-          <Typography  variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
+          <Typography sx={{ marginBottom: '38px' }} variant="h2">Namiřte na přední stranu modemu</Typography>
+          <Typography variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />
           {isFlipped && <Notification title="Otočte modem" message="Je potřeba zkontrolovat napojení kabelů." />}
           <Box sx={{ display: 'flex', mt: 1 }}>

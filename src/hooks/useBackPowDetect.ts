@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Detection } from '../types/modelation';
 
-const useBackPowDetect = (labeledDetections: Detection[]) => {
-  const [cabPowStatus, setCabPowStatus] = useState<'correct' | 'error' | 'flip' | 'no-cabPow' | null>(null);
+type CabPowStatus = 'correct' | 'error' | 'flip' | 'no-cabPow' | null;
+
+const useBackPowDetect = (labeledDetections: Detection[]): CabPowStatus => {
+  const [cabPowStatus, setCabPowStatus] = useState<CabPowStatus>(null);
 
   useEffect(() => {
-    const hasCabPow = labeledDetections.some(({ label }) => label === 'cabpow');
-    const hasPortPow = labeledDetections.some(({ label }) => label === 'portpow');
-    const hasMultipleIndicators = labeledDetections.filter(({ label }) => label === 'ind').length > 1;
-    const hasMultipleLights = labeledDetections.filter(({ label }) => label === 'light').length > 1;
-   
+    const hasLabel = (label: string) => labeledDetections.some(detection => detection.label === label);
+    const countLabel = (label: string) => labeledDetections.filter(detection => detection.label === label).length;
+
+    const hasCabPow = hasLabel('cabpow');
+    const hasPortPow = hasLabel('portpow');
+    const hasMultipleIndicators = countLabel('ind') > 1;
+    const hasMultipleLights = countLabel('light') > 1;
+
     if (hasCabPow) {
-      console.log('hasCabPow');
-      if (!hasPortPow) {
-        setCabPowStatus('correct');
-        console.log('!hasPortPow');
-      } else {
-        console.log('Error:', labeledDetections);
-        setCabPowStatus('error');
-      }
+      setCabPowStatus(hasPortPow ? 'error' : 'correct');
     } else if (hasMultipleIndicators || hasMultipleLights) {
-      console.log('Flip', labeledDetections);
       setCabPowStatus('flip');
     } else {
-      console.log('No cabPow', labeledDetections);
       setCabPowStatus('no-cabPow');
     }
   }, [labeledDetections]);

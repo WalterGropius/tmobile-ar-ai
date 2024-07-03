@@ -3,37 +3,37 @@ import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { Notification } from '../../ui/Notification';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback,FC } from 'react';
 import useBackCabDetect from '../../hooks/useBackCabDetect';
-import { FC } from 'react';
 import { ModelationAiBackCabPageProps } from '../../types/modelation';
+
 
 export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   labeledDetections,
   connectionType,
   handleExecute,
 }) => {
-  const { redirectToStep, redirectToPage } = useModelationRouter();
+  const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cabStatus = useBackCabDetect(labeledDetections, connectionType);
 
-  const executeDetect = () => {
+  const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
       handleExecute();
       setButtonState('done');
     }, 1000);
-  };
+  }, [handleExecute]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = useCallback(() => {
     setButtonClickCount((prevCount) => prevCount + 1);
     executeDetect();
-  };
+  }, [executeDetect]);
 
   useEffect(() => {
     executeDetect();
-  }, []);
+  }, [executeDetect]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -47,7 +47,31 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
         redirectToStep('powerAnim');
       }, 1000);
     }
-  }, [buttonClickCount, cabStatus, redirectToPage]);
+  }, [buttonClickCount, cabStatus, redirectToStep]);
+
+  const renderCabStatus = () => {
+    switch (cabStatus) {
+      case 'correct':
+        return <Typography variant="h2">Správné zapojení ✓</Typography>;
+      case 'error':
+        return (
+          <Notification
+            title="Chyba Analýzy"
+            message="Ujistěte se, že je modem správně otočen a dobře viditelný."
+          />
+        );
+      case 'wrong-cab':
+        return <Notification title="Nesprávné zapojení" message="Vypadá, že jste zapojili jiný kabel." />;
+      case 'no-cab':
+        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+      case 'flip':
+        return (
+          <Notification title="Otočte modem" message={`Je potřeba zkontrolovat ${connectionType} kabel.`} />
+        );
+      default:
+        return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
+    }
+  };
 
   return (
     <Box>
@@ -61,19 +85,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
 
-          {cabStatus === 'correct' ? (
-            <Typography variant="h2">Správné zapojení ✓</Typography>
-          ) : cabStatus === 'error' ? (
-            <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />
-          ) : cabStatus === 'wrong-cab' ? (
-            <Notification title="Nesprávné zapojení" message="Vypadá, že jste zapojili jiný kabel." />
-          ) : cabStatus === 'no-cab' ? (
-            <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
-          ) : cabStatus === 'flip' ? (
-            <Notification title="Otočte modem" message={`Je potřeba zkontrolovat ${connectionType} kabel.`} />
-          ) : (
-            <Typography variant="h4">Probíhá AI kontrola...</Typography>
-          )}
+          {renderCabStatus()}
 
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
@@ -82,7 +94,12 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={buttonState === 'loading'}
+              >
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>

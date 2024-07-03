@@ -3,33 +3,33 @@ import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
 import { Notification } from '../../ui/Notification';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useBackPowDetect from '../../hooks/useBackPowDetect';
 import { FC } from 'react';
 import { ModelationAiBackPowPageProps } from '../../types/modelation';
 
 export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute }) => {
-  const { redirectToStep, redirectToPage } = useModelationRouter();
+  const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cableStatus = useBackPowDetect(labeledDetections);
 
-  const executeDetect = () => {
+  const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
       handleExecute();
       setButtonState('done');
     }, 1000);
-  };
+  }, [handleExecute]);
 
-  const handleButtonClick = () => {
-    setButtonClickCount((prevCount) => prevCount + 1);
+  const handleButtonClick = useCallback(() => {
+    setButtonClickCount(prevCount => prevCount + 1);
     executeDetect();
-  };
+  }, [executeDetect]);
 
   useEffect(() => {
     executeDetect();
-  }, []);
+  }, [executeDetect]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -43,7 +43,27 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
         redirectToStep('powButt');
       }, 1000);
     }
-  }, [buttonClickCount, cableStatus, redirectToPage]);
+  }, [buttonClickCount, cableStatus, redirectToStep]);
+
+  const renderCableStatus = () => {
+    switch (cableStatus) {
+      case 'correct':
+        return <Typography variant="h2">Spravné zapojení ✓</Typography>;
+      case 'error':
+        return (
+          <Notification
+            title="Nespravné zapojení"
+            message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
+          />
+        );
+      case 'flip':
+        return <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />;
+      case 'no-cabPow':
+        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+      default:
+        return <Typography variant="h4">Probihá AI kontrola...</Typography>;
+    }
+  };
 
   return (
     <Box>
@@ -57,20 +77,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
 
-          {cableStatus === 'correct' ? (
-            <Typography variant="h2">Spravné zapojení ✓</Typography>
-          ) : cableStatus === 'error' ? (
-            <Notification
-              title="Nespravné zapojení"
-              message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
-            />
-          ) : cableStatus === 'flip' ? (
-            <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />
-          ) : cableStatus === 'no-cabPow' ? (
-            <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
-          ) : (
-            <Typography variant="h4">Probihá AI kontrola...</Typography>
-          )}
+          {renderCableStatus()}
 
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
@@ -79,7 +86,12 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={buttonState === 'loading'}
+              >
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
