@@ -44,7 +44,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   }, [buttonState]);
 
   useEffect(() => {
-    const allLightsOn = lightStatus.slice(0, 3).every(Boolean);
+    const allLightsOn = lightStatus[0] && lightStatus[1] && lightStatus[2];
     if (buttonClickCount >= 5 || allLightsOn) {
       setTimeout(() => {
         redirectToPage("fin");
