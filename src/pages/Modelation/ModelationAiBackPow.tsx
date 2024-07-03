@@ -5,14 +5,9 @@ import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect } from 'react';
 import useBackPowDetect from '../../hooks/useBackPowDetect';
 import { FC } from 'react';
-import { Detection } from '../../types/modelation';
+import { ModelationAiBackPowPageProps } from '../../types/modelation';
 
-type Props = {
-  labeledDetections: Detection[];
-  handleExecute: () => void;
-};
-
-export const ModelationAiBackPowPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute }) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -27,7 +22,7 @@ export const ModelationAiBackPowPage: FC<Props> = ({ labeledDetections, handleEx
   };
 
   const handleButtonClick = () => {
-    setButtonClickCount(prevCount => prevCount + 1);
+    setButtonClickCount((prevCount) => prevCount + 1);
     executeDetect();
   };
 
@@ -44,7 +39,7 @@ export const ModelationAiBackPowPage: FC<Props> = ({ labeledDetections, handleEx
   useEffect(() => {
     if (buttonClickCount >= 5 || cableStatus === 'correct') {
       setTimeout(() => {
-        redirectToStep("powButt");
+        redirectToStep('powButt');
       }, 1000);
     }
   }, [buttonClickCount, cableStatus, redirectToPage]);
@@ -57,8 +52,21 @@ export const ModelationAiBackPowPage: FC<Props> = ({ labeledDetections, handleEx
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
-          <Typography sx={{my:'24px'}} variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
-          <Typography variant="h4">Status: {cableStatus}</Typography>
+          <Typography sx={{ my: '24px' }} variant="h4">
+            Výsledný stav (proces může trvat až 2 minuty)
+          </Typography>
+
+          {cableStatus && (
+            <Typography variant="h4">
+              Status:{' '}
+              {cableStatus === 'correct'
+                ? 'Spravné zapojení ✓'
+                : cableStatus === 'incorrect'
+                  ? 'Nespravné zapojení ✗'
+                  : cableStatus}
+            </Typography>
+          )}
+
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>
@@ -66,12 +74,7 @@ export const ModelationAiBackPowPage: FC<Props> = ({ labeledDetections, handleEx
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button 
-                variant="contained" 
-                fullWidth 
-                onClick={handleButtonClick} 
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>

@@ -5,20 +5,17 @@ import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect } from 'react';
 import useBackCabDetect from '../../hooks/useBackCabDetect';
 import { FC } from 'react';
-import { Detection } from '../../types/modelation';
-import { ConnectionType } from '../../types/connection';
+import { ModelationAiBackCabPageProps } from '../../types/modelation';
 
-type Props = {
-  labeledDetections: Detection[];
-  connectionType: ConnectionType;
-  handleExecute: () => void;
-};
-
-export const ModelationAiBackCabPage: FC<Props> = ({ labeledDetections,connectionType, handleExecute }) => {
+export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
+  labeledDetections,
+  connectionType,
+  handleExecute,
+}) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
-  const cabStatus = useBackCabDetect(labeledDetections,connectionType);
+  const cabStatus = useBackCabDetect(labeledDetections, connectionType);
 
   const executeDetect = () => {
     setButtonState('loading');
@@ -29,7 +26,7 @@ export const ModelationAiBackCabPage: FC<Props> = ({ labeledDetections,connectio
   };
 
   const handleButtonClick = () => {
-    setButtonClickCount(prevCount => prevCount + 1);
+    setButtonClickCount((prevCount) => prevCount + 1);
     executeDetect();
   };
 
@@ -46,7 +43,7 @@ export const ModelationAiBackCabPage: FC<Props> = ({ labeledDetections,connectio
   useEffect(() => {
     if (buttonClickCount >= 5 || cabStatus === 'correct') {
       setTimeout(() => {
-        redirectToStep("powerAnim");
+        redirectToStep('powerAnim');
       }, 1000);
     }
   }, [buttonClickCount, cabStatus, redirectToPage]);
@@ -59,8 +56,21 @@ export const ModelationAiBackCabPage: FC<Props> = ({ labeledDetections,connectio
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
-          <Typography sx={{my:'24px'}} variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
-          <Typography variant="h4">Status: {cabStatus}</Typography>
+          <Typography sx={{ my: '24px' }} variant="h4">
+            Výsledný stav (proces může trvat až 2 minuty)
+          </Typography>
+
+          {cabStatus && (
+            <Typography variant="h4">
+              Status:{' '}
+              {cabStatus === 'correct'
+                ? 'Spravné zapojení ✓'
+                : cabStatus === 'incorrect'
+                  ? 'Nespravné zapojení ✗'
+                  : cabStatus}
+            </Typography>
+          )}
+
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
@@ -68,12 +78,7 @@ export const ModelationAiBackCabPage: FC<Props> = ({ labeledDetections,connectio
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button 
-                variant="contained" 
-                fullWidth 
-                onClick={handleButtonClick} 
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
