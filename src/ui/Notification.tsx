@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { Color } from '../core/theme/color';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-
+//kam s tim typem nema to byt v jinem souboru?
 type NotificationProps = {
   title?: ReactNode;
   message?: ReactNode;
