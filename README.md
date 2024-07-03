@@ -1,20 +1,45 @@
+# Průvodce nastavením AR modemu
 
-# Real-time Modem info in the browser with YOLOv7 and TF.JS
+Tento projekt kombinuje rozšířenou realitu (AR) pomocí MindAR.js s detekcí portů a indikátorů založenou na umělé inteligenci využívající YOLOv7 a TensorFlow.js k vytvoření interaktivního průvodce nastavením modemu.
 
+## Funkce
 
-This is an online interactive modem installation guide using MindAr and a custom implementation of Yolov7 using Tensorflow.js.
-The code runs directly on the browser and the detector was trained on the modem dataset to recognizes up to [17 different classes]
+- Vizualizace kroků nastavení modemu pomocí rozšířené reality (AR)
+- Detekce portů a indikátorů modemu založená na umělé inteligenci
+- Podrobný průvodce instalací modemu
+- Podpora různých typů připojení (DSL, WAN, OPTIKA)
+- Zpětná vazba o stavu připojení v reálném čase
 
+## Použité technologie
 
-## References
+- React
+- TypeScript
+- MindAR.js pro rozšířenou realitu
+- TensorFlow.js pro inferenci AI modelu
+- YOLOv7 pro detekci objektů
+- Three.js pro 3D renderování
+- Material-UI pro komponenty uživatelského rozhraní
 
-[Official YOLOv7](https://github.com/WongKinYiu/yolov7)
+## Struktura projektu
 
-[Object Detection using YOLOv5 and Tensorflow.js](https://github.com/Hyuto/yolov5-tfjs)
+Projekt je organizován do několika klíčových složek:
 
+- `src/pages`: Obsahuje hlavní stránky aplikace, včetně domovské stránky, stránek pro výběr typu připojení a AR prohlížeče.
+- `src/hooks`: Vlastní React hooks pro správu stavu a logiky aplikace.
+- `src/ui`: Znovupoužitelné UI komponenty, jako jsou tlačítka, notifikace a stavové bannery.
+- `src/types`: TypeScript definice typů pro celou aplikaci.
 
-## Acknowledgment
+## Jak začít
 
-<img align="left" width="200" height="183" src="https://raw.githubusercontent.com/hugozanini/yolov7-tfjs/organizing-repo/git-media/Experts_Stickers_05.gif">This code was developed under the financial assistance of the [Google Developers Group](https://developers.google.com/community/gdg),  which provided all the computational resources for training and converting the models.
+1. Naklonujte repozitář
+2. Nainstalujte závislosti pomocí `npm install`
+3. Spusťte vývojový server pomocí `npm start`
+4. Otevřete aplikaci ve vašem prohlížeči na `http://localhost:3000`
 
-<br> 
+## Přispívání
+
+Příspěvky jsou vítány! Prosím, přečtěte si nejprve naše pokyny pro přispívání.
+
+## Licence
+
+Tento projekt je licencován pod MIT licencí.
