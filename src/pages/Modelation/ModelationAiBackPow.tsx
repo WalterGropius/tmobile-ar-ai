@@ -2,6 +2,7 @@ import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
+import { Notification } from '../../ui/Notification';
 import { useState, useEffect } from 'react';
 import useBackPowDetect from '../../hooks/useBackPowDetect';
 import { FC } from 'react';
@@ -55,18 +56,22 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
           <Typography sx={{ my: '24px' }} variant="h4">
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
-
           {cableStatus && (
-            <Typography variant="h4">
-              Status:{' '}
-              {cableStatus === 'correct'
-                ? 'Spravné zapojení ✓'
-                : cableStatus === 'incorrect'
-                  ? 'Nespravné zapojení ✗'
-                  : cableStatus}
-            </Typography>
+            cableStatus === 'correct' ? (
+              <Typography variant="h2">
+                Spravné zapojení ✓
+              </Typography>
+            ) : cableStatus === 'incorrect' ? (
+              <Notification
+                title="Nespravné zapojení"
+                message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
+              />
+            ) : (
+              <Typography variant="h4">
+                Probihá AI kontrola...
+              </Typography>
+            )
           )}
-
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>

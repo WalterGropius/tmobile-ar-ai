@@ -2,6 +2,7 @@ import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
 import { Drawer } from '../../ui/Drawer';
+import { Notification } from '../../ui/Notification';
 import { useState, useEffect } from 'react';
 import useBackCabDetect from '../../hooks/useBackCabDetect';
 import { FC } from 'react';
@@ -59,16 +60,22 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           <Typography sx={{ my: '24px' }} variant="h4">
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
-
+          
           {cabStatus && (
-            <Typography variant="h4">
-              Status:{' '}
-              {cabStatus === 'correct'
-                ? 'Spravné zapojení ✓'
-                : cabStatus === 'incorrect'
-                  ? 'Nespravné zapojení ✗'
-                  : cabStatus}
-            </Typography>
+            cabStatus === 'correct' ? (
+              <Typography variant="h2">
+                Spravné zapojení ✓
+              </Typography>
+            ) : cabStatus === 'incorrect' ? (
+              <Notification
+                title="Nespravné zapojení"
+                message="Zkontrolujte prosím připojení kabelů a zkuste to znovu."
+              />
+            ) : (
+              <Typography variant="h4">
+                Probihá AI kontrola...
+              </Typography>
+            )
           )}
 
           <Box sx={{ display: 'flex', mt: 1 }}>
