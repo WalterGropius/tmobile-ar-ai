@@ -56,22 +56,22 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
           <Typography sx={{ my: '24px' }} variant="h4">
             Výsledný stav (proces může trvat až 2 minuty)
           </Typography>
-          {cableStatus && (
-            cableStatus === 'correct' ? (
-              <Typography variant="h2">
-                Spravné zapojení ✓
-              </Typography>
-            ) : cableStatus === 'incorrect' ? (
-              <Notification
-                title="Nespravné zapojení"
-                message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
-              />
-            ) : (
-              <Typography variant="h4">
-                Probihá AI kontrola...
-              </Typography>
-            )
+
+          {cableStatus === 'correct' ? (
+            <Typography variant="h2">Spravné zapojení ✓</Typography>
+          ) : cableStatus === 'error' ? (
+            <Notification
+              title="Nespravné zapojení"
+              message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
+            />
+          ) : cableStatus === 'flip' ? (
+            <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />
+          ) : cableStatus === 'no-cabPow' ? (
+            <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
+          ) : (
+            <Typography variant="h4">Probihá AI kontrola...</Typography>
           )}
+
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>

@@ -3,13 +3,15 @@ import { Detection } from '../types/modelation';
 import { ConnectionType } from '../types/connection';
 
 const useBackCabDetect = (labeledDetections: Detection[], ConnectionType: ConnectionType) => {
-  const [cabStatus, setCabStatus] = useState<'correct' | 'error' | 'wrong-cab' | 'no-cab' | null>(null);
+  const [cabStatus, setCabStatus] = useState<'correct' | 'error' | 'wrong-cab' | 'no-cab' | 'flip' | null>(null);
 
   useEffect(() => {
     const hasCabDSL = labeledDetections.some(({ label }) => label === 'cabdsl');
     const hasPortDSL = labeledDetections.some(({ label }) => label === 'portdsl');
     const hasCabWAN = labeledDetections.some(({ label }) => label === 'cabwan');
     const hasPortWAN = labeledDetections.some(({ label }) => label === 'portwan');
+    const hasMultipleIndicators = labeledDetections.filter(({ label }) => label === 'ind').length > 1;
+    const hasMultipleLights = labeledDetections.filter(({ label }) => label === 'light').length > 1;
 
     const checkCabStatus = () => {
       if (ConnectionType === 'DSL') {
@@ -25,6 +27,9 @@ const useBackCabDetect = (labeledDetections: Detection[], ConnectionType: Connec
         } else if (hasCabWAN) {
           console.log('Wrong cab', labeledDetections);
           setCabStatus('wrong-cab');
+        } else if (hasMultipleIndicators || hasMultipleLights) {
+          console.log('Flip', labeledDetections);
+          setCabStatus('flip');
         } else {
           console.log('No cab', labeledDetections);
           setCabStatus('no-cab');
@@ -42,6 +47,9 @@ const useBackCabDetect = (labeledDetections: Detection[], ConnectionType: Connec
         } else if (hasCabDSL) {
           console.log('Wrong cab', labeledDetections);
           setCabStatus('wrong-cab');
+        } else if (hasMultipleIndicators || hasMultipleLights) {
+          console.log('Flip', labeledDetections);
+          setCabStatus('flip');
         } else {
           console.log('No cab', labeledDetections);
           setCabStatus('no-cab');

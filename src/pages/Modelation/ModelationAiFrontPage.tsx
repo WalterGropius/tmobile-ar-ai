@@ -7,6 +7,7 @@ import { LightIndicator } from '../../ui/LightIndicator';
 import { FC } from 'react';
 import useFrontDetections from '../../hooks/useFrontDetetections';
 import { Detection } from '../../types/modelation';
+import { Notification } from '../../ui/Notification';
 
 type Props = {
   labeledDetections: Detection[];
@@ -17,7 +18,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   const { redirectToStep,redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
-  const lightStatus = useFrontDetections(labeledDetections);
+  const {lightStatus, isFlipped} = useFrontDetections(labeledDetections);
 
   const executeDetect = () => {
     setButtonState('loading');
@@ -61,6 +62,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           <Typography sx={{marginBottom:'38px'}} variant="h2">Namiřte na přední stranu modemu</Typography>
           <Typography  variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />
+          {isFlipped && <Notification title="Otočte modem" message="Je potřeba zkontrolovat napojení kabelů." />}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>

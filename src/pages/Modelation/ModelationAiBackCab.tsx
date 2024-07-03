@@ -68,7 +68,9 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           ) : cabStatus === 'wrong-cab' ? (
             <Notification title="Nesprávné zapojení" message="Vypadá, že jste zapojili jiný kabel." />
           ) : cabStatus === 'no-cab' ? (
-            <Notification title="Chyba Analýzy" message="Kabel nenalezen." />
+            <Notification title="Chyba Analzy" message="Kabel nenalezen." />
+          ) : cabStatus === 'flip' ? (
+            <Notification title="Otočte modem" message={`Je potřeba zkontrolovat ${connectionType} kabel.`} />
           ) : (
             <Typography variant="h4">Probíhá AI kontrola...</Typography>
           )}
