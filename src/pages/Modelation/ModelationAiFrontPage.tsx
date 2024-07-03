@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
-  const { redirectToStep,redirectToPage } = useModelationRouter();
+  const {redirectToStep,redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const {lightStatus, isFlipped} = useFrontDetections(labeledDetections);
