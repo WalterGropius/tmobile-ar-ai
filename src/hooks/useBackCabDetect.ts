@@ -14,12 +14,14 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     const hasMultipleIndicators = countLabel('ind') > 1;
     const hasMultipleLights = countLabel('light') > 1;
 
-    const checkCabStatus = (correctCab: string, vacantPort: string,wrongCab:string,occupiedPort:string) => {
-      if (hasLabel(correctCab)) {
-        setCabStatus(hasLabel(vacantPort) ? 'correct' : 'error');
-      } else if (hasLabel(wrongCab) || hasLabel(occupiedPort)) {
+    const checkCabStatus = (correctCab: string, vacantPort: string, wrongCab: string, occupiedPort: string) => {
+      if (hasLabel(correctCab) || !hasLabel(occupiedPort)) {
+        setCabStatus('correct');
+      } else if (hasLabel(occupiedPort)) {
+        setCabStatus('error');
+      } else if (hasLabel(wrongCab) || !hasLabel(vacantPort)) {
         setCabStatus('wrong-cab');
-      } else if (hasLabel('light') || hasLabel('ind')) {
+      } else if (hasMultipleIndicators || hasMultipleLights) {
         setCabStatus('flip');
       } else {
         setCabStatus('no-cab');
@@ -27,9 +29,9 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     };
 
     if (connectionType === 'DSL') {
-      checkCabStatus('cabdsl', 'portwan','cabwan','portdsl');
+      checkCabStatus('cabdsl', 'portwan', 'cabwan', 'portdsl');
     } else if (connectionType === 'OPTIC' || connectionType === 'WAN') {
-      checkCabStatus('cabwan', 'portdsl','cabdsl','portwan');
+      checkCabStatus('cabwan', 'portdsl', 'cabdsl', 'portwan');
     }
   }, [labeledDetections, connectionType]);
 
