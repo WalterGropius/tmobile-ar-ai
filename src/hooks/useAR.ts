@@ -50,7 +50,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       const container = containerRef.current;
       if (!container) return;
       //create mindarThree
-      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets5.mind' });
+      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets7.mind' });
       const { renderer, scene, camera, cssRenderer } = mindarThree;
       //creaete anchors
       const anchor = mindarThree.addAnchor(0);
