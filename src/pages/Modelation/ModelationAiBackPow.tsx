@@ -28,10 +28,6 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [executeDetect]);
 
   useEffect(() => {
-    executeDetect();
-  }, [executeDetect]);
-
-  useEffect(() => {
     if (buttonState === 'done') {
       setButtonState('init');
     }

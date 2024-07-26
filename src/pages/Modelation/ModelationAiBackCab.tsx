@@ -31,10 +31,6 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   }, [executeDetect]);
 
   useEffect(() => {
-    executeDetect();
-  }, [executeDetect]);
-
-  useEffect(() => {
     if (buttonState === 'done') {
       setButtonState('init');
     }

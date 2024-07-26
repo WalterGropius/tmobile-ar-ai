@@ -33,9 +33,6 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     executeDetect();
   }, [executeDetect]);
 
-  useEffect(() => {
-    executeDetect();
-  }, [executeDetect]);
 
   useEffect(() => {
     if (buttonState === 'done') {
