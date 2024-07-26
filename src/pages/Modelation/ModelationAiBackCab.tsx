@@ -41,7 +41,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 5 || cabStatus === 'correct') {
+    if (buttonClickCount >= 3 || cabStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powerAnim');
       }, 1000);
@@ -50,27 +50,12 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
 
   const renderCabStatus = () => {
     switch (cabStatus) {
-      case 'correct':
-        return <Typography variant="h2">Správné zapojení ✓</Typography>;
-      case 'error':
-        return (
-          <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />
-        );
-      case 'wrong-cab':
-        return (
-          <Notification
-            title="Nesprávné zapojení"
-            message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${
-              connectionType === 'DSL' ? 'DSL' : 'WAN'
-            }.`}
-          />
-        );
-      case 'no-cab':
-        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
-      case 'flip':
-        return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
-      default:
-        return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
+      case 'correct': return <Typography variant="h2">Správné zapojení ✓</Typography>;
+      case 'error': return <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />;
+      case 'wrong-cab': return <Notification title="Nesprávné zapojení" message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${connectionType === 'DSL' ? 'DSL' : 'WAN' }.`} />;
+      case 'no-cab': return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+      case 'flip': return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
+      default: return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
     }
   };
 
