@@ -78,12 +78,12 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       };
 
       //create back image plane
-      const imagePlane = createImagePlane('/modemback.png');
+      const imagePlane = createImagePlane('/tmoblogo.png');
       imagePlaneRefBack.current = imagePlane;
       anchor.group.add(imagePlane);
 
       //create front image plane
-      const imagePlane2 = createImagePlane('/modemfrontsm.png');
+      const imagePlane2 = createImagePlane('/tmoblogo.png');
       imagePlaneRefFront.current = imagePlane2;
       anchor2.group.add(imagePlane2);
     
