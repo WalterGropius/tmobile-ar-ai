@@ -68,7 +68,9 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           </Typography>
 
           {renderCabStatus()}
-          <Typography sx={{ color: 'red' }} variant="h3">{JSON.stringify(labeledDetections)}</Typography>
+          <Typography sx={{ color: 'red' }} >
+            {labeledDetections.map(detection => detection.label).join(', ')}
+          </Typography>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
