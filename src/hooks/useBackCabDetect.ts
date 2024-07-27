@@ -11,15 +11,16 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     const hasLabel = (label: string) => labeledDetections.some(detection => detection.label === label);
     const countLabel = (label: string) => labeledDetections.filter(detection => detection.label === label).length;
 
-    const hasMultipleIndicators = countLabel('ind') > 1;
-    const hasMultipleLights = countLabel('light') > 1;
+    const hasMultipleIndicators = countLabel('ind') > 2;
+    const hasMultipleLights = countLabel('light') > 2;
+    const hasMultiplePorts = countLabel('port') > 2;
 
     const checkCabStatus = (correctCab: string, vacantPort: string, wrongCab: string, occupiedPort: string) => {
-      if (hasLabel(correctCab) || !hasLabel(occupiedPort)) {
+      if (hasLabel(correctCab) ||( !hasLabel(occupiedPort) && hasMultiplePorts)) {
         setCabStatus('correct');
       } else if (hasLabel(occupiedPort)) {
-        setCabStatus('error');
-      } else if (hasLabel(wrongCab) || !hasLabel(vacantPort)) {
+        setCabStatus('error');//not inserted
+      } else if (hasLabel(wrongCab) || (!hasLabel(vacantPort) && hasMultiplePorts)) {
         setCabStatus('wrong-cab');
       } else if (hasMultipleIndicators || hasMultipleLights) {
         setCabStatus('flip');
