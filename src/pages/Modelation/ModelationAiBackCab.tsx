@@ -47,7 +47,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   const renderCabStatus = () => {
     switch (cabStatus) {
       case 'correct': return <Typography variant="h2">Správné zapojení ✓</Typography>;
-      case 'error': return <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen a dobře viditelný." />;
+      case 'error': return <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen, dobře viditelný a kabel zapojen do správného portu." />;
       case 'wrong-cab': return <Notification title="Nesprávné zapojení" message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${connectionType === 'DSL' ? 'DSL' : 'WAN' }.`} />;
       case 'no-cab': return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
       case 'flip': return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
@@ -68,7 +68,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           </Typography>
 
           {renderCabStatus()}
-          {JSON.stringify(labeledDetections)}
+          <Typography sx={{ color: 'red' }} variant="h3">{JSON.stringify(labeledDetections)}</Typography>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
