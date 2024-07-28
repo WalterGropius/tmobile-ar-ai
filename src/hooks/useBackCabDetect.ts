@@ -11,21 +11,21 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
     const hasLabel = (label: string) => labeledDetections.some((detection) => detection.label === label);
     const countLabel = (label: string) => labeledDetections.filter((detection) => detection.label === label).length;
 
-    const hasMultipleIndicators = countLabel('ind') > 2;
-    const hasMultipleLights = countLabel('light') > 2;
-    const hasMultiplePorts = countLabel('port') > 2;
-
     const checkCabStatus = (correctCab: string, vacantPort: string, wrongCab: string, occupiedPort: string) => {
+      const hasMultipleIndicators = countLabel('ind') > 2;
+      const hasMultipleLights = countLabel('light') > 2;
+      const hasMultiplePorts = countLabel('port') > 2;
+
       if (hasMultipleIndicators || hasMultipleLights) {
-        setCabStatus('flip');
+        setCabStatus('flip'); // multiple indicators or lights are visible u should flip it
       } else if (hasLabel(correctCab) || (!hasLabel(occupiedPort) && hasMultiplePorts)) {
-        setCabStatus('correct');
+        setCabStatus('correct'); // the correct cab is visible or the port that should be occupied isnt
       } else if (hasLabel(occupiedPort)) {
-        setCabStatus('error'); // not inserted
+        setCabStatus('error'); // the port that should be occupied isnt
       } else if (hasLabel(wrongCab) || (!hasLabel(vacantPort) && hasMultiplePorts)) {
-        setCabStatus('wrong-cab');
+        setCabStatus('wrong-cab'); // the wrong cab is visible or the port that should be vacant isnt
       } else {
-        setCabStatus('no-cab');
+        setCabStatus('no-cab'); // no cab is visible
       }
     };
 
