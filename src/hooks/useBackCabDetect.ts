@@ -8,22 +8,22 @@ const useBackCabDetect = (labeledDetections: Detection[], connectionType: Connec
   const [cabStatus, setCabStatus] = useState<CabStatus>(null);
 
   useEffect(() => {
-    const hasLabel = (label: string) => labeledDetections.some(detection => detection.label === label);
-    const countLabel = (label: string) => labeledDetections.filter(detection => detection.label === label).length;
+    const hasLabel = (label: string) => labeledDetections.some((detection) => detection.label === label);
+    const countLabel = (label: string) => labeledDetections.filter((detection) => detection.label === label).length;
 
     const hasMultipleIndicators = countLabel('ind') > 2;
     const hasMultipleLights = countLabel('light') > 2;
     const hasMultiplePorts = countLabel('port') > 2;
 
     const checkCabStatus = (correctCab: string, vacantPort: string, wrongCab: string, occupiedPort: string) => {
-      if (hasLabel(correctCab) ||( !hasLabel(occupiedPort) && hasMultiplePorts)) {
+      if (hasMultipleIndicators || hasMultipleLights) {
+        setCabStatus('flip');
+      } else if (hasLabel(correctCab) || (!hasLabel(occupiedPort) && hasMultiplePorts)) {
         setCabStatus('correct');
       } else if (hasLabel(occupiedPort)) {
-        setCabStatus('error');//not inserted
+        setCabStatus('error'); // not inserted
       } else if (hasLabel(wrongCab) || (!hasLabel(vacantPort) && hasMultiplePorts)) {
         setCabStatus('wrong-cab');
-      } else if (hasMultipleIndicators || hasMultipleLights) {
-        setCabStatus('flip');
       } else {
         setCabStatus('no-cab');
       }
