@@ -7,7 +7,11 @@ import { Notification } from '../../ui/Notification';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Drawer } from '../../ui/Drawer';
 
-export const ModelationAiBackCabPage = () => {
+export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
+  labeledDetections,
+  connectionType,
+  handleExecute,
+}) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -94,13 +98,8 @@ export const ModelationAiBackCabPage = () => {
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button 
-                variant="contained" 
-                fullWidth 
-                onClick={handleExecute} 
-                disabled={isButtonDisabled}
-              >
-                {buttonText}
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>

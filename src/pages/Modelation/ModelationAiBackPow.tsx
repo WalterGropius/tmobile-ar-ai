@@ -8,15 +8,14 @@ import { Notification } from '../../ui/Notification';
 import { Drawer } from '../../ui/Drawer';
 import { FC } from 'react';
 
-export const ModelationAiBackPowPage = () => {
+export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute }) => {
   const { redirectToStep } = useModelationRouter();
+  const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
+  const [buttonClickCount, setButtonClickCount] = useState(0);
+  const cableStatus = useBackPowDetect(labeledDetections);
 
-  // TODO: Stejna chyba, race condition
-  const [buttonText, setButtonText] = useState('Zkontrolovat');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleExecute = () => {
-    setIsButtonDisabled(true);
+  const executeDetect = useCallback(() => {
+    setButtonState('loading');
     setTimeout(() => {
       handleExecute();
       setButtonState('done');
@@ -69,8 +68,13 @@ export const ModelationAiBackPowPage = () => {
       </Box>
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
-         <Typography variant="h2">Namiřte na zadní část modemu</Typography>
-         <Typography sx={{my:'24px'}} variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
+          <Typography variant="h2">Namiřte na zadní část modemu</Typography>
+          <Typography sx={{ my: '24px' }} variant="h4">
+            Výsledný stav (proces může trvat až 2 minuty)
+          </Typography>
+
+          {renderCableStatus()}
+
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>
