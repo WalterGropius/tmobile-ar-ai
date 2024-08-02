@@ -16,7 +16,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cabStatus = useBackCabDetect(labeledDetections, connectionType);
-
+  const debug = false;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
@@ -46,12 +46,30 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
 
   const renderCabStatus = () => {
     switch (cabStatus) {
-      case 'correct': return <Typography variant="h2">Správné zapojení ✓</Typography>;
-      case 'error': return <Notification title="Chyba Analýzy" message="Ujistěte se, že je modem správně otočen, dobře viditelný a kabel zapojen do správného portu." />;
-      case 'wrong-cab': return <Notification title="Nesprávné zapojení" message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${connectionType === 'DSL' ? 'DSL' : 'WAN' }.`} />;
-      case 'no-cab': return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
-      case 'flip': return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
-      default: return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
+      case 'correct':
+        return <Typography variant="h2">Správné zapojení ✓</Typography>;
+      case 'error':
+        return (
+          <Notification
+            title="Chyba Analýzy"
+            message="Ujistěte se, že je modem správně otočen, dobře viditelný a kabel zapojen do správného portu."
+          />
+        );
+      case 'wrong-cab':
+        return (
+          <Notification
+            title="Nesprávné zapojení"
+            message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${
+              connectionType === 'DSL' ? 'DSL' : 'WAN'
+            }.`}
+          />
+        );
+      case 'no-cab':
+        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+      case 'flip':
+        return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
+      default:
+        return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
     }
   };
 
@@ -68,9 +86,11 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           </Typography>
 
           {renderCabStatus()}
-          <Typography sx={{ color: 'red' }} >
-            {labeledDetections.map(detection => detection.label).join(', ')}
-          </Typography>
+          {debug && (
+            <Typography sx={{ color: 'red' }}>
+              {labeledDetections.map((detection) => detection.label).join(', ')}
+            </Typography>
+          )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
