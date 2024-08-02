@@ -1,13 +1,13 @@
-import { useModelationRouter } from '../../hooks/useModelationRouter';
-import { StatusBanner } from '../../ui/StatusBanner';
-import { Box, Button, Typography } from '@mui/material';
-import { Drawer } from '../../ui/Drawer';
 import { useState, useEffect, useCallback } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { useModelationRouter } from '../../hooks/useModelationRouter';
+import { useFrontDetections } from '../../hooks/useFrontDetetections';
 import { LightIndicator } from '../../ui/LightIndicator';
-import { FC } from 'react';
-import useFrontDetections from '../../hooks/useFrontDetetections';
-import { Detection } from '../../types/modelation';
+import { StatusBanner } from '../../ui/StatusBanner';
 import { Notification } from '../../ui/Notification';
+import { Detection } from '../../types/modelation';
+import { Drawer } from '../../ui/Drawer';
+import { FC } from 'react';
 
 type Props = {
   labeledDetections: Detection[];
