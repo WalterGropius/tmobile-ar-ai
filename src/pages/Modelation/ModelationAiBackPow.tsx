@@ -1,9 +1,12 @@
-
-import { useModelationRouter } from '../../hooks/useModelationRouter';
-import { StatusBanner } from '../../ui/StatusBanner';
+import { useState, useEffect, useCallback } from 'react';
+import { ModelationAiBackPowPageProps } from '../../types/modelation';
 import { Box, Button, Typography } from '@mui/material';
+import { useModelationRouter } from '../../hooks/useModelationRouter';
+import { useBackPowDetect } from '../../hooks/useBackPowDetect';
+import { StatusBanner } from '../../ui/StatusBanner';
+import { Notification } from '../../ui/Notification';
 import { Drawer } from '../../ui/Drawer';
-import { useState, useEffect } from 'react';
+import { FC } from 'react';
 
 export const ModelationAiBackPowPage = () => {
   const { redirectToStep } = useModelationRouter();
@@ -15,11 +18,48 @@ export const ModelationAiBackPowPage = () => {
   const handleExecute = () => {
     setIsButtonDisabled(true);
     setTimeout(() => {
-      // TODO: Proc to neni tady? redirectToStep('arFront');
-      setButtonText('Pokračovat');
-      redirectToStep('powButt');
-      setIsButtonDisabled(false);
-    }, 5000);
+      handleExecute();
+      setButtonState('done');
+    }, 1000);
+  }, [handleExecute]);
+
+  const handleButtonClick = useCallback(() => {
+    setButtonClickCount((prevCount) => prevCount + 1);
+    executeDetect();
+  }, [executeDetect]);
+
+  useEffect(() => {
+    if (buttonState === 'done') {
+      setButtonState('init');
+    }
+  }, [buttonState]);
+
+  useEffect(() => {
+    if (buttonClickCount >= 5 || cableStatus === 'correct') {
+      setTimeout(() => {
+        redirectToStep('powButt');
+      }, 1000);
+    }
+  }, [buttonClickCount, cableStatus, redirectToStep]);
+
+  const renderCableStatus = () => {
+    switch (cableStatus) {
+      case 'correct':
+        return <Typography variant="h2">Spravné zapojení ✓</Typography>;
+      case 'error':
+        return (
+          <Notification
+            title="Nespravné zapojení"
+            message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
+          />
+        );
+      case 'flip':
+        return <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />;
+      case 'no-cabPow':
+        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+      default:
+        return <Typography variant="h4">Probihá AI kontrola...</Typography>;
+    }
   };
 
   return (
@@ -38,13 +78,8 @@ export const ModelationAiBackPowPage = () => {
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button 
-                variant="contained" 
-                fullWidth 
-                onClick={handleExecute} 
-                disabled={isButtonDisabled}
-              >
-                {buttonText}
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>
