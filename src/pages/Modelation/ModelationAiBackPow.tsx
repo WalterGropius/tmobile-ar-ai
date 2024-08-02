@@ -1,12 +1,12 @@
-import { useModelationRouter } from '../../hooks/useModelationRouter';
-import { StatusBanner } from '../../ui/StatusBanner';
-import { Box, Button, Typography } from '@mui/material';
-import { Drawer } from '../../ui/Drawer';
-import { Notification } from '../../ui/Notification';
 import { useState, useEffect, useCallback } from 'react';
-import useBackPowDetect from '../../hooks/useBackPowDetect';
-import { FC } from 'react';
 import { ModelationAiBackPowPageProps } from '../../types/modelation';
+import { Box, Button, Typography } from '@mui/material';
+import { useModelationRouter } from '../../hooks/useModelationRouter';
+import { useBackPowDetect } from '../../hooks/useBackPowDetect';
+import { StatusBanner } from '../../ui/StatusBanner';
+import { Notification } from '../../ui/Notification';
+import { Drawer } from '../../ui/Drawer';
+import { FC } from 'react';
 
 export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute }) => {
   const { redirectToStep } = useModelationRouter();
@@ -23,7 +23,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [handleExecute]);
 
   const handleButtonClick = useCallback(() => {
-    setButtonClickCount(prevCount => prevCount + 1);
+    setButtonClickCount((prevCount) => prevCount + 1);
     executeDetect();
   }, [executeDetect]);
 
@@ -82,12 +82,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleButtonClick}
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>

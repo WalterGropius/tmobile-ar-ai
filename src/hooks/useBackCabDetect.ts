@@ -1,42 +1,44 @@
-import { useEffect, useState } from 'react';
-import { Detection } from '../types/modelation';
 import { ConnectionType } from '../types/connection';
+import { Detection } from '../types/modelation';
 
 type CabStatus = 'correct' | 'error' | 'wrong-cab' | 'no-cab' | 'flip' | null;
 
-const useBackCabDetect = (labeledDetections: Detection[], connectionType: ConnectionType): CabStatus => {
-  const [cabStatus, setCabStatus] = useState<CabStatus>(null);
+export const useBackCabDetect = (labeledDetections: Detection[], connectionType: ConnectionType): CabStatus => {
+  const hasLabel = (label: string) => labeledDetections.some((detection) => detection.label === label);
+  const countLabel = (label: string) => labeledDetections.filter((detection) => detection.label === label).length;
 
-  useEffect(() => {
-    const hasLabel = (label: string) => labeledDetections.some((detection) => detection.label === label);
-    const countLabel = (label: string) => labeledDetections.filter((detection) => detection.label === label).length;
+  const checkCabStatus = (
+    correctCab: string,
+    vacantPort: string,
+    wrongCab: string,
+    occupiedPort: string
+  ): CabStatus => {
+    const hasMultipleIndicators = countLabel('ind') > 2;
+    const hasMultipleLights = countLabel('light') > 2;
+    const hasMultiplePorts = countLabel('port') > 2;
 
-    const checkCabStatus = (correctCab: string, vacantPort: string, wrongCab: string, occupiedPort: string) => {
-      const hasMultipleIndicators = countLabel('ind') > 2;
-      const hasMultipleLights = countLabel('light') > 2;
-      const hasMultiplePorts = countLabel('port') > 2;
-
-      if (hasMultipleIndicators || hasMultipleLights) {
-        setCabStatus('flip'); // multiple indicators or lights are visible u should flip it
-      } else if (hasLabel(correctCab) || (!hasLabel(occupiedPort) && hasMultiplePorts)) {
-        setCabStatus('correct'); // the correct cab is visible or the port that should be occupied isnt
-      } else if (hasLabel(occupiedPort)) {
-        setCabStatus('error'); // the port that should be occupied isnt
-      } else if (hasLabel(wrongCab) || (!hasLabel(vacantPort) && hasMultiplePorts)) {
-        setCabStatus('wrong-cab'); // the wrong cab is visible or the port that should be vacant isnt
-      } else {
-        setCabStatus('no-cab'); // no cab is visible
-      }
-    };
-
-    if (connectionType === 'DSL') {
-      checkCabStatus('cabdsl', 'portwan', 'cabwan', 'portdsl');
-    } else if (connectionType === 'OPTIC' || connectionType === 'WAN') {
-      checkCabStatus('cabwan', 'portdsl', 'cabdsl', 'portwan');
+    if (hasMultipleIndicators || hasMultipleLights) {
+      return 'flip'; // multiple indicators or lights are visible u should flip it
     }
-  }, [labeledDetections, connectionType]);
+    if (hasLabel(correctCab) || (!hasLabel(occupiedPort) && hasMultiplePorts)) {
+      return 'correct'; // the correct cab is visible or the port that should be occupied isnt
+    }
+    if (hasLabel(occupiedPort)) {
+      return 'error'; // the port that should be occupied isnt
+    }
+    if (hasLabel(wrongCab) || (!hasLabel(vacantPort) && hasMultiplePorts)) {
+      return 'wrong-cab'; // the wrong cab is visible or the port that should be vacant isnt
+    }
 
-  return cabStatus;
+    return 'no-cab'; // no cab is visible
+  };
+
+  if (connectionType === 'DSL') {
+    return checkCabStatus('cabdsl', 'portwan', 'cabwan', 'portdsl');
+  }
+  if (connectionType === 'OPTIC' || connectionType === 'WAN') {
+    return checkCabStatus('cabwan', 'portdsl', 'cabdsl', 'portwan');
+  }
+
+  return null;
 };
-
-export default useBackCabDetect;

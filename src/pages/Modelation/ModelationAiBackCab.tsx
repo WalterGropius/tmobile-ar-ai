@@ -1,11 +1,11 @@
-import { useModelationRouter } from '../../hooks/useModelationRouter';
-import { StatusBanner } from '../../ui/StatusBanner';
-import { Box, Button, Typography } from '@mui/material';
-import { Drawer } from '../../ui/Drawer';
-import { Notification } from '../../ui/Notification';
 import { useState, useEffect, useCallback, FC } from 'react';
-import useBackCabDetect from '../../hooks/useBackCabDetect';
 import { ModelationAiBackCabPageProps } from '../../types/modelation';
+import { Box, Button, Typography } from '@mui/material';
+import { useModelationRouter } from '../../hooks/useModelationRouter';
+import { useBackCabDetect } from '../../hooks/useBackCabDetect';
+import { Notification } from '../../ui/Notification';
+import { StatusBanner } from '../../ui/StatusBanner';
+import { Drawer } from '../../ui/Drawer';
 
 export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   labeledDetections,

@@ -18,3 +18,8 @@ export const useFrontDetections = (labeledDetections: Detection[]): { lightStatu
     isFlipped: portCount > 2,
   };
 };
+
+
+// lights.length === 6
+//     ? lights.map(light => light.label === 'lightg')
+//     : Array(6).fill(false);
