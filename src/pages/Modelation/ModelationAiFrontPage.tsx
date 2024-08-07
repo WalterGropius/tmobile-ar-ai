@@ -20,6 +20,10 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const { lightStatus, isFlipped } = useFrontDetections(labeledDetections);
   const debug = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> debug
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
@@ -63,7 +67,11 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           {isFlipped && <Notification title="Otočte modem" message="Je potřeba zkontrolovat indikátory." />}
           {debug && (
             <Typography sx={{ color: 'red' }}>
+<<<<<<< HEAD
             {labeledDetections.map((detection) => detection.label).join(', ')}
+=======
+              {labeledDetections.map((detection) => detection.label).join(', ')}
+>>>>>>> debug
             </Typography>
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
