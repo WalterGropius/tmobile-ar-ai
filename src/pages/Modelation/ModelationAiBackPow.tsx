@@ -13,7 +13,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cableStatus = useBackPowDetect(labeledDetections);
-
+  const debug = true;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
@@ -74,7 +74,11 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
           </Typography>
 
           {renderCableStatus()}
-
+          {debug && (
+            <Typography sx={{ color: 'red' }}>
+              {labeledDetections.map((detection) => detection.label).join(', ')}
+            </Typography>
+          )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>

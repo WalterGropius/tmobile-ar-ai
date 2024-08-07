@@ -19,6 +19,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const { lightStatus, isFlipped } = useFrontDetections(labeledDetections);
+  const debug = true;
 
   const executeDetect = useCallback(() => {
     setButtonState('loading');
@@ -61,6 +62,11 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           <Typography variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />
           {isFlipped && <Notification title="Otočte modem" message="Je potřeba zkontrolovat indikátory." />}
+          {debug && (
+            <Typography sx={{ color: 'red' }}>
+              {labeledDetections.map((detection) => detection.label).join(', ')}
+            </Typography>
+          )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
               <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>

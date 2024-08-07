@@ -16,7 +16,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cabStatus = useBackCabDetect(labeledDetections, connectionType);
-  const debug = false;
+  const debug = true;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
