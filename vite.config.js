@@ -11,11 +11,7 @@ export default defineConfig({
       manifest: {
         // Your manifest settings here
         name: 'T-Mobile AR návod',
-<<<<<<< HEAD
-        short_name: 'T-Mobile',
-=======
         short_name: 'T-Mobile AR návod',
->>>>>>> debug
         theme_color: '#ffffff',
         icons: [
           {
