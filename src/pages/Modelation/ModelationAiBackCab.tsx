@@ -37,10 +37,10 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 3 || cabStatus === 'correct') {
+    if (buttonClickCount >= 10 || cabStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powerAnim');
-      }, 1000);
+      }, 3000);
     }
   }, [buttonClickCount, cabStatus, redirectToStep]);
 
@@ -88,6 +88,8 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           {renderCabStatus()}
           {debug && (
             <Typography sx={{ color: 'red' }}>
+              Connection type: {connectionType}
+              <br />
               {labeledDetections.map((detection) => detection.label).join(', ')}
             </Typography>
           )}

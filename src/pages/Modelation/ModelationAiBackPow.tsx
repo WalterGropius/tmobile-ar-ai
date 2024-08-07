@@ -34,10 +34,10 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 5 || cableStatus === 'correct') {
+    if (buttonClickCount >= 10 || cableStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powButt');
-      }, 1000);
+      }, 3000);
     }
   }, [buttonClickCount, cableStatus, redirectToStep]);
 
