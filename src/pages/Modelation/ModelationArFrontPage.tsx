@@ -1,5 +1,5 @@
-//done
-import { StepInfoItem,ModelationArFrontPageProps } from '../../types/modelation';
+//page1
+import { StepInfoItem, ModelationArFrontPageProps } from '../../types/modelation';
 import { Box, Button } from '@mui/material';
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
@@ -25,12 +25,7 @@ export const ModelationArFrontPage = ({ loaded }: ModelationArFrontPageProps) =>
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => redirectToPage('connection-info')}
-                disabled={!loaded}
-              >
+              <Button variant="outlined" fullWidth onClick={() => redirectToPage('connection-info')} disabled={!loaded}>
                 Zpět
               </Button>
             </Box>

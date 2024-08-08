@@ -1,3 +1,4 @@
+//page4
 import { useState, useEffect, useCallback, FC } from 'react';
 import { ModelationAiBackCabPageProps } from '../../types/modelation';
 import { Box, Button, Typography } from '@mui/material';
@@ -37,7 +38,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 10 || cabStatus === 'correct') {
+    if (buttonClickCount >= 30 || cabStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powerAnim');
       }, 3000);
@@ -95,7 +96,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim', true)}>
                 Zpět
               </Button>
             </Box>

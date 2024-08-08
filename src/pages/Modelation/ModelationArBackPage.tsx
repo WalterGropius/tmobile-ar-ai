@@ -1,4 +1,4 @@
-//done
+//page2
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { StepInfoItem } from '../../types/modelation';
@@ -15,16 +15,14 @@ export const ModelationArBackPage = () => {
     list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
   };
 
-
   return (
     <Box>
       <Box sx={{ m: 2 }}>
         <StatusBanner status="ardetect" />
       </Box>
-     
+
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
-       
           <IndicatorInfoList {...indicatorInfoList} />
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

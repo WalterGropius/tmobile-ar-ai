@@ -1,3 +1,4 @@
+//page8
 import { useState, useEffect, useCallback } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useModelationRouter } from '../../hooks/useModelationRouter';
@@ -41,7 +42,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
 
   useEffect(() => {
     const allLightsOn = lightStatus[0] && lightStatus[1] && lightStatus[2];
-    if (buttonClickCount >= 10 || allLightsOn) {
+    if (buttonClickCount >= 30 || allLightsOn) {
       setTimeout(() => {
         redirectToPage('fin');
       }, 3000);
@@ -68,7 +69,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('arFront', true)}>
                 Zpět
               </Button>
             </Box>

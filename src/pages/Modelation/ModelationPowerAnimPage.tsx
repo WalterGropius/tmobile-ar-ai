@@ -1,4 +1,4 @@
-//done
+//page5
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Box, Button, Typography } from '@mui/material';
@@ -14,12 +14,14 @@ export const ModelationPowerAnimPage = () => {
       </Box>
       <Drawer open={true}>
         <Typography variant="h2">Zapojení napájení</Typography>
-        <Typography sx={{my:'24px'}} variant="h4">Do vyznačené zdířky zapojte kabel od napájecího zdroje</Typography>
+        <Typography sx={{ my: '24px' }} variant="h4">
+          Do vyznačené zdířky zapojte kabel od napájecího zdroje
+        </Typography>
 
         <Box sx={{ my: 0 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab', true)}>
                 Zpět
               </Button>
             </Box>

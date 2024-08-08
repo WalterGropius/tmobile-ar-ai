@@ -1,4 +1,4 @@
-//done
+//page3
 import { useModelationRouter } from '../../hooks/useModelationRouter';
 import { ConnectionType } from '../../types/connection';
 import { StatusBanner } from '../../ui/StatusBanner';
@@ -22,7 +22,9 @@ export const ModelationCableAnimPage = () => {
       </Box>
       <Drawer open={true}>
         <Typography variant="h2">Zapojení {connectionType} kabelu</Typography>
-        <Typography sx={{my:'24px'}} variant="h4">{instructions[connectionType]}</Typography>
+        <Typography sx={{ my: '24px' }} variant="h4">
+          {instructions[connectionType]}
+        </Typography>
         <Box sx={{ my: 0 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>

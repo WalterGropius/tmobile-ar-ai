@@ -1,3 +1,4 @@
+//page6
 import { useState, useEffect, useCallback } from 'react';
 import { ModelationAiBackPowPageProps } from '../../types/modelation';
 import { Box, Button, Typography } from '@mui/material';
@@ -34,7 +35,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 10 || cableStatus === 'correct') {
+    if (buttonClickCount >= 30 || cableStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powButt');
       }, 3000);
@@ -81,7 +82,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab', true)}>
                 Zpět
               </Button>
             </Box>
