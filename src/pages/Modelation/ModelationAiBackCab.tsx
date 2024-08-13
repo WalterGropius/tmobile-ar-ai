@@ -41,14 +41,25 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
     if (buttonClickCount >= 30 || cabStatus === 'correct') {
       setTimeout(() => {
         redirectToStep('powerAnim');
-      }, 3000);
+      }, 5000);
     }
   }, [buttonClickCount, cabStatus, redirectToStep]);
 
+  /*   useEffect(() => {
+    executeDetect();
+  }, []); */
+
   const renderCabStatus = () => {
+    if (buttonClickCount === 0) {
+      return null;
+    }
     switch (cabStatus) {
       case 'correct':
-        return <Typography variant="h2">Správné zapojení ✓</Typography>;
+        return (
+          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+            Správné zapojení ✓
+          </Typography>
+        );
       case 'error':
         return (
           <Notification
@@ -104,7 +115,12 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={buttonState === 'loading' || cabStatus === 'correct'}
+              >
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>

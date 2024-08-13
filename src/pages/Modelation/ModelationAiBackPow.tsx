@@ -42,7 +42,14 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
     }
   }, [buttonClickCount, cableStatus, redirectToStep]);
 
+  /*  useEffect(() => {
+    executeDetect();
+  }, []); */
+
   const renderCableStatus = () => {
+    if (buttonClickCount === 0) {
+      return null;
+    }
     switch (cableStatus) {
       case 'correct':
         return <Typography variant="h2">Spravné zapojení ✓</Typography>;
@@ -90,7 +97,12 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleButtonClick}
+                disabled={buttonState === 'loading' || cableStatus === 'correct'}
+              >
                 {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
