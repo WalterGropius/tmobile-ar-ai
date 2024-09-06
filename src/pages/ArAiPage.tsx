@@ -19,16 +19,22 @@ export const ArAiPage: FC = () => {
   const { detections, videoRef, handleExecute, labeledDetections } = useAI(connectionType);
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
-    start:<> </>,
+    start: <> </>,
     powButt: <ModelationArPowButtPage />,
-    arFront: <ModelationArFrontPage loaded={initialized} />,
-    arBack: <ModelationArBackPage />,
+    arFront: <ModelationArFrontPage loaded={initialized} />, //DISABLE
+    arBack: <ModelationArBackPage />, //DISABLE
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBackCab: <ModelationAiBackCabPage connectionType={connectionType} labeledDetections={labeledDetections}  handleExecute={handleExecute} />,
-    aiBackPow:<ModelationAiBackPowPage labeledDetections={labeledDetections}  handleExecute={handleExecute}/>,
+    aiBackCab: (
+      <ModelationAiBackCabPage
+        connectionType={connectionType}
+        labeledDetections={labeledDetections}
+        handleExecute={handleExecute}
+      />
+    ),
+    aiBackPow: <ModelationAiBackPowPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,
-    finish:<> </>,
+    finish: <> </>,
   };
 
   return (

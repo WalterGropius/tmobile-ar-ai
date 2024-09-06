@@ -10,7 +10,6 @@ type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[
 
 type NullablePlaneRef = PlaneRef | null;
 
-
 export const useAR = (connectionType: ConnectionType, step: Step) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [initialized, setInitialized] = useState(false);
@@ -50,7 +49,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       const container = containerRef.current;
       if (!container) return;
       //create mindarThree
-      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets5.mind' });
+      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets6.mind' });
       const { renderer, scene, camera, cssRenderer } = mindarThree;
       //creaete anchors
       const anchor = mindarThree.addAnchor(0);
@@ -63,10 +62,10 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         transparent: true,
         opacity: 0.5,
       });
-    
+
       const portPlane = new THREE.Mesh(portGeometry, portMaterial);
       portPlaneRef.current = portPlane;
-    
+
       initPortPlane(portPlane);
       anchor.group.add(portPlane);
 
@@ -86,7 +85,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
       const imagePlane2 = createImagePlane('/modemfrontsm.png');
       imagePlaneRefFront.current = imagePlane2;
       anchor2.group.add(imagePlane2);
-    
+
       initImagePlane(imagePlaneRefBack.current as PlaneRef);
       initImagePlane2(imagePlaneRefFront.current as PlaneRef);
 
@@ -148,7 +147,6 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
     console.log('Cleanup complete.');
   }, []);
 
-
   useEffect(() => {
     const { mindarThree, renderer } = initializeAR();
 
@@ -159,7 +157,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
 
   useEffect(() => {
     if (!initialized) return;
-  
+
     // Hide all elements initially
     if (portPlaneRef.current) portPlaneRef.current.visible = false;
     if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = false;
@@ -167,7 +165,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
     if (arrowRef.current) arrowRef.current.visible = false;
     if (powRef.current) powRef.current.visible = false;
     if (cabRef.current) cabRef.current.visible = false;
-  
+
     // Show elements based on the current step
     switch (step) {
       case 'arBack':
@@ -178,13 +176,13 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         break;
       case 'powButt':
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(-0.38, -0.22, 0);  
+          portPlaneRef.current.position.set(-0.38, -0.22, 0);
           portPlaneRef.current.visible = true;
         }
         break;
       case 'powerAnim':
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(-0.38, -0.3, 0);  
+          portPlaneRef.current.position.set(-0.38, -0.3, 0);
           portPlaneRef.current.visible = true;
         }
         if (powRef.current) powRef.current.visible = true;
@@ -201,8 +199,6 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         break;
     }
   }, [step, initialized]);
-
-
 
   return { containerRef, setPortPlane, initialized };
 };

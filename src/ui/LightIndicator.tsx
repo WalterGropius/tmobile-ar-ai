@@ -8,11 +8,11 @@ type Props = {
 };
 
 export const LightIndicator: FC<Props> = ({ statusList }) => {
-  const displayList = statusList.length === 6 ? statusList : Array(6).fill(false);
+  //const displayList = statusList.length === 6 ? statusList : Array(6).fill(false);
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '38px' }}>
-      {displayList.map((status, key) => (
+      {statusList.map((status, key) => (
         <Circle key={key} color={status ? Color.green : Color.black} />
       ))}
     </Box>

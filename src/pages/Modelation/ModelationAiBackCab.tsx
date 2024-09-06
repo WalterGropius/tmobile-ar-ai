@@ -3,20 +3,16 @@ import { useState, useEffect, useCallback, FC } from 'react';
 import { ModelationAiBackCabPageProps } from '../../types/modelation';
 import { Box, Button, Typography } from '@mui/material';
 import { useModelationRouter } from '../../hooks/useModelationRouter';
-import { useBackCabDetect } from '../../hooks/useBackCabDetect';
+import { useRfCabDetect } from '../../hooks/useRfCabDetect';
 import { Notification } from '../../ui/Notification';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Drawer } from '../../ui/Drawer';
 
-export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
-  labeledDetections,
-  connectionType,
-  handleExecute,
-}) => {
+export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labeledDetections, handleExecute }) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
-  const cabStatus = useBackCabDetect(labeledDetections, connectionType);
+  const cabStatus = useRfCabDetect(labeledDetections);
   const debug = true;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
@@ -67,19 +63,10 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
             message="Ujistěte se, že je modem správně otočen, dobře viditelný a kabel zapojen do správného portu."
           />
         );
-      case 'wrong-cab':
-        return (
-          <Notification
-            title="Nesprávné zapojení"
-            message={`Zapojte ${connectionType === 'DSL' ? 'DSL' : 'WAN'} kabel do portu ${
-              connectionType === 'DSL' ? 'DSL' : 'WAN'
-            }.`}
-          />
-        );
       case 'no-cab':
         return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
       case 'flip':
-        return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení ${connectionType}`} />;
+        return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení`} />;
       default:
         return <Typography variant="h4">Probíhá AI kontrola...</Typography>;
     }
@@ -93,7 +80,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Kontrola zapojení {connectionType} kabelu
+            Kontrola zapojení kabelu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">
@@ -103,8 +90,6 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           {renderCabStatus()}
           {debug && (
             <Typography sx={{ color: 'red' }}>
-              Connection type: {connectionType}
-              <br />
               {labeledDetections.map((detection) => detection.label).join(', ')}
             </Typography>
           )}
