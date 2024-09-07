@@ -14,9 +14,9 @@ import { Step } from '@/types/modelation';
 import { Box } from '@mui/material';
 
 export const ArAiPage: FC = () => {
-  const { connectionType, step } = useModelationRouter();
-  const { containerRef, initialized } = useAR(connectionType, step);
-  const { detections, videoRef, handleExecute, labeledDetections } = useAI(connectionType);
+  const { step } = useModelationRouter();
+  const { containerRef, initialized } = useAR(step);
+  const { detections, videoRef, handleExecute, labeledDetections } = useAI();
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
     start: <> </>,
@@ -24,13 +24,7 @@ export const ArAiPage: FC = () => {
     arFront: <ModelationArFrontPage loaded={initialized} />, //DISABLE
     arBack: <ModelationArBackPage />, //DISABLE
     aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBackCab: (
-      <ModelationAiBackCabPage
-        connectionType={connectionType}
-        labeledDetections={labeledDetections}
-        handleExecute={handleExecute}
-      />
-    ),
+    aiBackCab: <ModelationAiBackCabPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
     aiBackPow: <ModelationAiBackPowPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
     cableAnim: <ModelationCableAnimPage />,
     powerAnim: <ModelationPowerAnimPage />,

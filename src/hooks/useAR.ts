@@ -10,7 +10,7 @@ type PlaneRef = THREE.Mesh<THREE.PlaneGeometry, THREE.Material | THREE.Material[
 
 type NullablePlaneRef = PlaneRef | null;
 
-export const useAR = (connectionType: ConnectionType, step: Step) => {
+export const useAR = (step: Step) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [initialized, setInitialized] = useState(false);
 
@@ -29,9 +29,9 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
     plane.position.set(-0.38, -0.3, 0);
   };
 
-  const setPortPlane = (plane: PlaneRef, connectionType: ConnectionType) => {
+  const setPortPlane = (plane: PlaneRef) => {
     //set location of port plane based on connection type
-    const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
+    const position = { x: 0.4, y: -0.3, z: 0 };
     plane.position.set(position.x, position.y, position.z);
   };
   const initImagePlane = (plane: PlaneRef) => {
@@ -188,7 +188,7 @@ export const useAR = (connectionType: ConnectionType, step: Step) => {
         if (powRef.current) powRef.current.visible = true;
         break;
       case 'cableAnim':
-        const position = connectionType === 'DSL' ? { x: 0.4, y: -0.3, z: 0 } : { x: 0.3, y: -0.3, z: 0 };
+        const position = { x: 0.4, y: -0.3, z: 0 };
         if (portPlaneRef.current) {
           portPlaneRef.current.position.set(position.x, position.y, position.z);
           portPlaneRef.current.visible = true; // Ensure port plane is visible

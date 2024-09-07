@@ -45,6 +45,5 @@ export type ModelationAiBackPowPageProps = {
 
 export type ModelationAiBackCabPageProps = {
   labeledDetections: Detection[];
-  connectionType: ConnectionType;
   handleExecute: () => void;
 };

@@ -7,7 +7,7 @@ import { Webcam } from '../utils/webcam';
 import { Detection } from '../types/modelation';
 import labels from '../utils/labels.json';
 
-export const useAI = (connectionType: ConnectionType) => {
+export const useAI = () => {
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [detections, setDetections] = useState([]);
   const [labeledDetections, setLabeledDetections] = useState<Detection[]>([]);
@@ -69,10 +69,11 @@ export const useAI = (connectionType: ConnectionType) => {
     tf.dispose(res);
     setDetections(detections);
 
-    const labeledDetections: Detection[] = detections.map((det: unknown[]): Detection => ({
+    const labeledDetections: Detection[] = detections.map(
+      (det: unknown[]): Detection => ({
         xPos: parseInt(det[0] as string),
         label: labels[det[5] as number],
-        score: ((det[4] as number) * 100),
+        score: (det[4] as number) * 100,
       })
     );
 
