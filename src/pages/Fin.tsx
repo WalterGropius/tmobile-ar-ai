@@ -16,20 +16,30 @@ export const Fin = () => {
 
   return (
     <Box>
-      <Box sx={{display:'flex',flexDirection:'column', color: Color.white, background: Color.magenta,justifyContent:'space-around', textAlign: 'center',height: '100vh',overflow: 'hidden' }}>
-        <h6 style={{fontSize:'16px'}}>Zapojení bylo úspěšné ✓</h6>
-       <Box> <h2 style={{fontSize: '42px',padding:0,margin:0}}>A je to!</h2>
-        <h2 style={{fontSize: '42px',padding:0,margin:0}}>Váš modem Zyxel</h2>
-        <h2 style={{fontSize: '42px',padding:0,margin:0}}>máte úspěšně</h2>
-        <h2 style={{fontSize: '42px',padding:0,margin:0}}>zapojený.</h2>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          color: Color.white,
+          background: Color.magenta,
+          justifyContent: 'space-around',
+          textAlign: 'center',
+          height: '100vh',
+          overflow: 'hidden',
+        }}
+      >
+        <h6 style={{ fontSize: '16px' }}>Zapojení bylo úspěšné ✓</h6>
+        <Box>
+          {' '}
+          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>A je to!</h2>
+          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>Váš modem Zyxel</h2>
+          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>máte úspěšně</h2>
+          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>zapojený.</h2>
         </Box>
         <Box sx={{ textAlign: 'center' }}>
-          <Box component="img" src="/ui/fromfigma/modem.png" alt="modem" sx={{ width: '80%', my: 6 }} />
+          <Box component="img" src="/tv.jpeg" alt="modem" sx={{ width: '80%', my: 6 }} />
         </Box>
-      
       </Box>
-
-    
     </Box>
   );
 };

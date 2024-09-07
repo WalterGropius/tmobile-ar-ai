@@ -10,7 +10,7 @@ export const ModelationArBackPage = () => {
   const { redirectToStep } = useModelationRouter();
 
   const indicatorInfoList: StepInfoItem = {
-    title: 'Namiřte na zadní stranu modemu.',
+    title: 'Zapojeni koaxialniho kabelu',
     subtitle: 'Jednotlivé části znamenají toto:',
     list: ['On/Off', 'Reset', 'Power', 'USB', 'LAN', 'WAN', 'DSL', 'WIFI ON/OFF', 'WPS', 'Info', 'Zavěšení'],
   };
