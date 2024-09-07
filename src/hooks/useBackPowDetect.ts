@@ -6,12 +6,11 @@ export const useBackPowDetect = (labeledDetections: Detection[]): CabPowStatus =
   const hasLabel = (label: string) => labeledDetections.some((detection) => detection.label === label);
   const countLabel = (label: string) => labeledDetections.filter((detection) => detection.label === label).length;
 
-  const hasCabPow = hasLabel('cabpow');
-  const hasPortPow = hasLabel('portpow');
-  const hasMultipleIndicators = countLabel('ind') > 1;
+  const hasCabPow = hasLabel('powcab');
+  const hasPortPow = hasLabel('pow');
   const hasMultipleLights = countLabel('light') > 1;
 
   if (hasCabPow) return hasPortPow ? 'error' : 'correct';
-  if (hasMultipleIndicators || hasMultipleLights) return 'flip';
+  if (hasMultipleLights) return 'flip';
   return 'no-cabPow';
 };
