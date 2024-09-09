@@ -2,8 +2,8 @@ import { ConnectionType } from './connection';
 
 export const STEP = {
   start: 'start',
-  arFront: 'arFront',
-  arBack: 'arBack',
+  //arFront: 'arFront',
+  //arBack: 'arBack',
   aiFront: 'aiFront',
   aiBackCab: 'aiBackCab',
   aiBackPow: 'aiBackPow',

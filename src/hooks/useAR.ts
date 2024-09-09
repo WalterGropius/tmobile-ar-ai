@@ -168,12 +168,12 @@ export const useAR = (step: Step) => {
 
     // Show elements based on the current step
     switch (step) {
-      case 'arBack':
+      /* case 'arBack':
         if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = true;
         break;
       case 'arFront':
         if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
-        break;
+        break; */
       case 'powButt':
         if (portPlaneRef.current) {
           portPlaneRef.current.position.set(0.0, -2.5, 0);

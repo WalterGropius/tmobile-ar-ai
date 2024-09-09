@@ -7,10 +7,10 @@ import { ReactNode } from 'react';
 import { Drawer } from '../../ui/Drawer';
 
 export const ModelationCableAnimPage = () => {
-  const { redirectToStep, connectionType } = useModelationRouter();
+  const { redirectToStep, redirectToPage } = useModelationRouter();
 
   const instructions: Record<ConnectionType, ReactNode> = {
-    DSL: <>Do vyznačené zdířky zapojte telefonní kabel (ten s užším konektorem)</>,
+    DSL: <>Do vyznačené zdířky zapojte coax kabel</>,
     WAN: <>Do vyznačené zdířky zapojte LAN kabel (ten se širším konektorem)</>,
     OPTIC: <>Do vyznačené zdířky zapojte LAN kabel (ten se širším konektorem)</>,
   };
@@ -21,14 +21,14 @@ export const ModelationCableAnimPage = () => {
         <StatusBanner status="ardetect" />
       </Box>
       <Drawer open={true}>
-        <Typography variant="h2">Zapojení {connectionType} kabelu</Typography>
+        <Typography variant="h2">Zapojení kabelu</Typography>
         <Typography sx={{ my: '24px' }} variant="h4">
-          {instructions[connectionType]}
+          {instructions.DSL}
         </Typography>
         <Box sx={{ my: 0 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('arBack')}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToPage('connection-info')}>
                 Zpět
               </Button>
             </Box>
