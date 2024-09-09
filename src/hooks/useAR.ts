@@ -49,7 +49,7 @@ export const useAR = (step: Step) => {
       const container = containerRef.current;
       if (!container) return;
       //create mindarThree
-      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets6.mind' });
+      const mindarThree = new MindARThree({ container, imageTargetSrc: '/targets.mind' });
       const { renderer, scene, camera, cssRenderer } = mindarThree;
       //creaete anchors
       const anchor = mindarThree.addAnchor(0);

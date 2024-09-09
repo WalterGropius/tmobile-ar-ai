@@ -9,7 +9,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.svg',
-        'targets6.mind',
+        'targets.mind',
         '/modem_web_model/model.json',
         '/modem_web_model/group1-shard1of6.bin',
         '/modem_web_model/group1-shard2of6.bin',
