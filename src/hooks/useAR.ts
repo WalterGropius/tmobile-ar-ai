@@ -176,7 +176,7 @@ export const useAR = (step: Step) => {
         break;
       case 'powButt':
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(-0.38, -0.22, 0);
+          portPlaneRef.current.position.set(0.0, -2.5, 0);
           portPlaneRef.current.visible = true;
         }
         break;
