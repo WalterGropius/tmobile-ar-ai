@@ -1,7 +1,7 @@
 import { Detection } from '../types/modelation';
 import { useMemo } from 'react';
 
-const sortDetections = (detections: Detection[]): Detection[] => detections.sort((a, b) => a.xPos - b.xPos);
+const sortDetections = (detections: Detection[]): Detection[] => detections.sort((a, b) => a.yPos - b.yPos);
 
 const filterLights = (detections: Detection[]): boolean[] =>
   detections.filter(({ label }) => label?.includes('light')).map(({ label }) => label === 'lightg');
@@ -19,7 +19,4 @@ export const useFrontDetections = (labeledDetections: Detection[]): { lightStatu
   };
 };
 
-
-// lights.length === 6
-//     ? lights.map(light => light.label === 'lightg')
-//     : Array(6).fill(false);
+//if

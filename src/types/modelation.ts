@@ -29,7 +29,7 @@ export type StepInfoItem = {
 };
 
 export type Detection = {
-  xPos: number;
+  yPos: number;
   label: string;
   score: number;
 };

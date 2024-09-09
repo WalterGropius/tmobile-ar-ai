@@ -71,7 +71,7 @@ export const useAI = () => {
 
     const labeledDetections: Detection[] = detections.map(
       (det: unknown[]): Detection => ({
-        xPos: parseInt(det[0] as string),
+        yPos: parseInt(det[1] as string),
         label: labels[det[5] as number],
         score: (det[4] as number) * 100,
       })
