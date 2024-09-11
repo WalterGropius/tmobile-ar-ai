@@ -26,13 +26,14 @@ export const useAR = (step: Step) => {
 
   const initPortPlane = (plane: PlaneRef) => {
     //power location
-    plane.position.set(-0.38, -0.3, 0);
+    plane.position.set(0, 0, 0);
   };
 
   const setPortPlane = (plane: PlaneRef) => {
     //set location of port plane based on connection type
-    const position = { x: 0.4, y: -0.3, z: 0 };
+    const position = { x: 0, y: 0, z: 0 };
     plane.position.set(position.x, position.y, position.z);
+    plane.scale.set(2, 2, 2);
   };
   const initImagePlane = (plane: PlaneRef) => {
     plane.position.set(0, 0, 0);
@@ -94,10 +95,10 @@ export const useAR = (step: Step) => {
       loader.load('/cables.glb', (gltf: GLTF) => {
         const cab = gltf.scene.children[0] as THREE.Mesh;
         const pow = gltf.scene.children[1] as THREE.Mesh;
-        cab.position.set(-0.3, -1.3, 0); // Adjust position as needed
-        cab.scale.set(0.06, 0.06, 0.06); // Adjust scale as needed
-        pow.position.set(0.3, -1.9, 0); // Adjust position as needed
-        pow.scale.set(0.06, 0.06, 0.06); // Adjust scale as needed
+        cab.position.set(0, 0, 0); // Adjust position as needed
+        cab.scale.set(0.03, 0.03, 0.03); // Adjust scale as needed
+        pow.position.set(0, 0, 0); // Adjust position as needed
+        pow.scale.set(0.03, 0.03, 0.03); // Adjust scale as needed
         cab.material = portMaterial; // Ensure material is set
         pow.material = portMaterial; // Ensure material is set
         powRef.current = pow as PlaneRef;
@@ -109,10 +110,10 @@ export const useAR = (step: Step) => {
 
         // Create animation for cables
         const cabClip = new THREE.AnimationClip('cabAnimation', -1, [
-          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 0.5, 0]),
+          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 1, 0]),
         ]);
         const powClip = new THREE.AnimationClip('powAnimation', -1, [
-          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 0.5, 0]),
+          new THREE.VectorKeyframeTrack('.position[z]', [0, 1, 2], [0, 1, 0]),
         ]);
 
         mixer.clipAction(cabClip, cab).play();
@@ -168,30 +169,26 @@ export const useAR = (step: Step) => {
 
     // Show elements based on the current step
     switch (step) {
-      /* case 'arBack':
-        if (imagePlaneRefBack.current) imagePlaneRefBack.current.visible = true;
-        break;
-      case 'arFront':
-        if (imagePlaneRefFront.current) imagePlaneRefFront.current.visible = true;
-        break; */
       case 'powButt':
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(0.0, -2.5, 0);
+          portPlaneRef.current.position.set(0.0, -2.45, 0);
           portPlaneRef.current.visible = true;
+          portPlaneRef.current.scale.set(2, 2, 2);
         }
         break;
       case 'powerAnim':
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(-0.38, -0.3, 0);
+          portPlaneRef.current.position.set(-0, -2.3, 0);
           portPlaneRef.current.visible = true;
+          portPlaneRef.current.scale.set(2, 2, 2);
         }
         if (powRef.current) powRef.current.visible = true;
         break;
       case 'cableAnim':
-        const position = { x: 0.4, y: -0.3, z: 0 };
         if (portPlaneRef.current) {
-          portPlaneRef.current.position.set(position.x, position.y, position.z);
-          portPlaneRef.current.visible = true; // Ensure port plane is visible
+          portPlaneRef.current.position.set(0, -1.5, 0);
+          portPlaneRef.current.visible = true;
+          portPlaneRef.current.scale.set(2, 2, 2);
         }
         if (cabRef.current) cabRef.current.visible = true;
         break;
