@@ -30,10 +30,16 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     }, 1000);
   }, [handleExecute]);
 
+  const allLightsOn = lightStatus[0] && lightStatus[1] && lightStatus[2];
+
   const handleButtonClick = useCallback(() => {
-    setButtonClickCount((prevCount) => prevCount + 1);
-    executeDetect();
-  }, [executeDetect]);
+    if (allLightsOn) {
+      redirectToPage('fin');
+    } else {
+      setButtonClickCount((prevCount) => prevCount + 1);
+      executeDetect();
+    }
+  }, [allLightsOn, executeDetect, redirectToPage]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -42,13 +48,12 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   }, [buttonState]);
 
   useEffect(() => {
-    const allLightsOn = lightStatus[0] && lightStatus[1] && lightStatus[2];
-    if (buttonClickCount >= 30 || allLightsOn) {
+    if (buttonClickCount >= 30) {
       setTimeout(() => {
         redirectToPage('fin');
       }, 3000);
     }
-  }, [buttonClickCount, lightStatus, redirectToPage]);
+  }, [buttonClickCount, redirectToPage]);
 
   return (
     <Box>
@@ -79,7 +84,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
             </Box>
             <Box sx={{ width: '100%' }}>
               <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
-                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
+                {allLightsOn ? 'Pokračovat' : buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>
