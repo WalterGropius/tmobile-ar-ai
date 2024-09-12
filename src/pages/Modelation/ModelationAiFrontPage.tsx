@@ -58,7 +58,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography sx={{ marginBottom: '38px' }} variant="h2">
-            Namiřte na přední stranu modemu
+          Kontrola správného zapojení modemu
           </Typography>
           <Typography variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />

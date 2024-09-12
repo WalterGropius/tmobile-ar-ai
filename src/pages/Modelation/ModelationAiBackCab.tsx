@@ -59,8 +59,8 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
       case 'error':
         return (
           <Notification
-            title="Chyba Analýzy"
-            message="Ujistěte se, že je modem správně otočen, dobře viditelný a kabel zapojen do správného portu."
+            title="Chyba"
+            message="Koaxiální kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte."
           />
         );
       case 'no-cab':
@@ -80,7 +80,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Kontrola zapojení kabelu
+          Kontrola správného zapojení koaxiálního kabelu do RF na modemu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">

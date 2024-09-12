@@ -56,14 +56,14 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
       case 'error':
         return (
           <Notification
-            title="Nespravné zapojení"
+            title="Chyba"
             message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
           />
         );
       case 'flip':
         return <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />;
       case 'no-cabPow':
-        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+        return <Notification title="Chyba" message="Chyba, napájecí kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte." />;
       default:
         return <Typography variant="h4">Probihá AI kontrola...</Typography>;
     }
@@ -77,7 +77,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Kontrola napájení
+          Kontrola správného zapojení napájecího kabelu do POWER na modemu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">

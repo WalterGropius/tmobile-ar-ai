@@ -13,9 +13,9 @@ export const ModelationPowerAnimPage = () => {
         <StatusBanner status="ardetect" />
       </Box>
       <Drawer open={true}>
-        <Typography variant="h2">Zapojení napájení</Typography>
+        <Typography variant="h2">Zapojení napájecího kabelu</Typography>
         <Typography sx={{ my: '24px' }} variant="h4">
-          Do vyznačené zdířky zapojte kabel od napájecího zdroje
+        Do vyznačeného konektoru (POWER) zapojte napájecí kabel. A druhý konec zapojte do zásuvky od elektrické sítě.
         </Typography>
 
         <Box sx={{ my: 0 }}>
