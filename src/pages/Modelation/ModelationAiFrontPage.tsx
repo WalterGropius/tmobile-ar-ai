@@ -30,7 +30,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     }, 1000);
   }, [handleExecute]);
 
-  const allLightsOn = lightStatus[0] && lightStatus[1] && lightStatus[2];
+  const allLightsOn = lightStatus[0] && lightStatus[1] && (lightStatus[2] || lightStatus[3]);
 
   const handleButtonClick = useCallback(() => {
     if (allLightsOn) {
