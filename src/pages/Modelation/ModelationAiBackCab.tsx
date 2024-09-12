@@ -23,9 +23,13 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
   }, [handleExecute]);
 
   const handleButtonClick = useCallback(() => {
-    setButtonClickCount((prevCount) => prevCount + 1);
-    executeDetect();
-  }, [executeDetect]);
+    if (cabStatus === 'correct') {
+      redirectToStep('powerAnim');
+    } else {
+      setButtonClickCount((prevCount) => prevCount + 1);
+      executeDetect();
+    }
+  }, [cabStatus, executeDetect, redirectToStep]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -34,12 +38,12 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 30 || cabStatus === 'correct') {
+    if (buttonClickCount >= 30) {
       setTimeout(() => {
         redirectToStep('powerAnim');
       }, 5000);
     }
-  }, [buttonClickCount, cabStatus, redirectToStep]);
+  }, [buttonClickCount, redirectToStep]);
 
   /*   useEffect(() => {
     executeDetect();
@@ -104,9 +108,9 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
                 variant="contained"
                 fullWidth
                 onClick={handleButtonClick}
-                disabled={buttonState === 'loading' || cabStatus === 'correct'}
+                disabled={buttonState === 'loading'}
               >
-                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
+                {cabStatus === 'correct' ? 'Pokračovat' : buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>
