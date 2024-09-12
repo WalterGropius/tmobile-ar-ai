@@ -24,9 +24,13 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [handleExecute]);
 
   const handleButtonClick = useCallback(() => {
-    setButtonClickCount((prevCount) => prevCount + 1);
-    executeDetect();
-  }, [executeDetect]);
+    if (cableStatus === 'correct') {
+      redirectToStep('powButt');
+    } else {
+      setButtonClickCount((prevCount: number) => prevCount + 1);
+      executeDetect();
+    }
+  }, [cableStatus, executeDetect, redirectToStep]);
 
   useEffect(() => {
     if (buttonState === 'done') {
@@ -35,12 +39,12 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, [buttonState]);
 
   useEffect(() => {
-    if (buttonClickCount >= 30 || cableStatus === 'correct') {
+    if (buttonClickCount >= 30) {
       setTimeout(() => {
         redirectToStep('powButt');
       }, 3000);
     }
-  }, [buttonClickCount, cableStatus, redirectToStep]);
+  }, [buttonClickCount, redirectToStep]);
 
   /*  useEffect(() => {
     executeDetect();
@@ -52,7 +56,11 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
     }
     switch (cableStatus) {
       case 'correct':
-        return <Typography variant="h2">Spravné zapojení ✓</Typography>;
+        return (
+          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+            Správné zapojení ✓
+          </Typography>
+        );
       case 'error':
         return (
           <Notification
@@ -101,9 +109,9 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
                 variant="contained"
                 fullWidth
                 onClick={handleButtonClick}
-                disabled={buttonState === 'loading' || cableStatus === 'correct'}
+                disabled={buttonState === 'loading'}
               >
-                {buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
+                {cableStatus === 'correct' ? 'Pokračovat' : buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
           </Box>
