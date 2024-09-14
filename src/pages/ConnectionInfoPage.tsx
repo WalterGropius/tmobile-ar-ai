@@ -23,7 +23,7 @@ export const ConnectionInfoPage = () => {
             Položte modem poblíž koaxiální zásuvky a ideálně na prázdný světlý stůl. Ať jsou dobře viditelné konektory
             na zadní straně modemu.
           </p>
-          <img src={'/koax.jpg'} alt="modem" />
+          <img src={'/koax.jpg'} alt="modem" style={{ width: '100%' }} />
           <p>Připravte si koaxiální kabel na propojení modemu s koaxiální zásuvkou.</p>
           <p>Připravte zdrojový kabel na propojení modemu s elektrickou zásuvkou.</p>
         </Box>
