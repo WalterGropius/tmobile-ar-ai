@@ -64,7 +64,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
         return (
           <Notification
             title="Chyba"
-            message="Koaxiální kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte."
+            message="Chyba, koaxiální kabel není zapojený správně, vraťte se do předcházejícího kroku a postup opakujte."
           />
         );
       case 'no-cab':

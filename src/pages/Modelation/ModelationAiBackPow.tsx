@@ -71,7 +71,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
         return (
           <Notification
             title="Chyba"
-            message="Chyba, napájecí kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte."
+            message="Chyba, napájecí kabel není zapojený správně, vraťte se do předcházejícího kroku a postup opakujte."
           />
         );
       default:

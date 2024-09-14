@@ -16,7 +16,8 @@ export const ModelationArPowButtPage = () => {
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2">Modem zapněte stisknutím tlačítka ON/OFF</Typography>
-          <Typography variant="h4">První zapnutí modemů může trvat až 10 minut, proto si před pokračováním dopřejte krátkou pauzu.
+          <Typography variant="h4">
+            První zapnutí modemu může trvat až 10 minut, proto si před pokračováním dopřejte krátkou pauzu.
           </Typography>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
