@@ -27,7 +27,7 @@ export const ConnectionInfoPage = () => {
           <p>Připravte si koaxiální kabel na propojení modemu s koaxiální zásuvkou.</p>
           <p>Připravte zdrojový kabel na propojení modemu s elektrickou zásuvkou.</p>
         </Box>
-        <Link to={`/ar-viewer?step=cableAnim`}>
+        <Link to={`/ar-viewer?step=cableAnim`} style={{ textDecoration: 'none' }}>
           <Button sx={{ width: '100%' }} variant="contained">
             Pokračovat
           </Button>
