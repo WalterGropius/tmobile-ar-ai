@@ -63,11 +63,14 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography sx={{ marginBottom: '38px' }} variant="h2">
-          Kontrola správného zapojení modemu
+            Kontrola správného zapojení modemu
           </Typography>
           <Typography variant="h4">Výsledný stav (proces může trvat až 2 minuty)</Typography>
           <LightIndicator statusList={lightStatus} />
           {isFlipped && <Notification title="Otočte modem" message="Je potřeba zkontrolovat indikátory." />}
+          {allLightsOn && buttonState !== 'loading' && buttonClickCount > 0 && (
+            <Notification title="Vyčkejte až uběhne 10 minut od stisknutí tlačítka ON. Pokud již 10 minut uběhlo, doporučujeme celý postup od začátku znovu zopakovat." />
+          )}
           {debug && (
             <Typography sx={{ color: 'red' }}>
               {labeledDetections

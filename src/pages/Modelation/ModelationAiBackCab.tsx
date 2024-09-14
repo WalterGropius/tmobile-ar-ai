@@ -50,7 +50,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
   }, []); */
 
   const renderCabStatus = () => {
-    if (buttonClickCount === 0) {
+    if (buttonClickCount === 0 || buttonState === 'loading') {
       return null;
     }
     switch (cabStatus) {
@@ -84,7 +84,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-          Kontrola správného zapojení koaxiálního kabelu do RF na modemu
+            Kontrola správného zapojení koaxiálního kabelu do RF na modemu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">
@@ -104,12 +104,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleButtonClick}
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {cabStatus === 'correct' ? 'Pokračovat' : buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>

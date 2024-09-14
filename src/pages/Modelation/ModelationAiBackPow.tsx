@@ -51,7 +51,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   }, []); */
 
   const renderCableStatus = () => {
-    if (buttonClickCount === 0) {
+    if (buttonClickCount === 0 || buttonState === 'loading') {
       return null;
     }
     switch (cableStatus) {
@@ -63,15 +63,17 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
         );
       case 'error':
         return (
-          <Notification
-            title="Chyba"
-            message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu."
-          />
+          <Notification title="Chyba" message="Zkontrolujte prosím připojení napájecího kabelu a zkuste to znovu." />
         );
       case 'flip':
         return <Notification title="Otočte modem" message="Je potřeba zkontrolovat napájecí kabel." />;
       case 'no-cabPow':
-        return <Notification title="Chyba" message="Chyba, napájecí kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte." />;
+        return (
+          <Notification
+            title="Chyba"
+            message="Chyba, napájecí kabel není zapojen správně, vraťte se do předcházejícího kroku a postup opakujte."
+          />
+        );
       default:
         return <Typography variant="h4">Probihá AI kontrola...</Typography>;
     }
@@ -85,7 +87,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-          Kontrola správného zapojení napájecího kabelu do POWER na modemu
+            Kontrola správného zapojení napájecího kabelu do POWER na modemu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">
@@ -105,12 +107,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
               </Button>
             </Box>
             <Box sx={{ width: '100%' }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleButtonClick}
-                disabled={buttonState === 'loading'}
-              >
+              <Button variant="contained" fullWidth onClick={handleButtonClick} disabled={buttonState === 'loading'}>
                 {cableStatus === 'correct' ? 'Pokračovat' : buttonState === 'loading' ? 'Kontrola' : 'Zkontrolovat'}
               </Button>
             </Box>
