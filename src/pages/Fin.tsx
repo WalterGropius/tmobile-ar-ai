@@ -37,7 +37,7 @@ export const Fin = () => {
           <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>zapojený.</h2>
         </Box>
         <Box sx={{ textAlign: 'center' }}>
-          <Box component="img" src="/tv.jpeg" alt="modem" sx={{ width: '80%', my: 6 }} />
+          <Box component="img" src="/tv.png" alt="modem" sx={{ width: '80%', my: 6 }} />
         </Box>
       </Box>
     </Box>

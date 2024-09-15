@@ -68,7 +68,12 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
           />
         );
       case 'no-cab':
-        return <Notification title="Chyba Analýzy" message="Kabel nenalezen." />;
+        return (
+          <Notification
+            title="Chyba"
+            message="Chyba, koaxiální kabel není zapojený správně, vraťte se do předcházejícího kroku a postup opakujte."
+          />
+        );
       case 'flip':
         return <Notification title="Otočte modem" message={`Je potřeba zkontrolovat zapojení`} />;
       default:

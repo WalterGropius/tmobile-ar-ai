@@ -14,7 +14,7 @@ export const HomePage = () => (
       <h2 style={{ fontSize: '28px', fontWeight: 600, margin: '0 0 4px 0' }}>Technicolor</h2>
       <h4 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 16px 0' }}> CGA4336</h4>
       <Box sx={{ textAlign: 'center' }}>
-        <Box component="img" src="/tv.jpeg" alt="modem" sx={{ width: '80%' }} />
+        <Box component="img" src="/tv.png" alt="modem" sx={{ width: '80%' }} />
       </Box>
     </Box>
     <Footer>

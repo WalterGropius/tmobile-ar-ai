@@ -87,7 +87,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
       <Drawer open={true}>
         <Box sx={{ my: 0 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Kontrola správného zapojení napájecího kabelu do POWER na modemu
+            Kontrola správného zapojení napájecího kabelu do modemu
           </Typography>
           <Typography variant="h2">Namiřte na zadní část modemu</Typography>
           <Typography sx={{ my: '24px' }} variant="h4">

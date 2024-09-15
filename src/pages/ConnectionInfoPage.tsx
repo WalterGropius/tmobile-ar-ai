@@ -17,13 +17,17 @@ export const ConnectionInfoPage = () => {
       }}
     >
       <Drawer open={true}>
-        <Typography variant="h1">Co je potřeba na instalaci modemu?</Typography>
+        <Typography variant="h1">Co je potřeba na instalaci modemu</Typography>
         <Box>
           <p>
             Položte modem poblíž koaxiální zásuvky a ideálně na prázdný světlý stůl. Ať jsou dobře viditelné konektory
             na zadní straně modemu.
           </p>
-          <img src={'/koax.jpg'} alt="modem" style={{ width: '100%' }} />
+          <img
+            src={'/koax.jpg'}
+            alt="modem"
+            style={{ maxHeight: '30vh', width: 'auto', display: 'block', margin: '0 auto' }}
+          />
           <p>Připravte si koaxiální kabel na propojení modemu s koaxiální zásuvkou.</p>
           <p>Připravte zdrojový kabel na propojení modemu s elektrickou zásuvkou.</p>
         </Box>
