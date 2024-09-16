@@ -1,4 +1,3 @@
-@ -1,68 +0,0 @@
 import { ConnectionType, TECHNOLOGY_ITEMS } from '../types/connection';
 import { Container, Box, Modal } from '@mui/material';
 import { ConnectionBox } from '../ui/ConnectionBox';
