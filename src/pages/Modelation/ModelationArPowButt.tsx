@@ -21,7 +21,7 @@ export const ModelationArPowButtPage = () => {
           </Typography>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackPow', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackPow', false)}>
                 Zpět
               </Button>
             </Box>

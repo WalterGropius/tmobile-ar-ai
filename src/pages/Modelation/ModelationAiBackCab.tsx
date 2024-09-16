@@ -111,7 +111,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim', false)}>
                 Zpět
               </Button>
             </Box>

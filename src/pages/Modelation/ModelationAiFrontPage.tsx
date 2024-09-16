@@ -86,7 +86,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powButt', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powButt', false)}>
                 Zpět
               </Button>
             </Box>

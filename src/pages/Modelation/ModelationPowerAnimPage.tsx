@@ -15,13 +15,13 @@ export const ModelationPowerAnimPage = () => {
       <Drawer open={true}>
         <Typography variant="h2">Zapojení napájecího kabelu</Typography>
         <Typography sx={{ my: '24px' }} variant="h4">
-        Do vyznačeného konektoru (POWER) zapojte napájecí kabel. A druhý konec zapojte do zásuvky od elektrické sítě.
+          Do vyznačeného konektoru (POWER) zapojte napájecí kabel. A druhý konec zapojte do zásuvky od elektrické sítě.
         </Typography>
 
         <Box sx={{ my: 0 }}>
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab', false)}>
                 Zpět
               </Button>
             </Box>
