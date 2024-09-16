@@ -14,7 +14,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cableStatus = useBackPowDetect(labeledDetections);
-  const debug = true;
+  const debug = false;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {

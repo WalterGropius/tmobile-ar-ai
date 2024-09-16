@@ -22,7 +22,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const { lightStatus, isFlipped } = useFrontDetections(labeledDetections);
 
-  const debug = true;
+  const debug = false;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
