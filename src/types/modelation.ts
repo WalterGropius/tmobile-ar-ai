@@ -1,5 +1,3 @@
-import { ConnectionType } from './connection';
-
 export const STEP = {
   start: 'start',
   //arFront: 'arFront',
@@ -41,9 +39,11 @@ export type ModelationArFrontPageProps = {
 export type ModelationAiBackPowPageProps = {
   labeledDetections: Detection[];
   handleExecute: () => void;
+  clearDetections: () => void;
 };
 
 export type ModelationAiBackCabPageProps = {
   labeledDetections: Detection[];
   handleExecute: () => void;
+  clearDetections: () => void;
 };

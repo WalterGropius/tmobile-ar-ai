@@ -8,7 +8,11 @@ import { Notification } from '../../ui/Notification';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Drawer } from '../../ui/Drawer';
 
-export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
+  labeledDetections,
+  handleExecute,
+  clearDetections,
+}) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -48,6 +52,9 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
   /*   useEffect(() => {
     executeDetect();
   }, []); */
+  useEffect(() => {
+    clearDetections();
+  }, []);
 
   const renderCabStatus = () => {
     if (buttonClickCount === 0 || buttonState === 'loading') {

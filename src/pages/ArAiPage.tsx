@@ -16,16 +16,34 @@ import { Box } from '@mui/material';
 export const ArAiPage: FC = () => {
   const { step } = useModelationRouter();
   const { containerRef, initialized } = useAR(step);
-  const { detections, videoRef, handleExecute, labeledDetections } = useAI();
+  const { detections, videoRef, handleExecute, labeledDetections, clearDetections } = useAI();
 
   const PAGE_BY_STEP: Record<Step, ReactNode> = {
     start: <> </>,
     powButt: <ModelationArPowButtPage />,
     //arFront: <ModelationArFrontPage loaded={initialized} />, //DISABLE
     //arBack: <ModelationArBackPage />, //DISABLE
-    aiFront: <ModelationAiFrontPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBackCab: <ModelationAiBackCabPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
-    aiBackPow: <ModelationAiBackPowPage labeledDetections={labeledDetections} handleExecute={handleExecute} />,
+    aiFront: (
+      <ModelationAiFrontPage
+        labeledDetections={labeledDetections}
+        handleExecute={handleExecute}
+        clearDetections={clearDetections}
+      />
+    ),
+    aiBackCab: (
+      <ModelationAiBackCabPage
+        labeledDetections={labeledDetections}
+        handleExecute={handleExecute}
+        clearDetections={clearDetections}
+      />
+    ),
+    aiBackPow: (
+      <ModelationAiBackPowPage
+        labeledDetections={labeledDetections}
+        handleExecute={handleExecute}
+        clearDetections={clearDetections}
+      />
+    ),
     cableAnim: <ModelationCableAnimPage loaded={initialized} />,
     powerAnim: <ModelationPowerAnimPage />,
     finish: <> </>,

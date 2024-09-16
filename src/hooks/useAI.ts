@@ -90,7 +90,13 @@ export const useAI = () => {
     }
   };
 
+  const clearDetections = () => {
+    setDetections([]);
+    setLabeledDetections([]);
+  };
+
   return {
+    clearDetections,
     labeledDetections,
     loading,
     detectFrame,

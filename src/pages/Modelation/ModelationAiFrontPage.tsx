@@ -13,9 +13,10 @@ import { FC } from 'react';
 type Props = {
   labeledDetections: Detection[];
   handleExecute: () => void;
+  clearDetections: () => void;
 };
 
-export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute, clearDetections }) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -54,6 +55,10 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
       }, 3000);
     }
   }, [buttonClickCount, redirectToPage]);
+
+  useEffect(() => {
+    clearDetections();
+  }, []);
 
   return (
     <Box>
