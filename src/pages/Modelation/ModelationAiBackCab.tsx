@@ -8,12 +8,16 @@ import { Notification } from '../../ui/Notification';
 import { StatusBanner } from '../../ui/StatusBanner';
 import { Drawer } from '../../ui/Drawer';
 
-export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
+  labeledDetections,
+  handleExecute,
+  clearDetections,
+}) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const cabStatus = useRfCabDetect(labeledDetections);
-  const debug = true;
+  const debug = false;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
@@ -48,6 +52,9 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
   /*   useEffect(() => {
     executeDetect();
   }, []); */
+  useEffect(() => {
+    clearDetections();
+  }, []);
 
   const renderCabStatus = () => {
     if (buttonClickCount === 0 || buttonState === 'loading') {
@@ -104,7 +111,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({ labe
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('cableAnim', false)}>
                 Zpět
               </Button>
             </Box>

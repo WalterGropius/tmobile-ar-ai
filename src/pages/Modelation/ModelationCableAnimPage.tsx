@@ -10,7 +10,12 @@ export const ModelationCableAnimPage = ({ loaded }: { loaded: boolean }) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
 
   const instructions: Record<ConnectionType, ReactNode> = {
-    DSL: <>Do vystouplého konektoru se závitem (RF) zapojte jeden konec koaxiální kabelu až nadoraz, druhý konec kabelu zapojte do koaxiální internetové zásuvky, také až nadoraz.</>,
+    DSL: (
+      <>
+        Do vystouplého konektoru se závitem (RF) zapojte jeden konec koaxiální kabelu až nadoraz, druhý konec kabelu
+        zapojte do koaxiální internetové zásuvky, také až nadoraz.
+      </>
+    ),
     WAN: <>Do vyznačené zdířky zapojte LAN kabel (ten se širším konektorem)</>,
     OPTIC: <>Do vyznačené zdířky zapojte LAN kabel (ten se širším konektorem)</>,
   };

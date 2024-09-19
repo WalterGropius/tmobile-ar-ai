@@ -13,15 +13,16 @@ import { FC } from 'react';
 type Props = {
   labeledDetections: Detection[];
   handleExecute: () => void;
+  clearDetections: () => void;
 };
 
-export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExecute, clearDetections }) => {
   const { redirectToStep, redirectToPage } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
   const { lightStatus, isFlipped } = useFrontDetections(labeledDetections);
 
-  const debug = true;
+  const debug = false;
   const executeDetect = useCallback(() => {
     setButtonState('loading');
     setTimeout(() => {
@@ -55,6 +56,10 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
     }
   }, [buttonClickCount, redirectToPage]);
 
+  useEffect(() => {
+    clearDetections();
+  }, []);
+
   return (
     <Box>
       <Box sx={{ m: 2 }}>
@@ -81,7 +86,7 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powButt', true)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powButt', false)}>
                 Zpět
               </Button>
             </Box>
