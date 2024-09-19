@@ -57,7 +57,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
     switch (cableStatus) {
       case 'correct':
         return (
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', color: 'green', fontSize: 32 }}>
             Správné zapojení ✓
           </Typography>
         );

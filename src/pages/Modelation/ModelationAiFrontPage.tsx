@@ -76,6 +76,12 @@ export const ModelationAiFrontPage: FC<Props> = ({ labeledDetections, handleExec
           {!allLightsOn && buttonState !== 'loading' && buttonClickCount > 0 && (
             <Notification title="Vyčkejte až uběhne 10 minut od stisknutí tlačítka ON. Pokud již 10 minut uběhlo, doporučujeme celý postup od začátku znovu zopakovat." />
           )}
+          {buttonState === 'loading' && <Notification title="Kontrola" message="Kontroluji stav indikátorů." />}
+          {allLightsOn && buttonState !== 'loading' && buttonClickCount > 0 && (
+            <Typography variant="h2" sx={{ fontWeight: 'bold', color: 'green', fontSize: 32 }}>
+              Správné zapojení ✓
+            </Typography>
+          )}
           {debug && (
             <Typography sx={{ color: 'red' }}>
               {labeledDetections

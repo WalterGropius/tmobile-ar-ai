@@ -32,7 +32,7 @@ export const Fin = () => {
         <Box>
           {' '}
           <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>A je to!</h2>
-          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>Váš modem Zyxel</h2>
+          <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>Váš modem Technicolor</h2>
           <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>máte úspěšně</h2>
           <h2 style={{ fontSize: '42px', padding: 0, margin: 0 }}>zapojený.</h2>
         </Box>

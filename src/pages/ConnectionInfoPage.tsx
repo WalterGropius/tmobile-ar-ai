@@ -28,8 +28,8 @@ export const ConnectionInfoPage = () => {
             alt="modem"
             style={{ maxHeight: '30vh', width: 'auto', display: 'block', margin: '0 auto' }}
           />
-          <p>Připravte si koaxiální kabel na propojení modemu s koaxiální zásuvkou.</p>
           <p>Připravte zdrojový kabel na propojení modemu s elektrickou zásuvkou.</p>
+          <p>Připravte si koaxiální kabel na propojení modemu s koaxiální zásuvkou.</p>
         </Box>
         <Link to={`/ar-viewer?step=cableAnim`} style={{ textDecoration: 'none' }}>
           <Button sx={{ width: '100%' }} variant="contained">
