@@ -17,7 +17,7 @@ export const useAI = () => {
   const webcam = new Webcam();
 
   const modelName = 'modem';
-  const threshold = 0.8;
+  const threshold = 0.6;
 
   useEffect(() => {
     const loadModel = async () => {
