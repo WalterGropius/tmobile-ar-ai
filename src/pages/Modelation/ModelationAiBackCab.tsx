@@ -63,7 +63,7 @@ export const ModelationAiBackCabPage: FC<ModelationAiBackCabPageProps> = ({
     switch (cabStatus) {
       case 'correct':
         return (
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', color: 'green', fontSize: 32 }}>
             Správné zapojení ✓
           </Typography>
         );

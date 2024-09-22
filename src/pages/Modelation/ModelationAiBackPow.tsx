@@ -9,7 +9,7 @@ import { Notification } from '../../ui/Notification';
 import { Drawer } from '../../ui/Drawer';
 import { FC } from 'react';
 
-export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute }) => {
+export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute, clearDetections }) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -46,9 +46,10 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
     }
   }, [buttonClickCount, redirectToStep]);
 
-  /*  useEffect(() => {
-    executeDetect();
-  }, []); */
+  useEffect(() => {
+    clearDetections();
+  }, []);
+
 
   const renderCableStatus = () => {
     if (buttonClickCount === 0 || buttonState === 'loading') {
@@ -57,7 +58,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
     switch (cableStatus) {
       case 'correct':
         return (
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', color: 'green', fontSize: 32 }}>
             Správné zapojení ✓
           </Typography>
         );

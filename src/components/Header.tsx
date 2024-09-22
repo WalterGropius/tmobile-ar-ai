@@ -3,7 +3,7 @@ import { Page } from '../types/page';
 import '../style/App.css';
 
 const PAGE_BY_TYPE: Partial<Record<Page, string>> = {
-  home: 'AR Manuál pro modem Zyxel',
+  home: 'AR Manuál pro modem Technicolor',
   connectionType: 'Vyberte typ připojení',
   connectionInfo: 'Info o připojení',
 };
