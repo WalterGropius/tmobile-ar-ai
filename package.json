@@ -7,10 +7,6 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hugozanini/yolov7-tfjs.git"
-  },
   "keywords": [
     "object detection",
     "yolov5",
@@ -23,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/hugozanini/yolov7-tfjs/issues"
   },
-  "homepage": "https://github.com/hugozanini/yolov7-tfjs",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
