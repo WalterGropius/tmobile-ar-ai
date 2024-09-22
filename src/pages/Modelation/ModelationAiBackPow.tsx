@@ -9,7 +9,11 @@ import { Notification } from '../../ui/Notification';
 import { Drawer } from '../../ui/Drawer';
 import { FC } from 'react';
 
-export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labeledDetections, handleExecute, clearDetections }) => {
+export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({
+  labeledDetections,
+  handleExecute,
+  clearDetections,
+}) => {
   const { redirectToStep } = useModelationRouter();
   const [buttonState, setButtonState] = useState<'init' | 'loading' | 'done'>('init');
   const [buttonClickCount, setButtonClickCount] = useState(0);
@@ -49,7 +53,6 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
   useEffect(() => {
     clearDetections();
   }, []);
-
 
   const renderCableStatus = () => {
     if (buttonClickCount === 0 || buttonState === 'loading') {
@@ -103,7 +106,7 @@ export const ModelationAiBackPowPage: FC<ModelationAiBackPowPageProps> = ({ labe
           )}
           <Box sx={{ display: 'flex', mt: 1 }}>
             <Box sx={{ width: '40%', pr: 1 }}>
-              <Button variant="outlined" fullWidth onClick={() => redirectToStep('aiBackCab', false)}>
+              <Button variant="outlined" fullWidth onClick={() => redirectToStep('powerAnim', false)}>
                 Zpět
               </Button>
             </Box>
