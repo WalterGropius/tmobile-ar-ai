@@ -29,12 +29,12 @@ export const ConnectionTypePage = () => {
             </Box>
             <Link
               to={`/ar-viewer?connection=${technology}&step=cableAnim`}
-              onClick={() => {
+              /* onClick={() => {
                 window.gtag('event', 'click', {
                   event_category: 'Button',
                   event_label: `zvoleno ${technology}`,
                 });
-              }}
+              }} */
             >
               <SelectButton>Vybrat</SelectButton>
             </Link>

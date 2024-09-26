@@ -11,7 +11,7 @@ import usePageTracking from './hooks/usePageTracking';
 import './style/App.css';
 
 const AppRoutes = () => {
-  usePageTracking();
+  /*  usePageTracking(); */
 
   return (
     <Routes>
