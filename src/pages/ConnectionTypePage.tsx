@@ -14,19 +14,22 @@ export const ConnectionTypePage = () => {
 
   return (
     <Container sx={{ py: 0 }}>
-      <Box sx={{ overflow: 'auto', height: "100svh", touchAction: 'auto' }}>
+      <Box sx={{ overflow: 'auto', height: '100svh', touchAction: 'auto' }}>
         <MainTitle>Vyberte svůj typ online připojení</MainTitle>
         {Object.entries(TECHNOLOGY_ITEMS).map(([technology, { title, subTitle }], key) => (
-          <ConnectionBox key={key} title={title} subtitle={subTitle} imageSrc="/ui/fromfigma/modem.png" imageAlt={title}>
+          <ConnectionBox
+            key={key}
+            title={title}
+            subtitle={subTitle}
+            imageSrc="/ui/fromfigma/modem.png"
+            imageAlt={title}
+          >
             <Box sx={{ mr: 1 }}>
               <InfoButton onClick={() => setSelectedTechnology(technology as ConnectionType)} />
             </Box>
-            <Link to={`/ar-viewer?connection=${technology}&step=arFront`} onClick={() => {
-              window.gtag('event', 'click', {
-                event_category: 'Button',
-                event_label:`zvoleno ${technology}`,
-              });
-            }}>
+            <Link
+              to={`/ar-viewer?connection=${technology}&step=arFront`} // onClick={() => {window.gtag('event', 'click', {event_category: 'Button',event_label:`zvoleno ${technology}`, })}}
+            >
               <SelectButton>Vybrat</SelectButton>
             </Link>
           </ConnectionBox>
@@ -37,12 +40,19 @@ export const ConnectionTypePage = () => {
           <Drawer open={true}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
               <h1>{TECHNOLOGY_ITEMS[selectedTechnology].title}</h1>
-              <button onClick={() => setSelectedTechnology(undefined)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>
+              <button
+                onClick={() => setSelectedTechnology(undefined)}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}
+              >
                 <CloseIcon />
               </button>
             </Box>
-            <Box sx={{ maxHeight: "70vh" }}>
-              <img style={{ width: '100%' }} src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc} alt={TECHNOLOGY_ITEMS[selectedTechnology].title} />
+            <Box sx={{ maxHeight: '70vh' }}>
+              <img
+                style={{ width: '100%' }}
+                src={TECHNOLOGY_ITEMS[selectedTechnology].imgSrc}
+                alt={TECHNOLOGY_ITEMS[selectedTechnology].title}
+              />
             </Box>
           </Drawer>
         </Modal>

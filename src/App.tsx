@@ -6,12 +6,12 @@ import { Documentation } from './pages/Documentation';
 import { Error404 } from './pages/Error404';
 import { ArAiPage } from './pages/ArAiPage';
 import { HomePage } from './pages/HomePage';
-import { Fin } from './pages/Fin';
-import usePageTracking from './hooks/usePageTracking';
+import { Fin } from './pages/Fin'; /* 
+import usePageTracking from './hooks/usePageTracking'; */
 import './style/App.css';
 
 const AppRoutes = () => {
-  usePageTracking();
+  /*   usePageTracking(); */
 
   return (
     <Routes>
